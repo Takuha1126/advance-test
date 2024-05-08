@@ -19,6 +19,18 @@
 ##使用技術
 Laravel,php
 
+##テーブルの画像
+<img width="1440" alt="スクリーンショット 2024-05-09 0 54 20" src="https://github.com/Takuha1126/advance-test/assets/150105635/3737f67a-6049-4dc2-b687-b36c479df1d8">
+<img width="1440" alt="スクリーンショット 2024-05-09 0 54 32" src="https://github.com/Takuha1126/advance-test/assets/150105635/3deb30df-0055-424a-82eb-eb574a2cb57c">
+<img width="1440" alt="スクリーンショット 2024-05-09 0 54 49" src="https://github.com/Takuha1126/advance-test/assets/150105635/159a260b-3638-4e24-88ca-cbea7f09a6a4">
+<img width="1440" alt="スクリーンショット 2024-05-09 0 54 55" src="https://github.com/Takuha1126/advance-test/assets/150105635/d1222a5c-2fcc-4b87-b8e0-de67c870d39d">
+
+
+##ER図の画像
+<img width="1440" alt="スクリーンショット 2024-04-29 12 46 38" src="https://github.com/Takuha1126/advance-test/assets/150105635/70666ff8-33ef-422d-9f87-99062c045cbf">
+
+
+
 ##環境構築
 Composer のインストール
 Laravelプロジェクトの依存関係を管理するために、Composerが必要です。
