@@ -1,4 +1,4 @@
-ody,
+body,
 html {
     margin: 0px;
     padding: 0px;
@@ -133,6 +133,7 @@ html {
 
     .logout__button {
         padding: 4px;
+        font-weight: lighter;
     }
 
     .main {
@@ -156,10 +157,15 @@ html {
         justify-content: space-between;
     }
 
+    .form-group select {
+        border-radius: 3px;
+    }
+
     .form-group select,
     .form-group input {
         width: 48%;
         margin-right: 10px;
         color: #000;
+        background-color: #fff;
     }
 }

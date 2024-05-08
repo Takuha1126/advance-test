@@ -41,9 +41,9 @@ class VerifyEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('このメールは通知の紹介文です。')
+                    ->action('アクションを実行する', url('/'))
+                    ->line('アプリをご利用いただき、ありがとうございます！');
     }
 
     /**

@@ -179,4 +179,9 @@ html {
     .label {
         margin-bottom: 10px;
     }
+
+    .form-group select {
+        background-color: #fff;
+        border-radius: 3px;
+    }
 }

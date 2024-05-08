@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-         $params = [
+        $params = [
             [
                 'name' => 'John',
                 'email' => 'john@example.com',
