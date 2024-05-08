@@ -3,6 +3,7 @@ html {
     margin: 0px;
     padding: 0px;
     background-color: #dddddd;
+    overflow: hidden;
 
 }
 
@@ -53,8 +54,6 @@ html {
 .main {
     max-width: 650px;
     margin: 30px auto;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 .main__title {
