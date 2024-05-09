@@ -113,30 +113,43 @@ class ReservationController extends Controller
     }
 
     public function verify(Request $request)
-    {
-        $qrCodeData = $request->input('qr_code_data');
-        if (!$qrCodeData || empty($qrCodeData)) {
-            return response()->json(['error' => '不正なデータ形式です'], 400);
-        }
-        $reservationData = json_decode($qrCodeData, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return response()->json(['error' => 'JSONの構文が無効です'], 400);
-        }
-        if (!is_array($reservationData) || !isset($reservationData['id'])) {
-            return response()->json(['error' => '不正なデータ形式です'], 400);
-        }
-        $reservation = Reservation::find($reservationData['id']);
-        if (!$reservation) {
-            return response()->json(['error' => '予約が見つかりません'], 404);
-        }
-        $responseData = [
-            'name' => $reservation->user->name,
-            'date' => $reservation->date,
-            'time' => $reservation->reservation_time,
-            'number_of_people' => $reservation->number_of_people,
-        ];
-        return response()->json($responseData);
+{
+    $qrCodeData = $request->input('qr_code_data');
+    if (!$qrCodeData || empty($qrCodeData)) {
+        return response()->json(['error' => '不正なデータ形式です'], 400);
     }
+    $reservationData = json_decode($qrCodeData, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return response()->json(['error' => 'JSONの構文が無効です'], 400);
+    }
+    if (!is_array($reservationData) || !isset($reservationData['id'])) {
+        return response()->json(['error' => '不正なデータ形式です'], 400);
+    }
+    $reservation = Reservation::find($reservationData['id']);
+    if (!$reservation) {
+        return response()->json(['error' => '予約が見つかりません'], 404);
+    }
+
+    // ログイン中の店舗IDを取得
+    $loggedInShopId = auth('shop')->user()->shop_id;
+
+    // QRコードに含まれる予約情報の店舗IDを取得
+    $reservationShopId = $reservation->shop_id;
+
+    // ログイン中の店舗IDと予約情報の店舗IDが異なる場合はエラーを返す
+    if ($loggedInShopId !== $reservationShopId) {
+        return response()->json(['error' => '他の店舗のQRコードです'], 403);
+    }
+
+    // 正常な場合は予約情報を返す
+    $responseData = [
+        'name' => $reservation->user->name,
+        'date' => $reservation->date,
+        'time' => $reservation->reservation_time,
+        'number_of_people' => $reservation->number_of_people,
+    ];
+    return response()->json($responseData);
+}
 
     private function formatTime($time)
     {

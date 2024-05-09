@@ -30,6 +30,7 @@
             </nav>
         </div>
     </header>
+    <div id="errorMessage" class="error-message" style="display: none;"></div>
     <main class="main">
         <p class="main__title">利用者から提供されたQRコードをデバイスのカメラでスキャンして予約を確認します。</p>
         <div class="main__item">
@@ -67,7 +68,6 @@
             let codeReader;
             const video = document.getElementById('externalCamera');
             const startScanButton = document.getElementById('startScan');
-
             startScanButton.addEventListener('click', function() {
                 if (!isScanning) {
                     startScan();
@@ -126,8 +126,10 @@
                     body: JSON.stringify({ qr_code_data: qrCodeData })
                 })
                 .then(response => {
-                if (!response.ok) {
-                    throw new Error('予約情報の取得に失敗しました');
+                    if (!response.ok) {
+                        return response.json().then(errorData => {
+                        throw new Error(errorData.error);
+                    });
                 }
                     return response.json();
                 })
@@ -135,7 +137,9 @@
                     displayReservationInfo(data);
                 })
                 .catch(error => {
-                    console.error('予約情報の取得エラー:', error);
+                    const errorMessageElement = document.getElementById('errorMessage');
+                    errorMessageElement.innerText = error.message;
+                    errorMessageElement.style.display = 'block';
                 });
             });
             function displayReservationInfo(reservation) {
