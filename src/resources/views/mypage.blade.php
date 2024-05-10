@@ -66,9 +66,9 @@
                                 </tr>
                                 <tr class="table__tr">
                                     <td class="table__button">
-                                        <form action="{{ route('visit', ['reservationId' => $reservation->id]) }}" method="POST">
+                                        <form action="{{ route('evaluation.show', ['reservationId' => $reservation->id]) }}" method="POST">
                                         @csrf
-                                            <button class="visit-button" data-reservation-id="{{ $reservation->id }}">来店</button>
+                                            <button class="visit-button" data-reservation-id="{{ $reservation->id }}">評価</button>
                                         </form>
                                         <button class="payment-button">支払い</button>
                                         <button class="edit-button">編集</button>
@@ -215,11 +215,7 @@ function toggleEditCancel(button) {
     button.closest('tr').find('.edit-button').show();
 }
 
-function redirectVisit(button) {
-    const reservationId = button.closest('tr').data('reservation-id');
-    const visitUrl = `{{ route('visit', ['reservationId' => ':reservationId']) }}`.replace(':reservationId', reservationId);
-    window.location.href = visitUrl;
-}
+
 
 function redirectToPayment() {
     window.location.href = "{{ route('payment.page') }}";

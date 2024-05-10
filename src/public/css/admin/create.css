@@ -68,12 +68,14 @@ html {
 
 table {
     margin: 100px auto;
+    width: 80%;
 }
 
 .table__th,
 .table__td {
-    padding: 20px 100px 20px 100px;
+    text-align: center;
     border: 1px solid #000;
+    height: 50px;
 
 }
 
@@ -110,6 +112,7 @@ table {
     .nav>div {
         margin-bottom: 10px;
     }
+
 
     .header__ttl,
     .table__th,

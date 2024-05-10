@@ -20,6 +20,7 @@
     @endif
     <form action="{{ route('evaluation.store') }}" method="POST">
     @csrf
+    <input type="hidden" name="shop_id" value="{{ $shop->id }}">
     <div class="main__ttl">
         <div class="evaluation__item">
             <p class="evaluation__about">来店ありがとうございました!</p>

@@ -10,10 +10,14 @@ use Illuminate\Validation\ValidationException;
 
 class EvaluationController extends Controller
 {
-    public function index()
+    public function index($reservationId)
     {
-        return view('evaluations.show');
+        $reservation = Reservation::findOrFail($reservationId);
+        $shop = $reservation->shop;
+
+        return view('evaluations.show', ['shop' => $shop]);
     }
+
 
     public function store(Request $request)
     {
@@ -28,6 +32,7 @@ class EvaluationController extends Controller
             $review = new Review();
             $review->rating = $validatedData['rating'];
             $review->comment = $validatedData['comment'];
+            $review->shop_id = $request->shop_id;
             $review->save();
 
             DB::commit();
@@ -36,7 +41,7 @@ class EvaluationController extends Controller
                 return response()->json(['success' => true]);
             }
 
-            return redirect('/');
+            return redirect()->route('home', ['shop_id' => $request->shop_id]);
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -44,24 +49,12 @@ class EvaluationController extends Controller
         }
     }
 
-    public function visit(Request $request, $reservationId)
+    public function create(Request $request)
     {
-        try {
-            DB::beginTransaction();
-
-            $reservation = Reservation::find($reservationId);
-
-            if (!$reservation) {
-                abort(404);
-            }
-
-            $reservation->delete();
-            DB::commit();
-            return redirect()->route('evaluation.show');
-
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
+        $shopId = auth('shop')->user()->shop_id;
+        $reviews = Review::where('shop_id', $shopId)->latest()->paginate(4);
+        return view('shops.reviews', compact('shopId', 'reviews'));
     }
+
+
 }

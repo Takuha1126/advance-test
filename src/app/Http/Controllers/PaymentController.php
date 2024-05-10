@@ -33,23 +33,23 @@ class PaymentController extends Controller
     }
 
     public function handlePayment(Request $request)
-{
-    Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+    {
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
-    try {
-        $paymentIntent = PaymentIntent::create([
-            'amount' => $request->amount,
-            'currency' => 'jpy',
-            'payment_method_types' => ['card'],
-        ]);
+        try {
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $request->amount,
+                'currency' => 'jpy',
+                'payment_method_types' => ['card'],
+            ]);
 
-        return response()->json([
-            'clientSecret' => $paymentIntent->client_secret,
-        ]);
+            return response()->json([
+                'clientSecret' => $paymentIntent->client_secret,
+            ]);
 
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 400);
-    }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
 }
 
 }

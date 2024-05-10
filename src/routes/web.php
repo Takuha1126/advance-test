@@ -48,9 +48,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/favorite/status/{shopId}', [FavoriteController::class, 'getStatus'])->name('favorite.status');
     Route::post('/favorite/toggle/{shopId}', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
     Route::delete('/favorite/toggle/{shopId}', [FavoriteController::class, 'toggle']);
-    Route::get('/evaluation', [EvaluationController::class, 'index'])->name('evaluation.show');
+    Route::get('/evaluation/{reservationId}', [EvaluationController::class, 'index'])->name('evaluation.show');
+    Route::post('/evaluation/{reservationId}', [EvaluationController::class, 'index']);
+    Route::get('/reviews', [EvaluationController::class, 'store']);
     Route::post('/reviews', [EvaluationController::class, 'store'])->name('evaluation.store');
-    Route::post('/reservation/{reservationId}/visit', [EvaluationController::class, 'visit'])->name('visit');
     Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
     Route::post('/create-payment-intent', [PaymentController::class, 'handlePayment'])->name('payment.handle');
 
@@ -64,25 +65,19 @@ Route::middleware(['web','auth.shop'])->group(function () {
     Route::get('/shop/verify', [ReservationController::class,'showQrVerification'])->name('shop.verify.show');
     Route::post('/shop/verify
 ', [ReservationController::class,'verify'])->name('shop.verify');
-
-
+    Route::get('/review-list', [EvaluationController::class, 'create'])->name('reviews.create');
 
 });
 
 Route::middleware(['auth.admin'])->group(function () {
         Route::get('/admin', [CreateShopRepresentativeController::class, 'showForm'])->name('admin.index');
-        Route::get('/admin/create', [CreateShopRepresentativeController::class, 'create'])->name('admin.create');
         Route::post('/shop_representatives', [CreateShopRepresentativeController::class, 'store'])->name('shop_representatives.store');
+        Route::get('/admin/create', [CreateShopRepresentativeController::class, 'create'])->name('admin.create');
         Route::delete('/representatives/{representative}', [CreateShopRepresentativeController::class, 'destroy'])->name('representatives.destroy');
         Route::get('/send-notification', [CreateShopRepresentativeController::class, 'showSendForm'])->name('send-notification.form');
         Route::post('/send-notification/single', [CreateShopRepresentativeController::class, 'sendNotification'])->name('send-notification.single');
         Route::post('/send-notification/all', [CreateShopRepresentativeController::class,'sendAll'])->name('send-notification.all');
     });
-
-
-Route::get('/shop/login', [ShopAuthController::class, 'showLoginForm'])->name('shop.login');
-Route::post('/shop/login', [ShopAuthController::class, 'login'])->name('shop.login.submit');
-Route::post('/shop/logout', [ShopAuthController::class, 'logout'])->name('shop.logout');
 
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -91,6 +86,11 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+
+
+Route::get('/shop/login', [ShopAuthController::class, 'showLoginForm'])->name('shop.login');
+Route::post('/shop/login', [ShopAuthController::class, 'login'])->name('shop.login.submit');
+Route::post('/shop/logout', [ShopAuthController::class, 'logout'])->name('shop.logout');
 
 
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');

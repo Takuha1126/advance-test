@@ -13,6 +13,31 @@ use App\Http\Requests\ReservationUpdateRequest;
 
 class ReservationController extends Controller
 {
+    private function formatTime($time)
+    {
+        return date('H:i:s', strtotime($time));
+    }
+
+    private function redirectBack()
+    {
+        return redirect()->back();
+    }
+
+    private function redirectBackWithError($errorMessage)
+    {
+        return redirect()->back()->with('error', $errorMessage)->withInput();
+    }
+
+    private function redirectToDone()
+    {
+        return redirect()->route('done');
+    }
+
+    private function routeTo($route)
+    {
+        return redirect()->route($route);
+    }
+
     public function completed()
     {
         return view('done');
@@ -109,11 +134,13 @@ class ReservationController extends Controller
 
     public function showQrVerification()
     {
-        return view('shops.verify');
+        $shopId = auth('shop')->user()->shop_id;
+
+        return view('shops.verify', ['shopId' => $shopId]);
     }
 
     public function verify(Request $request)
-{
+    {
     $qrCodeData = $request->input('qr_code_data');
     if (!$qrCodeData || empty($qrCodeData)) {
         return response()->json(['error' => '不正なデータ形式です'], 400);
@@ -130,49 +157,20 @@ class ReservationController extends Controller
         return response()->json(['error' => '予約が見つかりません'], 404);
     }
 
-    // ログイン中の店舗IDを取得
     $loggedInShopId = auth('shop')->user()->shop_id;
 
-    // QRコードに含まれる予約情報の店舗IDを取得
     $reservationShopId = $reservation->shop_id;
 
-    // ログイン中の店舗IDと予約情報の店舗IDが異なる場合はエラーを返す
     if ($loggedInShopId !== $reservationShopId) {
         return response()->json(['error' => '他の店舗のQRコードです'], 403);
     }
 
-    // 正常な場合は予約情報を返す
-    $responseData = [
-        'name' => $reservation->user->name,
-        'date' => $reservation->date,
-        'time' => $reservation->reservation_time,
-        'number_of_people' => $reservation->number_of_people,
-    ];
-    return response()->json($responseData);
-}
-
-    private function formatTime($time)
-    {
-        return date('H:i:s', strtotime($time));
-    }
-
-    private function redirectBack()
-    {
-        return redirect()->back();
-    }
-
-    private function redirectBackWithError($errorMessage)
-    {
-        return redirect()->back()->with('error', $errorMessage)->withInput();
-    }
-
-    private function redirectToDone()
-    {
-        return redirect()->route('done');
-    }
-
-    private function routeTo($route)
-    {
-        return redirect()->route($route);
+        $responseData = [
+            'name' => $reservation->user->name,
+            'date' => $reservation->date,
+            'time' => $reservation->reservation_time,
+            'number_of_people' => $reservation->number_of_people,
+        ];
+        return response()->json($responseData);
     }
 }

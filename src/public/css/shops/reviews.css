@@ -51,65 +51,38 @@ html {
     margin-right: 30px;
     font-size: 15px;
 }
-.alert-success {
-    margin: 10px 0 0 10px;
-    color: #3366FF;
+
+.table {
+    margin: 80px auto;
+    width: 80%;
 }
 
-.main {
-    max-width: 600px;
-    margin: 50px auto;
+.table__th:nth-child(1),
+.table__th:nth-child(2) {
+    width: 27%;
 }
 
-.main__title {
-    text-align: center;
-    padding-top: 40px;
-}
-
-.main__p {
-    font-size: 20px;
-    color: #3366FF;
-}
-
-.label {
-    display: block;
-    text-align: left;
-    margin-bottom: 20px;
-}
-
-.main__item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.main__item input,
-.main__item select,
-.main__item textarea {
-    width: 50%;
-    padding: 10px 10px;
-    border-radius: 5px;
-    border: none;
-}
-
-.button {
-    margin-top: 50px;
+.table__th {
+    padding: 20px 100px;
+    border: 1px solid #000;
     text-align: center;
 }
 
-.button__ttl {
-    padding: 10px 50px;
-    background-color: #3366FF;
-    border-radius: 5px;
-    color: #fff;
-    border: none;
+.table__td:nth-child(1),
+.table__td:nth-child(2) {
+    text-align: center;
 }
 
-.error-message {
-    text-align: right;
-    margin-right: 40px;
-    color: #ff0000;
+.table__td {
+    background-color: #fff;
+    padding: 10px 5px;
+    border: 1px solid #000;
+    margin: 0 auto;
+    height: 100px;
+
 }
+
+
 
 
 @media (max-width: 768px) {
@@ -126,7 +99,7 @@ html {
         justify-content: flex-end;
         align-items: center;
         width: 100%;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
     .nav__button {
@@ -137,32 +110,24 @@ html {
     .nav__button a,
     .logout__button {
         font-size: 6px;
-        padding: 9px 5px;
     }
 
-    .main__item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 20px;
+    .logout__button {
+        padding: 8px 5px;
     }
 
-    .main__about {
-        margin-left: 10px;
-    }
-
-    .main__item label,
-    .main__item input,
-    .main__item select,
-    .main__item textarea {
+    .table {
         width: 80%;
-        margin-bottom: 10px;
-        text-align: left;
-        color: #000;
     }
 
-    .button__ttl {
-        padding: 10px 15px;
+    .table__th,
+    .table__td {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .message {
         font-size: 16px;
+        margin: 20px auto;
     }
 }
