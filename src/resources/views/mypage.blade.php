@@ -66,7 +66,7 @@
                                 </tr>
                                 <tr class="table__tr">
                                     <td class="table__button">
-                                        <form action="{{ route('evaluation.show', ['reservationId' => $reservation->id]) }}" method="POST">
+                                        <form action="{{ route('evaluation.show', ['reservationId' => $reservation->id]) }}" method="GET">
                                         @csrf
                                             <button class="visit-button" data-reservation-id="{{ $reservation->id }}">評価</button>
                                         </form>

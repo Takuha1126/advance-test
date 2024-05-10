@@ -49,8 +49,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/favorite/toggle/{shopId}', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
     Route::delete('/favorite/toggle/{shopId}', [FavoriteController::class, 'toggle']);
     Route::get('/evaluation/{reservationId}', [EvaluationController::class, 'index'])->name('evaluation.show');
-    Route::post('/evaluation/{reservationId}', [EvaluationController::class, 'index']);
-    Route::get('/reviews', [EvaluationController::class, 'store']);
     Route::post('/reviews', [EvaluationController::class, 'store'])->name('evaluation.store');
     Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
     Route::post('/create-payment-intent', [PaymentController::class, 'handlePayment'])->name('payment.handle');
