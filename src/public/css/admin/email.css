@@ -39,7 +39,7 @@ html {
 .shop a {
     color: #fff;
     text-decoration: none;
-    padding: 0 10px;
+    padding: 5px 10px;
 }
 
 .logout__button {
@@ -146,7 +146,7 @@ html {
         border: 1px solid #3366FF;
         border-radius: 5px;
         background-color: #3366FF;
-        padding: 0 10px;
+        padding: 5px 10px;
         font-size: 10px;
         margin-top: 5px;
     }
