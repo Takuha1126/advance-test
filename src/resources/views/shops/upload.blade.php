@@ -54,25 +54,34 @@
     </main>
     <script>
     function uploadImage() {
-        event.preventDefault();
+    event.preventDefault();
 
-        var formData = new FormData();
-        formData.append('image', document.getElementById('imageInput').files[0]);
-        formData.append('path', 'atte-ui');
+    var formData = new FormData();
+    formData.append('image', document.getElementById('imageInput').files[0]);
+    formData.append('path', 'atte-ui');
 
-        fetch('{{ route("upload.image") }}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
+    fetch('{{ route("upload.image") }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
         alert(data.message);
     })
-        .catch(error => console.error('Error:', error));
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error occurred during image upload');
+    });
     }
+
     </script>
 </body>
 </html>
