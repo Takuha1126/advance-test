@@ -101,7 +101,8 @@ html {
 
     .nav__button a,
     .logout__button {
-        font-size: 6px;
+        font-size: 8px;
+        vertical-align: middle;
     }
 
     .logout__button {
