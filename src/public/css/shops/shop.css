@@ -140,6 +140,10 @@ html {
         vertical-align: middle;
     }
 
+    .logout__button {
+        padding: 7px 5px;
+    }
+
     .main__item {
         display: flex;
         flex-direction: column;

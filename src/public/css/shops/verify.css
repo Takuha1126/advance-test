@@ -152,6 +152,11 @@ label {
         font-size: 8px;
         vertical-align: middle;
     }
+
+    .logout__button {
+        padding: 7px 5px;
+    }
+    
     .main {
         max-width: 100%;
         padding: 0 20px;
