@@ -1,0 +1,147 @@
+body,
+html {
+    margin: 0px;
+    padding: 0px;
+    background-color: #dddddd;
+}
+
+.header {
+    border-bottom: 1px solid #000;
+}
+
+.header__ttl {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header__item {
+    font-size: 25px;
+    font-weight: bold;
+    color: #3366FF;
+
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav__button {
+    border: 1px solid #3366FF;
+    border-radius: 5px;
+    background-color: #3366FF;
+    margin-right: 30px;
+}
+
+.nav__button a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.logout__button {
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid #3366FF;
+    border-radius: 5px;
+    background-color: #3366FF;
+    margin-right: 30px;
+    font-size: 15px;
+}
+
+.main {
+    text-align: center;
+    margin-top: 150px;
+}
+
+.upload-title {
+    font-size: 23px;
+}
+
+.upload input {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.upload-button {
+    margin-top: 100px;
+}
+
+.upload-button button {
+    padding: 10px 30px;
+    background-color: #3366FF;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+
+}
+
+.success-message {
+    color: #3366FF;
+}
+
+@media (max-width: 768px) {
+    .header__ttl {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header__item {
+        margin-left: 10px;
+    }
+
+    .nav {
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .nav__button {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    .nav__button a,
+    .logout__button {
+        font-size: 8px;
+        vertical-align: middle;
+    }
+
+    .logout__button {
+        padding: 7px 5px;
+    }
+
+    .main {
+        text-align: center;
+        margin-top: 150px;
+    }
+
+    .upload-title {
+        font-size: 23px;
+    }
+
+    .upload input {
+        margin-top: 30px;
+        font-size: 18px;
+    }
+
+    .upload-button {
+        margin-top: 100px;
+    }
+
+    .upload-button button {
+        padding: 10px 30px;
+        background-color: #3366FF;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .success-message {
+        color: #3366FF;
+    }
+}

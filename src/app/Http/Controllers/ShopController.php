@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Shop;
 use App\Http\Requests\ShopUpdateRequest;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
+
 
 class ShopController extends Controller
 {
@@ -57,18 +60,25 @@ class ShopController extends Controller
         }
     }
 
+
     public function showCreateUpdateForm($id)
     {
         $shop = $this->findShopById($id);
+        $images = Storage::disk('s3')->files('atte-ui');
 
-        return view('shops.shop', compact('shop'));
+        return view('shops.shop', compact('shop', 'images'));
     }
+
 
     public function update(ShopUpdateRequest $request, $id)
     {
         $shop = $this->findShopById($id);
 
         $this->updateShop($shop, $request);
+
+        $shop->update([
+        'photo_url' => $request->photo_url,
+    ]);
 
         return redirect()->back()->with('success', '店舗情報を変更しました。');
 
@@ -84,4 +94,29 @@ class ShopController extends Controller
             'photo_url' => $request->photo_url,
         ]);
     }
+
+    public function showUploadForm()
+    {
+        $shopId = auth('shop')->user()->shop_id;
+        return view('shops.upload',['shopId' => $shopId]);
+    }
+
+public function uploadImage(Request $request)
+{
+
+    $request->validate([
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $image = $request->file('image');
+
+    $path = Storage::disk('s3')->put('atte-ui', $image);
+
+    $url = Storage::disk('s3')->url($path);
+
+    $request->session()->flash('success', '画像のアップロードに成功しました。');
+
+    return response()->json(['url' => $url], 200);
+}
+
 }

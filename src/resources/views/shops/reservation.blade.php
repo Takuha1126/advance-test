@@ -23,6 +23,9 @@
                 <div class="nav__button">
                     <a class="button" href="{{ route('shop.verify.show') }}">QRコード照合</a>
                 </div>
+                <div class="nav__button">
+                    <a class="button" href="{{ route('shops.upload') }}">アップロード</a>
+                </div>
                 <div class="logout">
                     <form action="{{ route('shop.logout') }}" method="POST">
                         @csrf

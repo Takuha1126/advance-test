@@ -15,7 +15,6 @@ class ShopUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'photo_url' => 'required',
             'shop_name' => 'required|string|max:191',
             'area_id' => 'required',
             'genre_id' => 'required',
@@ -26,7 +25,6 @@ class ShopUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'photo_url.required' => '写真を選択してください。',
             'shop_name.required' => '店舗名は必須です。',
             'shop_name.string' => '店舗名は文字列で入力してください。',
             'shop_name.max' => '店舗名は255文字以内で入力してください。',

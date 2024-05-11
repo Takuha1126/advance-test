@@ -23,6 +23,9 @@
                 <div class="nav__button">
                     <a class="button" href="{{ route('shop.verify.show') }}">QRコード照合</a>
                 </div>
+                <div class="nav__button">
+                    <a class="button" href="{{ route('shops.upload') }}">アップロード</a>
+                </div>
                 <div class="logout">
                     <form action="{{ route('shop.logout') }}" method="POST">
                         @csrf
@@ -48,14 +51,12 @@
                 <div class="main__title">
                     <div class="main__item">
                         <label class="label">写真</label>
-                        <select name="photo_url" id="photoSelect">
-                            <option value="">選択してください</option>
-                            <option value="https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg">寿司</option>
-                            <option value="https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/yakiniku.jpg">焼肉</option>
-                            <option value="https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/izakaya.jpg">居酒屋</option>
-                            <option value="https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/italian.jpg">イタリアン</option>
-                            <option value="https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/ramen.jpg">ラーメン</option>
-                        </select>
+                            <select name="photo_url" id="photoSelect">
+                                <option value="">選択してください</option>
+                                @foreach ($images as $image)
+                                    <option value="{{ Storage::disk('s3')->url($image) }}">{{ basename($image) }}</option>
+                                @endforeach
+                            </select>
                     </div>
                     @error('photo_url')
                         <div class="error-message">{{ $message }}</div>
@@ -96,7 +97,7 @@
                         <label class="label">お店の紹介</label>
                         <textarea name="description" cols="30" rows="10" placeholder="お客さんのことを考えて料理します。"></textarea>
                     </div>
-                     @error('description')
+                    @error('description')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
@@ -104,7 +105,7 @@
                     <button class="button__ttl" type="submit">保存</button>
                 </div>
             </form>
-        <div>
+        </div>
     </main>
 </body>
 </html>
