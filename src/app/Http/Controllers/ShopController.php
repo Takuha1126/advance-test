@@ -104,13 +104,14 @@ class ShopController extends Controller
     public function uploadImage(Request $request)
 {
     $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // 最大2MBまでの画像を許可
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
 
     $image = $request->file('image');
 
-    $path = Storage::disk('s3')->put('atte-ui', $image);
+    $path = Storage::disk('s3')->put('atte-ui/' . $image->getClientOriginalName(), $image);
+
 
     $url = Storage::disk('s3')->url($path);
 
