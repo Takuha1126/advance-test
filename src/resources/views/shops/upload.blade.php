@@ -11,7 +11,7 @@
     <header class="header">
         <div class="header__ttl">
             <div class="header__title">
-                <p class="header__item">店舗情報の作成・更新</p>
+                <p class="header__item">アップロード画面</p>
             </div>
             <nav class="nav">
                 <div class="nav__button">

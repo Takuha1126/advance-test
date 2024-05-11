@@ -101,12 +101,12 @@ class ShopController extends Controller
         return view('shops.upload',['shopId' => $shopId]);
     }
 
-public function uploadImage(Request $request)
+    public function uploadImage(Request $request)
 {
-
     $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // 最大2MBまでの画像を許可
     ]);
+
 
     $image = $request->file('image');
 
@@ -114,9 +114,8 @@ public function uploadImage(Request $request)
 
     $url = Storage::disk('s3')->url($path);
 
-    $request->session()->flash('success', '画像のアップロードに成功しました。');
 
-    return response()->json(['url' => $url], 200);
+    return response()->json(['message' => '画像のアップロードに成功しました。', 'url' => $url], 200);
 }
 
 }
