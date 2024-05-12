@@ -3,6 +3,7 @@ html {
     margin: 0px;
     padding: 0px;
     background-color: #dddddd;
+    overflow-x: hidden;
 }
 
 .header {
@@ -50,6 +51,7 @@ html {
     background-color: #3366FF;
     margin-right: 30px;
     font-size: 15px;
+    padding: 3px 5px;
 }
 
 .table {

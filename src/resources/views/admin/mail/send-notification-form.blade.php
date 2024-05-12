@@ -11,17 +11,17 @@
     <header class="header">
         <div class="header__ttl">
             <div class="header__title">
-                <p class="header__item">メール送信フォーム</p>
+                <p class="header__item">予約一覧</p>
             </div>
             <nav class="nav">
-                <div class="shop">
-                    <a class="shop__button" href="{{ route('admin.index') }}">代表者登録</a>
+                <div class="nav__button">
+                    <a class="button" href="{{ route('admin.index') }}">代表者登録</a>
                 </div>
-                <div class="shop">
+                <div class="nav__button">
                     <a class="shop__button" href="{{ route('admin.create') }}">代表者一覧</a>
                 </div>
                 <div class="logout">
-                    <form action="{{ route('admin.logout') }}" method="POST">
+                    <form action="{{ route('admin.logout') }}"  method="POST">
                         @csrf
                         <button type="submit" class="logout__button">Logout</button>
                     </form>

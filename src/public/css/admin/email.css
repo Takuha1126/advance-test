@@ -3,7 +3,7 @@ html {
     margin: 0px;
     padding: 0px;
     background-color: #dddddd;
-
+    overflow-x: hidden;
 }
 
 .header {
@@ -22,6 +22,7 @@ html {
     font-size: 25px;
     font-weight: bold;
     color: #3366FF;
+
 }
 
 .nav {
@@ -29,14 +30,14 @@ html {
     align-items: center;
 }
 
-.shop {
+.nav__button {
     border: 1px solid #3366FF;
     border-radius: 5px;
     background-color: #3366FF;
-    margin-right: 20px;
+    margin-right: 30px;
 }
 
-.shop a {
+.nav__button a {
     color: #fff;
     text-decoration: none;
     padding: 5px 10px;
@@ -50,8 +51,8 @@ html {
     background-color: #3366FF;
     margin-right: 30px;
     font-size: 15px;
+    padding: 3px 5px;
 }
-
 
 .main {
     max-width: 650px;
@@ -127,33 +128,36 @@ html {
 
 
 @media (max-width: 768px) {
-    .nav {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .shop,
-    .logout {
-        margin-right: 5px;
-        margin-top: 5px;
-        flex-shrink: 0;
-    }
-
-    .shop a,
-    .logout__button {
-        color: #fff;
-        text-decoration: none;
-        border: 1px solid #3366FF;
-        border-radius: 5px;
-        background-color: #3366FF;
-        padding: 5px 10px;
-        font-size: 10px;
-        margin-top: 5px;
-    }
-
-    .logout__button {
-        margin-bottom: 3px;
-    }
+    .header__ttl {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    
+        .header__item {
+            margin-left: 10px;
+        }
+    
+        .nav {
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+    
+        .nav__button {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+    
+        .nav__button a,
+        .logout__button {
+            font-size: 8px;
+            vertical-align: middle;
+        }
+    
+        .logout__button {
+            padding: 7px 5px;
+        }
 
     .main {
         margin: 40px auto;

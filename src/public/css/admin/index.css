@@ -3,6 +3,7 @@ html {
     margin: 0px;
     padding: 0px;
     background-color: #dddddd;
+    overflow-x: hidden;
 }
 
 .header {
@@ -29,31 +30,17 @@ html {
     align-items: center;
 }
 
-.shop {
+.nav__button {
     border: 1px solid #3366FF;
     border-radius: 5px;
     background-color: #3366FF;
-    margin-right: 20px;
+    margin-right: 30px;
 }
 
-.shop a {
+.nav__button a {
     color: #fff;
     text-decoration: none;
     padding: 5px 10px;
-}
-
-.send-mail {
-    margin-right: 20px;
-}
-
-.send-mail__button {
-    text-decoration: none;
-    border: 1px solid #3366FF;
-    border-radius: 5px;
-    background-color: #3366FF;
-    color: #fff;
-    padding: 3px 10px;
-    font-size: 15px;
 }
 
 .logout__button {
@@ -64,6 +51,7 @@ html {
     background-color: #3366FF;
     margin-right: 30px;
     font-size: 15px;
+    padding: 3px 5px;
 }
 
 .alert-success {
@@ -116,29 +104,36 @@ html {
 }
 
 @media (max-width: 768px) {
-    .nav {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .nav>div {
-        margin-bottom: 10px;
-    }
-
-    .shop a {
-        margin-top: 5px;
-    }
-
-    .shop a,
-    .send-mail a,
-    .logout__button {
-        font-size: 10px;
-    }
-
-    .logout__button {
-        padding: 4px;
-    }
-
+    .header__ttl {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    
+        .header__item {
+            margin-left: 10px;
+        }
+    
+        .nav {
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+    
+        .nav__button {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+    
+        .nav__button a,
+        .logout__button {
+            font-size: 8px;
+            vertical-align: middle;
+        }
+    
+        .logout__button {
+            padding: 7px 5px;
+        }
     .main {
         max-width: 100%;
     }

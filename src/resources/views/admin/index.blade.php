@@ -14,14 +14,14 @@
                 <p class="header__item">代表者登録</p>
             </div>
             <nav class="nav">
-                <div class="shop">
-                    <a class="shop__button" href="{{ route('admin.create') }}">代表者一覧</a>
+                <div class="nav__button">
+                    <a class="button" href="{{ route('admin.create') }}">代表者一覧</a>
                 </div>
-                <div class="send-mail">
-                    <a class="send-mail__button" href="{{ route('send-notification.form') }}">メール送信</a>
+                <div class="nav__button">
+                    <a class="button" href="{{ route('send-notification.form') }}">メール送信</a>
                 </div>
                 <div class="logout">
-                    <form action="{{ route('admin.logout') }}" method="POST">
+                    <form action="{{ route('admin.logout') }}"  method="POST">
                         @csrf
                         <button type="submit" class="logout__button">Logout</button>
                     </form>
