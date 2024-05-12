@@ -69,7 +69,7 @@
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('ネットワークの応答が正常ではありませんでした');
         }
         return response.json();
     })
@@ -77,8 +77,8 @@
         alert(data.message);
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert('Error occurred during image upload');
+        console.error('エラー:', error);
+        alert('画像のアップロード中にエラーが発生しました');
     });
     }
 
