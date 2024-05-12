@@ -51,12 +51,13 @@
                 <div class="main__title">
                     <div class="main__item">
                         <label class="label">写真</label>
-                            <select name="photo_url" id="photoSelect">
-                                <option value="">選択してください</option>
-                                @foreach ($images as $image)
-                                    <option value="{{ Storage::disk('s3')->url($image) }}">{{ basename($image) }}</option>
-                                @endforeach
-                            </select>
+<select name="photo_url" id="photoSelect">
+    <option value="">選択してください</option>
+    @foreach ($images as $image)
+        <option value="{{ Storage::disk('s3')->url($image) }}">{{ basename(parse_url(Storage::disk('s3')->url($image), PHP_URL_PATH)) }}</option>
+    @endforeach
+</select>
+
                     </div>
                     @error('photo_url')
                         <div class="error-message">{{ $message }}</div>

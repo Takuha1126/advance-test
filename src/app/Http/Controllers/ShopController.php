@@ -102,21 +102,22 @@ class ShopController extends Controller
     }
 
     public function uploadImage(Request $request)
-{
-    $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
+        $image = $request->file('image');
+        $fileName = time() . '_' . $image->getClientOriginalName();
 
-    $image = $request->file('image');
+        $path = 'atte-ui/' . $fileName;
 
-    $path = Storage::disk('s3')->put('atte-ui/' . $image->getClientOriginalName(), $image);
+        Storage::disk('s3')->put($path, file_get_contents($image));
 
+        $url = Storage::disk('s3')->url($path);
 
-    $url = Storage::disk('s3')->url($path);
+        return response()->json(['message' => '画像のアップロードに成功しました。', 'url' => $url], 200);
+    }
 
-
-    return response()->json(['message' => '画像のアップロードに成功しました。', 'url' => $url], 200);
-}
 
 }
