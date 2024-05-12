@@ -11,20 +11,20 @@
     <header class="header">
         <div class="header__ttl">
             <div class="header__title">
-                <p class="header__item">アップロード画面</p>
+                <p class="header__item">アップロード</p>
             </div>
             <nav class="nav">
                 <div class="nav__button">
                     <a class="button" href="{{ route('shops.reservations.list')}}" >予約一覧</a>
                 </div>
                 <div class="nav__button">
-                    <a class="button" href="{{ route('shops.create-update', ['id' => $shopId]) }}">店舗情報の作成・更新</a>
+                    <a class="button" href="{{ route('shops.create-update', ['id' => $shopId]) }}">店舗情報の更新</a>
                 </div>
                 <div class="nav__button">
                     <a class="button" href="{{ route('reviews.create') }}">評価一覧</a>
                 </div>
                 <div class="nav__button">
-                    <a class="button" href="{{ route('shop.verify.show') }}">QRコード照合</a>
+                    <a class="button" href="{{ route('shop.verify.show') }}">照合</a>
                 </div>
                 <div class="logout">
                     <form action="{{ route('shop.logout') }}" method="POST">
