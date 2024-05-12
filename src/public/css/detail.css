@@ -47,8 +47,6 @@
     background-color: #3366FF;
     width: 100%;
     border-radius: 10px;
-    flex: 1 1 100%;
-    max-height: 650px;
 }
 
 .reservation__ttl {
@@ -112,7 +110,6 @@
     background-color: #1155CC;
     border-radius: 0 0 5px 5px;
     padding: 10px 0 20px 0;
-    margin-bottom: auto;
 }
 
 .button__title {
