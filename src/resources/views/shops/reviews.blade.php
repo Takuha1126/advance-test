@@ -18,10 +18,10 @@
                     <a class="button" href="{{ route('shops.reservations.list')}}" >予約一覧</a>
                 </div>
                 <div class="nav__button">
-                    <a class="button" href="{{ route('shops.create-update', ['id' => $shopId]) }}">店舗情報の作成・更新</a>
+                    <a class="button" href="{{ route('shops.create-update', ['id' => $shopId]) }}">店舗情報の更新</a>
                 </div>
                 <div class="nav__button">
-                    <a class="button" href="{{ route('shop.verify.show') }}">QRコード照合</a>
+                    <a class="button" href="{{ route('shop.verify.show') }}">照合</a>
                 </div>
                 <div class="nav__button">
                     <a class="button" href="{{ route('shops.upload') }}">アップロード</a>
