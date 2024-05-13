@@ -129,15 +129,15 @@ table {
     }
 
     .table__th {
-        font-size: 14px;
-    }
-
-    .table__td {
         font-size: 12px;
     }
 
-    .delete {
+    .table__td {
         font-size: 10px;
+    }
+
+    .delete {
+        font-size: 8px;
     }
 
 

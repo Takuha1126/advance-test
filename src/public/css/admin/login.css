@@ -25,7 +25,7 @@ html {
     margin: 100px auto;
     background-color: #fff;
     max-width: 500px;
-    border-radius: 0 0 5px 5px;
+    border-radius:5px;
 }
 
 .main__ttl {
