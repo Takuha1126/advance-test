@@ -37,8 +37,11 @@
                         <option value="イタリアン">イタリアン</option>
                         <option value="ラーメン">ラーメン</option>
                     </select>
-                    <i class="fas fa-search" style="color: #cccccc;"></i>
-                    <input type="text" id="searchInput" name="search" placeholder="Search...">
+                    </div>
+                    <div class="nav__item">
+                        <i class="fas fa-search" style="color: #cccccc;"></i>
+                        <input type="text" id="searchInput" name="search" placeholder="Search...">
+                    </div>
                 </div>
             </nav>
         </div>

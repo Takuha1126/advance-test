@@ -36,6 +36,7 @@ body,html {
     border: 1px solid #aaaaaa;
     background-color: #fff;
     border-radius: 5px;
+    display: flex;
 
 }
 
@@ -130,8 +131,6 @@ body,html {
 }
 
 
-
-
 .select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
     border: none !important;
@@ -155,7 +154,6 @@ body,html {
 
 
 @media screen and (max-width: 768px) {
-
     body,
     html {
         margin: 0;
@@ -193,24 +191,35 @@ body,html {
         border: 1px solid #aaaaaa;
         background-color: #fff;
         border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .select-wrapper {
+        display: flex;
     }
 
     .first,
     .second {
-        margin: 5px 0;
-        padding: 5px 10px;
-        border: none;
-        border-right: 1px solid #cccccc;
+        margin-top: 5px;
+        width: 160px;
     }
 
-    select {
-        font-size: 10px;
+    .nav__item {
+        display: flex;
+        align-items: center;
+    }
+
+    .nav__item i {
+        margin-right: 5px;
     }
 
     .nav__ttl input {
-        width: 100%;
-        padding: 5px;
+        width: 300px;
+        padding: 6px 12px;
         border: none;
+        border-radius: 4px;
+        box-sizing: border-box;
     }
 
     .main {
