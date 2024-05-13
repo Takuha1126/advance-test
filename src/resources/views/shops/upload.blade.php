@@ -35,11 +35,7 @@
             </nav>
         </div>
     </header>
-    @if(session('success'))
-    <div class="success-message">
-        {{ session('success') }}
-    </div>
-    @endif
+
     <main class="main">
         <div class="upload">
             <p class="upload-title">もし使いたい画像があればここでアップロードしてください</p>

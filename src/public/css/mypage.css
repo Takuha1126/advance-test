@@ -281,6 +281,10 @@ select {
         border: none;
     }
 
+    .new__date input {
+        vertical-align: middle;
+    }
+
     .new__time select,
     .new__people select {
         border-radius: 3px;
