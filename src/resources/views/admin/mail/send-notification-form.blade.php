@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>お知らせメール</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/admin/email.css') }}" />
 </head>
@@ -11,7 +11,7 @@
     <header class="header">
         <div class="header__ttl">
             <div class="header__title">
-                <p class="header__item">予約一覧</p>
+                <p class="header__item">お知らせメール</p>
             </div>
             <nav class="nav">
                 <div class="nav__button">

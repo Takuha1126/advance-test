@@ -62,6 +62,7 @@
                 @endif
             </table>
         </div>
+        {{ $reservations->links('page.custom-pagination') }}
     </main>
 </body>
 </html>

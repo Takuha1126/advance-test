@@ -128,7 +128,7 @@ class ReservationController extends Controller
     public function showReservationList()
     {
         $shopId = auth('shop')->user()->shop_id;
-        $reservations = Reservation::where('shop_id', $shopId)->get();
+        $reservations = Reservation::where('shop_id', $shopId)->paginate(4);
         return view('shops.reservation', ['reservations' => $reservations, 'shopId' => $shopId]);
     }
 
