@@ -63,7 +63,7 @@ Route::middleware(['web','auth.shop'])->group(function () {
     Route::get('/shop/verify', [ReservationController::class,'showQrVerification'])->name('shop.verify.show');
     Route::post('/shop/verify
 ', [ReservationController::class,'verify'])->name('shop.verify');
-    Route::get('/review-list', [EvaluationController::class, 'create'])->name('reviews.create');
+    Route::get('/review-list', [EvaluationController::class, 'show'])->name('reviews.create');
     Route::get('/shops/upload', [ShopController::class, 'showUploadForm'])->name('shops.upload');
     Route::post('/upload-image', [ShopController::class, 'uploadImage'])->name('upload.image');
 

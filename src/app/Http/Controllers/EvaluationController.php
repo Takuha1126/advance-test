@@ -49,7 +49,7 @@ class EvaluationController extends Controller
         }
     }
 
-    public function create(Request $request)
+    public function show(Request $request)
     {
         $shopId = auth('shop')->user()->shop_id;
         $reviews = Review::where('shop_id', $shopId)->latest()->paginate(4);
