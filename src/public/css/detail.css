@@ -141,7 +141,7 @@ html {
 @media (max-width: 768px) {
     body,
     html {
-        overflow-y: visible;
+        overflow-y: auto;
     }
 
     .main {
@@ -151,6 +151,11 @@ html {
 
     .detail {
         max-width: 95%;
+        margin-bottom: 20px;
+    }
+
+    .detail__description {
+        font-size: 15px;
         margin-bottom: 20px;
     }
 
