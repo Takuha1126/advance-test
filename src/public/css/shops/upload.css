@@ -81,8 +81,17 @@ html {
 
 }
 
-.success-message {
-    color: #3366FF;
+.message {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.message .success {
+    color: black;
+}
+
+.message .error {
+    color: red;
 }
 
 @media (max-width: 768px) {

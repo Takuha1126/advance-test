@@ -136,9 +136,16 @@ input {
     border: none;
 }
 
-input,
-select {
-    width: 90px;
+input {
+    width: 150px;
+}
+
+.new__time select {
+    width: 150px;
+}
+
+.new__people select {
+    width: 150px;
 }
 
 .favorite__container {
