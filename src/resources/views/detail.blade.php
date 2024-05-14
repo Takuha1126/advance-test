@@ -67,7 +67,6 @@
                             <th class="table__th">Shop</th>
                             <td class="table__td" id="shop-name">{{ $shop['shop_name'] }}</td>
                             <input type="hidden" name="shop_id" value="{{ $shop['id'] }}">
-
                         </tr>
                         <tr class="table__tr">
                             <th class="table__th">Date</th>

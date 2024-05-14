@@ -108,6 +108,7 @@
 
 .table__td {
     color: #fff;
+    width: 30%;
 }
 
 .table__button {
@@ -118,10 +119,16 @@
 
 .visit-button {
     margin-right: 10px;
+    white-space: nowrap;
+}
+
+.payment-button {
+    white-space: nowrap;
 }
 
 .edit-button {
     margin-left: 10px;
+    white-space: nowrap;
 }
 
 .new__date,
@@ -137,15 +144,15 @@ input {
 }
 
 input {
-    width: 150px;
+    width: 110px;
 }
 
 .new__time select {
-    width: 150px;
+    width: 110px;
 }
 
 .new__people select {
-    width: 150px;
+    width: 110px;
 }
 
 .favorite__container {
