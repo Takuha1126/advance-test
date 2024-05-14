@@ -37,6 +37,7 @@
             </nav>
         </div>
     </header>
+    <div class="message" id="message"></div>
     <div id="errorMessage" class="error-message" style="display: none;"></div>
     <main class="main">
         <p class="main__title">利用者から提供されたQRコードをデバイスのカメラでスキャンして予約を確認します。</p>
@@ -118,26 +119,29 @@
             document.getElementById('checkQRCode').addEventListener('click', function() {
                 const qrCodeData = document.getElementById('qrCodeData').value;
 
+                // エラーメッセージをリセット
+                const errorMessageElement = document.getElementById('errorMessage');
+                errorMessageElement.style.display = 'none';
+                errorMessageElement.innerText = '';
 
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                 const apiUrl = '/shop/verify';
-
 
                 fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': csrfToken
-                },
+                    },
                     body: JSON.stringify({ qr_code_data: qrCodeData })
                 })
                 .then(response => {
                     if (!response.ok) {
                         return response.json().then(errorData => {
-                        throw new Error(errorData.error);
-                    });
-                }
+                            throw new Error(errorData.error);
+                        });
+                    }
                     return response.json();
                 })
                 .then(data => {
@@ -149,12 +153,16 @@
                     errorMessageElement.style.display = 'block';
                 });
             });
+
             function displayReservationInfo(reservation) {
                 document.getElementById('userName').innerText = reservation.name;
                 document.getElementById('reservationDate').innerText = reservation.date;
                 document.getElementById('reservationTime').innerText = reservation.time;
                 document.getElementById('numberOfPeople').innerText = reservation.number_of_people;
                 document.getElementById('reservationInfo').style.display = 'block';
+
+                const messageElement = document.getElementById('message');
+                messageElement.innerText = reservation.message;
             }
         });
     </script>

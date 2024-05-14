@@ -10,6 +10,9 @@ use App\Http\Requests\ReservationRequest;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\ReservationUpdateRequest;
+use App\Mail\ReservationConfirmed;
+use Illuminate\Support\Facades\Mail;
+
 
 class ReservationController extends Controller
 {
@@ -44,21 +47,23 @@ class ReservationController extends Controller
     }
 
     public function store(ReservationRequest $request)
-    {
-        $userId = Auth::id();
+{
+    $userId = Auth::id();
 
-        if ($this->checkDuplicateReservation($request, $userId)) {
-            return $this->redirectBackWithError('同じ時間と場所に他の予約が既にあります。');
-        }
-
-        try {
-            $this->createReservation($request, $userId);
-        } catch (QueryException $e) {
-            return $this->redirectBackWithError('データベースエラーが発生しました。');
-        }
-
-        return $this->redirectToDone();
+    if ($this->checkDuplicateReservation($request, $userId)) {
+        return $this->redirectBackWithError('同じ時間と場所に他の予約が既にあります。');
     }
+
+    try {
+        $reservation = $this->createReservation($request, $userId);
+
+        Mail::to(Auth::user()->email)->send(new ReservationConfirmed($reservation));
+    } catch (QueryException $e) {
+        return $this->redirectBackWithError('データベースエラーが発生しました。');
+    }
+
+    return $this->redirectToDone();
+}
 
     private function checkDuplicateReservation($request, $userId)
     {
@@ -75,13 +80,13 @@ class ReservationController extends Controller
     }
 
     private function createReservation($request, $userId)
-    {
-        $reservationData = $request->only(['shop_id', 'date', 'reservation_time', 'number_of_people', 'status']);
-        $reservationData['user_id'] = $userId;
-        $reservationData['reservation_time'] = $this->formatTime($request->reservation_time);
+{
+    $reservationData = $request->only(['shop_id', 'date', 'reservation_time', 'number_of_people', 'status']);
+    $reservationData['user_id'] = $userId;
+    $reservationData['reservation_time'] = $this->formatTime($request->reservation_time);
 
-        Reservation::create($reservationData);
-    }
+    return Reservation::create($reservationData);
+}
 
     public function destroy($id)
     {
@@ -171,6 +176,14 @@ class ReservationController extends Controller
             'time' => $reservation->reservation_time,
             'number_of_people' => $reservation->number_of_people,
         ];
-        return response()->json($responseData);
+
+        $message = '予約が正常に確認されました';
+
+    $reservation->delete();
+    
+    // メッセージをresponseに追加
+    $responseData['message'] = $message;
+
+    return response()->json($responseData);
     }
 }
