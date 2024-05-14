@@ -29,6 +29,7 @@
                         <option value="大阪府">大阪府</option>
                         <option value="福岡県">福岡県</option>
                     </select>
+                    <span class="span__ttl">|</span>
                     <select class="second" name="genre_id" id="genreSelect">
                         <option value="">genre</option>
                         <option value="寿司">寿司</option>

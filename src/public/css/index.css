@@ -1,4 +1,5 @@
-body,html {
+body,
+html {
     margin: 0px;
     padding: 0px;
     background-color: #dddddd;
@@ -43,12 +44,16 @@ body,html {
 .first,
 .second {
     font-size: 14px;
-    margin: 5px 10px 5px 0;
     padding: 6px 12px;
     border: 1px solid #cccccc;
     border-radius: 4px;
     width: 130px;
     box-sizing: border-box;
+}
+
+.span__ttl {
+    color: #dddddd;
+    margin-bottom: 0;
 }
 
 .second {
@@ -61,6 +66,7 @@ body,html {
     border: none;
     border-radius: 4px;
     box-sizing: border-box;
+    margin-top: 4px;
 }
 
 .main {
