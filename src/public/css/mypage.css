@@ -147,21 +147,23 @@
     margin-left: 10px;
 }
 
-input {
+.new__date input {
     border-radius: 3px;
     border: none;
-}
-
-input {
     width: 110px;
 }
 
 .new__time select {
     width: 110px;
+    border: none;
+    border-radius: 3px;
 }
 
 .new__people select {
     width: 110px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 3px;
 }
 
 .favorite__container {
