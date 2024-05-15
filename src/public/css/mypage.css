@@ -120,15 +120,18 @@
 .visit-button {
     margin-right: 10px;
     white-space: nowrap;
+    background-color: #fff;
 }
 
 .payment-button {
     white-space: nowrap;
+    background-color: #fff;
 }
 
 .edit-button {
     margin-left: 10px;
     white-space: nowrap;
+    background-color: #fff;
 }
 
 .new__date,
