@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ asset('css/index.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
 </head>
 <body>
     <header class="header">
@@ -24,20 +23,22 @@
                 <div class="nav__ttl">
                     <div class="select-wrapper">
                     <select class="first" name="area_id" id="areaSelect">
-                        <option value="">area</option>
+                        <option value="">All area</option>
                         <option value="東京都">東京都</option>
                         <option value="大阪府">大阪府</option>
                         <option value="福岡県">福岡県</option>
                     </select>
+                    <i class="fas fa-location-arrow" id="areaSelectIcon"></i>
                     <span class="span__ttl">|</span>
                     <select class="second" name="genre_id" id="genreSelect">
-                        <option value="">genre</option>
+                        <option value="">All genre</option>
                         <option value="寿司">寿司</option>
                         <option value="焼肉">焼肉</option>
                         <option value="居酒屋">居酒屋</option>
                         <option value="イタリアン">イタリアン</option>
                         <option value="ラーメン">ラーメン</option>
                     </select>
+                    <i class="fas fa-location-arrow" id="genreSelectIcon"></i>
                     </div>
                     <div class="nav__item">
                         <i class="fas fa-search" style="color: #cccccc;"></i>
@@ -107,6 +108,8 @@
         @endif
     </main>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
@@ -181,10 +184,16 @@ $(document).ready(function() {
     }
 
     function setupSelect2() {
-        $('.first, .second').select2({
-            minimumResultsForSearch: Infinity
-        });
-    }
+    $('.first, .second').select2({
+        minimumResultsForSearch: Infinity,
+        templateSelection: function(data) {
+            return $('<span>').css('font-size', '10px').text(data.text);
+        }
+    });
+
+    $('.select2-selection__arrow').css('display', 'none');
+}
+
 
     function setupFilters() {
         $('#searchInput, #areaSelect, #genreSelect').on('input change', function() {
@@ -215,7 +224,16 @@ $(document).ready(function() {
             $(this).toggle(areaMatch && genreMatch && keywordMatch);
         });
     }
+
+        $('#areaSelectIcon').on('click', function() {
+        $('#areaSelect').select2('open');
+    });
+
+        $('#genreSelectIcon').on('click', function() {
+        $('#genreSelect').select2('open');
+    });
 });
+
 </script>
 </body>
 </html>

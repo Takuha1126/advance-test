@@ -41,24 +41,24 @@ html {
 
 }
 
-.first,
-.second {
-    font-size: 14px;
-    padding: 6px 12px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    width: 130px;
-    box-sizing: border-box;
+.select-wrapper i.fa-location-arrow {
+    transform: rotate(135deg);
 }
+
+.fa-location-arrow {
+    font-size: 10px;
+    padding-top: 3px;
+    margin-right: 5px;
+    color: #dddddd;
+}
+
+
 
 .span__ttl {
     color: #dddddd;
     margin-bottom: 0;
 }
 
-.second {
-    margin-right: 0;
-}
 
 .nav__ttl input {
     width: 280px;
@@ -209,6 +209,12 @@ html {
     .second {
         margin-top: 5px;
         width: 160px;
+        margin-right: 20px;
+    }
+
+    .fa-location-arrow {
+        padding-top: 10px;
+        margin-left: 20px;
     }
 
     .nav__item {
@@ -217,7 +223,7 @@ html {
     }
 
     .nav__item i {
-        margin-right: 5px;
+        margin: 0 5px;
     }
 
     .nav__ttl input {
