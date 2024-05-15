@@ -166,6 +166,12 @@
     border-radius: 3px;
 }
 
+.button__ttl button {
+    border-radius: 3px;
+    background-color: #fff;
+    border: none;
+}
+
 .favorite__container {
     display: flex;
     flex-wrap: wrap;
