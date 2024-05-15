@@ -82,7 +82,7 @@
                                             <div class="new__time">
                                                 <label for="new_reservation_time" class="new__time-label">新しい時間:</label>
                                                 <select class="new__time-input" id="new_reservation_time"  name="new_reservation_time" required>
-                                                    @for ($i = 11; $i <= 22; $i++)
+                                                    @for ($i = 11; $i <= 23; $i++)
                                                     <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00</option>
                                                     <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:30">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:30</option>
                                                         @endfor
