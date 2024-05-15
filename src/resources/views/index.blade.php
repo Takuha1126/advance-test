@@ -187,7 +187,7 @@ $(document).ready(function() {
     $('.first, .second').select2({
         minimumResultsForSearch: Infinity,
         templateSelection: function(data) {
-            return $('<span>').css('font-size', '10px').text(data.text);
+            return $('<span>').css('font-size', '13px').text(data.text);
         }
     });
 
