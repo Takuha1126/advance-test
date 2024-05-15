@@ -76,6 +76,8 @@ html {
 
 .form-group select {
     width: 50%;
+    border: none;
+    border-radius: 3px;
 }
 
 .form-group input {
