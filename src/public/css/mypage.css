@@ -121,17 +121,23 @@
     margin-right: 10px;
     white-space: nowrap;
     background-color: #fff;
+    border: none;
+    border-radius: 3px;
 }
 
 .payment-button {
     white-space: nowrap;
     background-color: #fff;
+    border: none;
+    border-radius: 3px;
 }
 
 .edit-button {
     margin-left: 10px;
     white-space: nowrap;
     background-color: #fff;
+    border: none;
+    border-radius: 3px;
 }
 
 .new__date,
