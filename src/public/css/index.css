@@ -52,7 +52,10 @@ html {
     color: #dddddd;
 }
 
-
+.first,
+.second {
+    width: 100px;
+}
 
 .span__ttl {
     color: #dddddd;
