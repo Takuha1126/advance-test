@@ -34,7 +34,7 @@
 
 .detail__info {
     display: flex;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .detail__area {
@@ -42,7 +42,7 @@
 }
 
 .detail__description {
-    font-size: 15px;
+    font-size: 12px;
     margin-bottom: 40px;
 }
 
