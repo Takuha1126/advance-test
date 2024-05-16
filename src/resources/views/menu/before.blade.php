@@ -11,7 +11,7 @@
 <body>
     <header class="header">
         <div class="header__ttl">
-            <a class="header__title" href="{{ route('login') }}"><i class="fas fa-square fa-times fa-xs fa-2x" style= "color: #fff;"></i></a>
+            <a class="header__title" id="back-button" href="#"><i class="fas fa-square fa-times fa-xs fa-2x" style= "color: #fff;"></i></a>
         </div>
     </header>
 
@@ -28,5 +28,11 @@
             </div>
         </div>
     </main>
+    <script>
+        document.getElementById('back-button').addEventListener('click', function(event) {
+        event.preventDefault();
+        history.back();
+    });
+    </script>
 </body>
 </html>

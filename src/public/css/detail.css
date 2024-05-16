@@ -1,8 +1,3 @@
-body,
-html {
-    overflow-y: hidden;
-}
-
 .main {
     max-width: 1250px;
     margin: 0 auto;
@@ -48,7 +43,7 @@ html {
 
 .detail__description {
     font-size: 15px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 .reservation {
