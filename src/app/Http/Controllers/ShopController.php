@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Shop;
 use App\Http\Requests\ShopUpdateRequest;
-use Illuminate\Support\Facades\Storage;
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
-
+use Illuminate\Validation\ValidationException;
 
 class ShopController extends Controller
 {
@@ -21,7 +21,6 @@ class ShopController extends Controller
     public function detail($shop_id)
     {
         $shop = $this->findShopById($shop_id);
-
         return view('detail', ['shop' => $shop]);
     }
 
@@ -60,28 +59,18 @@ class ShopController extends Controller
         }
     }
 
-
     public function showCreateUpdateForm($id)
     {
         $shop = $this->findShopById($id);
         $images = Storage::disk('s3')->files('atte-ui');
-
         return view('shops.shop', compact('shop', 'images'));
     }
-
 
     public function update(ShopUpdateRequest $request, $id)
     {
         $shop = $this->findShopById($id);
-
         $this->updateShop($shop, $request);
-
-        $shop->update([
-        'photo_url' => $request->photo_url,
-    ]);
-
         return redirect()->back()->with('success', '店舗情報を変更しました。');
-
     }
 
     private function updateShop($shop, $request)
@@ -98,7 +87,7 @@ class ShopController extends Controller
     public function showUploadForm()
     {
         $shopId = auth('shop')->user()->shop_id;
-        return view('shops.upload',['shopId' => $shopId]);
+        return view('shops.upload', ['shopId' => $shopId]);
     }
 
     public function uploadImage(Request $request)
@@ -127,6 +116,5 @@ class ShopController extends Controller
             ], 500);
         }
     }
-
 
 }

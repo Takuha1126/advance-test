@@ -21,12 +21,11 @@ class CreateShopRepresentativeController extends Controller
 
     public function store(ShopRepresentativeRequest $request)
     {
+        $validated = $request->validated();
 
         $representative = new ShopRepresentative;
-        $representative->shop_id = $request->shop_id;
-        $representative->representative_name = $request->representative_name;
-        $representative->email = $request->email;
-        $representative->password = Hash::make($request->password);
+        $representative->fill($validated);
+        $representative->password = Hash::make($validated['password']);
         $representative->save();
 
         return redirect()->back()->with('success', '店舗代表者を登録しました。');
@@ -55,17 +54,17 @@ class CreateShopRepresentativeController extends Controller
     public function sendNotification(Request $request)
     {
         $validated = $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'message_content' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'message_content' => 'required|string',
         ]);
 
-        $user = User::find($request->user_id);
+        $user = User::find($validated['user_id']);
 
         if (!$user) {
             return redirect()->back();
         }
 
-        $messageContent = $request->input('message_content');
+        $messageContent = $validated['message_content'];
 
         Mail::to($user->email)->send(new NotifyAppUser($user, $messageContent));
 
@@ -75,11 +74,12 @@ class CreateShopRepresentativeController extends Controller
     public function sendAll(Request $request)
     {
         $validated = $request->validate([
-        'message_content' => 'required|string',
-    ]);
-        $users = User::all();
-        $messageContent = $request->input('message_content');
+            'message_content' => 'required|string',
+        ]);
 
+        $messageContent = $validated['message_content'];
+
+        $users = User::all();
         foreach ($users as $user) {
             Mail::to($user->email)->send(new NotifyAppUser($user, $messageContent));
         }

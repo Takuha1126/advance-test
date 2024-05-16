@@ -14,8 +14,6 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
-    protected $redirectTo = '/';
-
     public function __construct()
     {
         $this->middleware('guest');
@@ -25,21 +23,14 @@ class RegisterController extends Controller
      * Handle a registration request for the application.
      *
      * @param  \App\Http\Requests\RegisterRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function register(RegisterRequest $request)
     {
         event(new Registered($user = $this->create($request)));
 
-        $this->guard()->login($user);
-
-        if ($response = $this->registered($request, $user)) {
-            return $response;
-        }
-
-        return $request->wantsJson()
-                    ? new JsonResponse([], 201)
-                    : redirect($this->redirectPath());
+        return $this->registered($request, $user)
+            ?: redirect()->route('verification.notice');
     }
 
     /**
@@ -50,13 +41,10 @@ class RegisterController extends Controller
      */
     protected function create(RegisterRequest $request)
     {
-        $data = $request->validated();
-
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
     }
 }
-

@@ -48,7 +48,7 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if ($this->attemptLogin($request, $credentials)) {
+        if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
 
@@ -59,13 +59,12 @@ class LoginController extends Controller
      * Attempt to log the user into the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  array  $credentials
      * @return bool
      */
-    protected function attemptLogin(Request $request, array $credentials)
+    protected function attemptLogin(Request $request)
     {
         return $this->guard()->attempt(
-            $credentials, $request->filled('remember')
+            $request->only('email', 'password'), $request->filled('remember')
         );
     }
 
@@ -88,7 +87,7 @@ class LoginController extends Controller
      * Send the response after the user failed authentication.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     protected function sendFailedLoginResponse(Request $request)
     {
