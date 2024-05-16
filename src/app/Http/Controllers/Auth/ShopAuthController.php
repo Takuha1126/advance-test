@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\ShopRepresentative;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ShopLoginRequest;
+use App\Models\Shop;
 
 class ShopAuthController extends Controller
 {
