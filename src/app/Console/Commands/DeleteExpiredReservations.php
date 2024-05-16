@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Reservation;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReservationCancelled;
 
 class DeleteExpiredReservations extends Command
 {
@@ -21,6 +23,8 @@ class DeleteExpiredReservations extends Command
                                         ->get();
 
         foreach ($expiredReservations as $reservation) {
+            Mail::to($reservation->user->email)->send(new ReservationCancelled($reservation));
+
             $reservation->delete();
         }
 

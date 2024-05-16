@@ -11,6 +11,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\ReservationUpdateRequest;
 use App\Mail\ReservationConfirmed;
+use App\Mail\ReservationCancelled;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -91,8 +92,9 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         $reservation = Reservation::findOrFail($id);
+        Mail::to($reservation->user->email)->send(new ReservationCancelled($reservation));
         $reservation->delete();
-        return $this->routeTo('mypage');
+        return redirect()->route('mypage');
     }
 
     public function update(ReservationUpdateRequest $request, $id)
