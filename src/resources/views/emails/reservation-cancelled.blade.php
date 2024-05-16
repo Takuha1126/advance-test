@@ -6,7 +6,7 @@
     <title>キャンセル確認</title>
 </head>
 <body>
-    <p>キャンセル確認</p>
+    <h3>キャンセル確認</h3>
     <p>{{ $reservation->user->name }}様</p>
     <p>以下の内容のご予約がキャンセルされました</p>
     <p>予約詳細:</p>
