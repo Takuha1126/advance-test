@@ -33,6 +33,6 @@ class ReservationConfirmed extends Mailable
                     ->with([
                         'reservation' => $this->reservation,
                     ])
-                    ->subject('予約が確認されました');
+                    ->subject('予約が確定されました');
     }
 }

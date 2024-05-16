@@ -173,6 +173,12 @@ class ReservationController extends Controller
         return response()->json(['error' => '他の店舗のQRコードです'], 403);
     }
 
+    $currentDate = now()->toDateString();
+    if ($reservation->date !== $currentDate) {
+        return response()->json(['error' => '予約の日付が異なります'], 400);
+    }
+
+
         $responseData = [
             'name' => $reservation->user->name,
             'date' => $reservation->date,
