@@ -32,6 +32,7 @@ class ReservationConfirmed extends Mailable
         return $this->view('emails.reservation_confirmed')
                     ->with([
                         'reservation' => $this->reservation,
-                    ]);
+                    ])
+                    ->subject('予約が確認されました');
     }
 }

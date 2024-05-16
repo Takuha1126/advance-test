@@ -6,7 +6,7 @@
     <title>予約リマインダー</title>
 </head>
 <body>
-    <h1>予約リマインダー</h1>
+    <p>予約リマインダー</p>
     <p>こちらは今日の予約リマインダーです。</p>
     <h2>予約情報</h2>
     <ul>
@@ -14,6 +14,6 @@
         <li>予約日時: {{ $reservation->date }} {{ $reservation->reservation_time }}</li>
         <li>人数: {{ $reservation->number_of_people }}人</li>
     </ul>
-    <p>15分遅れてしまいますと予約がキャンセルされてしまうのでご注意ください</p>
+    <p>15分遅れてしまいますと予約がキャンセルされてしまうのでご注意ください。</p>
 </body>
 </html>

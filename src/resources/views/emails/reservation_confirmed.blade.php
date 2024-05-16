@@ -6,7 +6,7 @@
     <title>予約確認</title>
 </head>
 <body>
-    <h1>予約確認</h1>
+    <p>予約確認</p>
     <p>{{ $reservation->user->name }}様</p>
     <p>以下の内容でご予約が確定いたしました。</p>
     <p>予約詳細:</p>
@@ -17,5 +17,6 @@
         <li>店舗: {{ $reservation->shop->shop_name }}</li>
     </ul>
     <p>ご予約ありがとうございます。</p>
+    <p>15分遅れてしまいますと予約がキャンセルされてしまうのでご注意ください。</p>
 </body>
 </html>

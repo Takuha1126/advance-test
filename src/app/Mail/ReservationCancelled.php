@@ -20,6 +20,7 @@ class ReservationCancelled extends Mailable
 
     public function build()
     {
-        return $this->view('emails.reservation-cancelled');
+        return $this->view('emails.reservation-cancelled')
+                    ->subject('予約がキャンセルされました');
     }
 }
