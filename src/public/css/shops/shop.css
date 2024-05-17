@@ -168,6 +168,11 @@ html {
         margin-bottom: 10px;
         text-align: left;
         color: #000;
+    }
+
+    .main__item input,
+    .main__item select,
+    .main__item textarea {
         background-color: #fff;
     }
 
