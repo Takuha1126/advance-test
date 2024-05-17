@@ -94,6 +94,10 @@
                             <form action="{{ route('detail', ['shop_id' => $shop->id]) }}" method="GET">
                                 <button class="button__title" type="submit">詳しく見る</button>
                             </form>
+                            <form action="{{ route('evaluation.show', ['shopId' => $shop->id]) }}" method="GET">
+                                @csrf
+                                <button class="button__title" data-shop-id="{{ $shop->id }}">評価</button>
+                            </form>
                             <form class="favorite-form" action="{{ route('favorite.toggle', ['shopId' => $shop->id]) }}" method="post">
                             @csrf
                                 <button type="submit" class="heart-button" data-shop-id="{{ $shop->id }}"><i class="fas fa-heart"></i></button>

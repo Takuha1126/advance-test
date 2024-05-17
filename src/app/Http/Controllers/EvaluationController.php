@@ -4,17 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Review;
-use App\Models\Reservation;
+use App\Models\Shop;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class EvaluationController extends Controller
 {
-    public function index($reservationId)
+    public function index($shopId)
     {
-        $reservation = Reservation::findOrFail($reservationId);
-        $shop = $reservation->shop;
-
+        $shop = Shop::findOrFail($shopId);
         return view('evaluations.show', ['shop' => $shop]);
     }
 
