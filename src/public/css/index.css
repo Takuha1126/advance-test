@@ -294,14 +294,11 @@ html {
 
     .button__ttl {
         display: flex;
+        flex-direction: column;
     }
 
     .button__title {
-        background-color: #3366FF;
-        color: #fff;
-        border: 1px solid #3366FF;
-        border-radius: 5px;
-        white-space: nowrap;
+        margin-bottom: 10px;
     }
 
     .heart-button {
