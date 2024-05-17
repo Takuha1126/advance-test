@@ -301,6 +301,7 @@ html {
         margin-bottom: 10px;
         flex-wrap: nowrap;
         font-size: 10px;
+        padding: 5px 0;
     }
 
     .heart-button {
