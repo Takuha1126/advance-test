@@ -117,13 +117,6 @@
     margin: 10px 0 10px 0;
 }
 
-.visit-button {
-    margin-right: 10px;
-    white-space: nowrap;
-    background-color: #fff;
-    border: none;
-    border-radius: 3px;
-}
 
 .payment-button {
     white-space: nowrap;
@@ -320,7 +313,6 @@
     .button,
     .payment-button,
     .edit-button,
-    .visit-button,
     .update-button,
     .cancel-button,
     .button__title {
@@ -329,8 +321,7 @@
     }
 
     .payment-button,
-    .edit-button,
-    .visit-button {
+    .edit-button {
         border: none;
         border-radius: 3px;
         color: #000;
