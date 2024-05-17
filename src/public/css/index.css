@@ -300,6 +300,7 @@ html {
     .button__title {
         margin-bottom: 10px;
         flex-wrap: nowrap;
+        font-size: 15px;
     }
 
     .heart-button {
