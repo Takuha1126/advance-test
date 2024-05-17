@@ -23,8 +23,7 @@
     <input type="hidden" name="shop_id" value="{{ $shop->id }}">
     <div class="main__ttl">
         <div class="evaluation__item">
-            <p class="evaluation__about">来店ありがとうございました!</p>
-            <p class="evaluation__about-second">当店のサービスはどうでしたでしょうか？</p>
+            <p class="evaluation__about-second">{{ $shop->shop_name }}はどうでしたでしょうか？</p>
             <p class="evaluation__about-time">もしよろしければ評価をお願いします!</p>
         </div>
         <div class="evaluation__rating">

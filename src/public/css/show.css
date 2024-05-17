@@ -20,7 +20,7 @@
     margin-bottom: 30px;
 }
 
-.evaluation__about,
+
 .evaluation__about-second,
 .evaluation__about-time {
     font-size: 20px;
@@ -96,7 +96,6 @@
     }
 
     .evaluation__title,
-    .evaluation__about,
     .evaluation__about-second,
     .evaluation__about-time,
     .evaluation__rating-title,
