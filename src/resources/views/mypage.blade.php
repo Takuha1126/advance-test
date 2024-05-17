@@ -128,19 +128,24 @@
                                         <p class="favorite__genre">#{{ $shop->genre->genre_name }}</p>
                                     </div>
                                     <div class="favorite_button">
-                                        <form action="{{ route('detail', ['shop_id' => $shop->id]) }}" method="GET">
-                                            <button class="button__title" type="submit">詳しく見る</button>
-                                        </form>
-                                        <form action="{{ route('evaluation.show', ['shopId' => $shop->id]) }}" method="GET">
-                                            @csrf
-                                            <button class="button__title" data-shop-id="{{ $shop->id }}">評価</button>
-                                        </form>
-                                        @if ($favorite->status)
-                                        <form action="{{ route('favorite.toggle', ['shopId' => $shop->id]) }}" method="post">
-                                            @csrf
-                                            <button type="submit" class="heart-button liked" data-shop-id="{{ $shop->id }}"><i class="fas fa-heart"></i></button>
-                                        </form>
-                                        @endif
+                                        <div class="button__item">
+                                            <form action="{{ route('detail', ['shop_id' => $shop->id]) }}" method="GET">
+                                                @csrf
+                                                <button class="button__title" type="submit">詳しく見る</button>
+                                            </form>
+                                            <form action="{{ route('evaluation.show', ['shopId' => $shop->id]) }}" method="GET">
+                                                @csrf
+                                                <button class="button__title" data-shop-id="{{ $shop->id }}">評価</button>
+                                            </form>
+                                        </div>
+                                        <div class="heart">
+                                            @if ($favorite->status)
+                                            <form action="{{ route('favorite.toggle', ['shopId' => $shop->id]) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="heart-button liked" data-shop-id="{{ $shop->id }}"><i class="fas fa-heart"></i></button>
+                                            </form>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -172,10 +177,6 @@ $(function() {
 
     $('.cancel-button').click(function() {
         toggleEditCancel($(this));
-    });
-
-    $('.visit-button').click(function() {
-        redirectVisit($(this));
     });
 
     $('.payment-button').click(function() {

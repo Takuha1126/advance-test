@@ -215,12 +215,17 @@
     align-items: center;
 }
 
+.button__item {
+    display: flex;
+}
+
 .button__title {
     background-color: #3366FF;
     padding: 5px 10px;
     border: none;
     border-radius: 3px;
     color: #fff;
+    margin-right:10px;
 }
 
 .favorite__group .message__item {
