@@ -66,10 +66,6 @@
                                 </tr>
                                 <tr class="table__tr">
                                     <td class="table__button">
-                                        <form action="{{ route('evaluation.show', ['reservationId' => $reservation->id]) }}" method="GET">
-                                        @csrf
-                                            <button class="visit-button" data-reservation-id="{{ $reservation->id }}">評価</button>
-                                        </form>
                                         <button class="payment-button">支払い</button>
                                         <button class="edit-button">編集</button>
                                         <form class="change-form" action="{{route('reservation.update',['id' => $reservation->id]) }}" method="POST" style="display: none;">
