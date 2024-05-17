@@ -299,6 +299,7 @@ html {
 
     .button__title {
         margin-bottom: 10px;
+        flex-wrap: nowrap;
     }
 
     .heart-button {
