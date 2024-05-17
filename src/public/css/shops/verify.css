@@ -197,7 +197,7 @@ label {
 
     .check__button {
         display: block;
-        margin: 0 auto;
+        margin: 0 auto !important;
         text-align: center;
     }
 

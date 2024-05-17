@@ -119,7 +119,7 @@
             document.getElementById('checkQRCode').addEventListener('click', function() {
                 const qrCodeData = document.getElementById('qrCodeData').value;
 
-                // エラーメッセージをリセット
+
                 const errorMessageElement = document.getElementById('errorMessage');
                 errorMessageElement.style.display = 'none';
                 errorMessageElement.innerText = '';
