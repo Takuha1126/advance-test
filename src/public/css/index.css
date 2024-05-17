@@ -294,7 +294,6 @@ html {
 
     .button__ttl {
         display: flex;
-        width: 100%;
     }
 
     .button__title {
@@ -302,7 +301,6 @@ html {
         color: #fff;
         border: 1px solid #3366FF;
         border-radius: 5px;
-        padding: 10px 20px;
         display: flex;
         align-items: center;
         justify-content: center;
