@@ -246,7 +246,6 @@ html {
     }
 
     .main {
-        max-width: 1200px;
         margin: 10px auto;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -291,7 +290,6 @@ html {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        flex-wrap: nowrap;
     }
 
     .button__title {
@@ -299,7 +297,6 @@ html {
         color: #fff;
         border: 1px solid #3366FF;
         border-radius: 5px;
-        flex-wrap: nowrap;
     }
 
     .heart-button {
