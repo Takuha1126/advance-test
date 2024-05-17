@@ -20,8 +20,8 @@
 }
 
 .form-group input,
-.StripeElement {
-    width: 100%;
+.input-large {
+    width: 300px;
     border-radius: 5px;
     border: none;
     padding-left: 10px;
@@ -29,21 +29,22 @@
     color: #32325d;
 }
 
-.button {
-    text-align: center;
+button {
     padding-top: 20px;
 }
 
 .button__ttl {
+    display: block;
     padding: 10px 30px;
     background-color: #3366FF;
     border: none;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
+    margin: 10px auto;
 }
 
-.StripeElement {
+.input-large {
     box-sizing: border-box;
     height: 40px;
     padding: 10px 12px;

@@ -18,6 +18,7 @@
     @endif
     <h2 class="payment__title">支払い情報を入力してください</h2>
     <div id="message" role="alert"></div>
+    <div id="card-errors" role="alert"></div>
     <form action="{{ route('payment.handle') }}" method="post" id="payment-form">
         @csrf
         <div class="form-group">
@@ -27,21 +28,20 @@
         </div>
         <div class="form-group">
             <label for="card-number" class="label">カード番号</label>
-            <div id="card-number-element"></div>
+            <div id="card-number-element" class="input-large"></div>
         </div>
         <div class="form-group">
             <label for="card-expiry-month" class="label">有効期限</label>
-            <div id="card-expiry-element"></div>
+            <div id="card-expiry-element"  class="input-large"></div>
         </div>
         <div class="form-group">
             <label for="card-cvc" class="label">CVC</label>
-            <div id="card-cvc-element"></div>
+            <div id="card-cvc-element" class="input-large"></div>
         </div>
         <div class="form-group">
             <label for="card-holder-name" class="label">口座名義</label>
             <input type="text" id="card-holder-name" class="form-control" placeholder="口座名義">
         </div>
-        <div id="card-errors" role="alert"></div>
 
         <button type="submit" class="button__ttl">支払いを完了する</button>
     </form>
