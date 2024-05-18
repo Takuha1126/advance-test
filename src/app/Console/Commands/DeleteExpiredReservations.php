@@ -14,20 +14,23 @@ class DeleteExpiredReservations extends Command
     protected $description = 'Delete expired reservations';
 
     public function handle()
-    {
-        $currentDate = Carbon::now()->toDateString();
-        $currentTime = Carbon::now();
+{
+    $currentDate = now()->toDateString();
+    $currentTime = now();
 
-        $expiredReservations = Reservation::whereDate('date', $currentDate)
-                                        ->where('reservation_time', '<', $currentTime->subMinutes(15))
-                                        ->get();
+    $expiredReservations = Reservation::whereDate('date', $currentDate)
+                                    ->where('reservation_time', '<', $currentTime->subMinutes(15))
+                                    ->get();
 
-        foreach ($expiredReservations as $reservation) {
-            Mail::to($reservation->user->email)->send(new ReservationCancelled($reservation));
+    foreach ($expiredReservations as $reservation) {
+        $reservation->payment()->delete();
 
-            $reservation->delete();
-        }
+        Mail::to($reservation->user->email)->send(new ReservationCancelled($reservation));
 
-        $this->info('Expired reservations for today deleted successfully.');
+        $reservation->delete();
     }
+
+    $this->info('Expired reservations for today deleted successfully.');
+}
+
 }
