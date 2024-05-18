@@ -19,6 +19,7 @@
             </ul>
         </div>
     @endif
+    <div id="error-message" style="color: red;"></div>
     <div class="item">
         <div class="item__ttl">
             <div class="main__group">
@@ -181,17 +182,16 @@ $(function() {
     });
 
     $('.payment-button').click(function() {
-        const reservationId = $(this).data('reservation-id');
-        const errorMessage = $(this).data('error-message');
+    const reservationId = $(this).data('reservation-id');
+    const errorMessage = $(this).data('error-message');
 
-        if (errorMessage) {
-
-            alert(errorMessage);
-        } else {
-
-            redirectToPayment(reservationId);
-        }
+    if (errorMessage) {
+        $('#error-message').text(errorMessage);
+    } else {
+        redirectToPayment(reservationId);
+    }
     });
+
 });
 
 function toggleFavorite(button) {
