@@ -13,6 +13,7 @@ use App\Http\Requests\ReservationUpdateRequest;
 use App\Mail\ReservationConfirmed;
 use App\Mail\ReservationCancelled;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Payment;
 
 
 class ReservationController extends Controller
@@ -92,9 +93,14 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         $reservation = Reservation::findOrFail($id);
+
+        Payment::where('reservation_id', $id)->delete();
+
         Mail::to($reservation->user->email)->send(new ReservationCancelled($reservation));
+
         $reservation->delete();
-        return redirect()->route('mypage');
+
+        return redirect()->route('mypage')->with('success_message', '予約が削除されました。');
     }
 
     public function update(ReservationUpdateRequest $request, $id)

@@ -57,6 +57,7 @@ class ReservationsTableSeeder extends Seeder
             ],
         ];
 
+
         DB::table('reservations')->insert($params);
     }
 }

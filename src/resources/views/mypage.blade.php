@@ -66,7 +66,8 @@
                                 </tr>
                                 <tr class="table__tr">
                                     <td class="table__button">
-                                        <button class="payment-button">支払い</button>
+                                        <button class="payment-button" data-reservation-id="{{ $reservation->id }}" data-error-message="{{ $errorMessages[$reservation->id] ?? '' }}">支払い</button>
+
                                         <button class="edit-button">編集</button>
                                         <form class="change-form" action="{{route('reservation.update',['id' => $reservation->id]) }}" method="POST" style="display: none;">
                                         @csrf
@@ -158,13 +159,13 @@
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
     const today = new Date();
     const dateString = today.toISOString().substring(0, 10);
     document.getElementById('new_date').value = dateString;
-  });
+});
+
 $(function() {
     $('.heart-button').click(function(event) {
         event.preventDefault();
@@ -180,7 +181,16 @@ $(function() {
     });
 
     $('.payment-button').click(function() {
-        redirectToPayment();
+        const reservationId = $(this).data('reservation-id');
+        const errorMessage = $(this).data('error-message');
+
+        if (errorMessage) {
+
+            alert(errorMessage);
+        } else {
+
+            redirectToPayment(reservationId);
+        }
     });
 });
 
@@ -216,12 +226,9 @@ function toggleEditCancel(button) {
     button.closest('tr').find('.edit-button').show();
 }
 
-
-
-function redirectToPayment() {
-    window.location.href = "{{ route('payment.page') }}";
+function redirectToPayment(reservationId) {
+    window.location.href = `/payment/${reservationId}`;
 }
-
 
 function checkEmptyFavorites() {
     if ($('.favorite__item:visible').length === 0) {

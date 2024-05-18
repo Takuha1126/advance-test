@@ -12,11 +12,25 @@ class UserController extends Controller
     * @return \Illuminate\View\View
     */
     public function mypage(){
-        $user = Auth::user();
-        $favorites = $user->favorites;
-        $reservations = $user->reservations;
+    $user = Auth::user();
+    $favorites = $user->favorites;
+    $reservations = $user->reservations;
 
-        return view('mypage', compact('reservations','favorites'));
+    $errorMessages = [];
+
+    foreach ($reservations as $reservation) {
+
+        $payment = $reservation->payment;
+
+        if ($payment) {
+            $errorMessages[$reservation->id] = 'この予約は既に支払い済みです。';
+        }
     }
 
+    return view('mypage', compact('reservations', 'favorites', 'errorMessages'));
 }
+
+}
+
+
+

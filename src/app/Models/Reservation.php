@@ -13,8 +13,15 @@ class Reservation extends Model
         'date',
         'reservation_time',
         'number_of_people',
-        'status'
+        'status',
+        'paid_at'
     ];
+
+
+    public function isPaid()
+    {
+        return !is_null($this->paid_at);
+    }
 
     public function shop()
     {
@@ -25,5 +32,10 @@ class Reservation extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function payment()
+{
+    return $this->hasOne(Payment::class);
+}
 
 }
