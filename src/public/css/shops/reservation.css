@@ -124,6 +124,14 @@ html {
         width: 20%;
     }
 
+    .table__td:nth-child(2) {
+        width: 30%;
+    }
+
+    .table__td:nth-child(4) {
+        width: 10%;
+    }
+
     .message {
         font-size: 16px;
         margin: 20px auto;
