@@ -303,7 +303,7 @@
     .new__date input,
     .new__time select,
     .new__people select {
-        width: 100%;
+        width: 100px;
         color: #000;
         background-color: #fff;
         border: none;
