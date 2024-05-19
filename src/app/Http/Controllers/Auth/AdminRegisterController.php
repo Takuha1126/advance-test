@@ -25,9 +25,25 @@ class AdminRegisterController extends Controller
             'role' => $request->role,
         ]);
 
+        $admin->sendEmailVerificationNotification();
+
         Auth::guard('admin')->login($admin);
 
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.verify');
     }
+
+    public function showVerifyForm()
+    {
+        return view('admin.verify');
+    }
+
+    public function resendVerificationEmail()
+    {
+        $admin = Auth::guard('admin')->user();
+        $admin->sendEmailVerificationNotification();
+
+        return redirect()->route('admin.verify')->with('resent', true);
+    }
+
 }
 

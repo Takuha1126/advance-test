@@ -77,6 +77,9 @@ Route::middleware(['auth.admin'])->group(function () {
         Route::get('/send-notification', [CreateShopRepresentativeController::class, 'showSendForm'])->name('send-notification.form');
         Route::post('/send-notification/single', [CreateShopRepresentativeController::class, 'sendNotification'])->name('send-notification.single');
         Route::post('/send-notification/all', [CreateShopRepresentativeController::class,'sendAll'])->name('send-notification.all');
+        Route::get('/admin/verify', [AdminRegisterController::class, 'showVerifyForm'])->name('admin.verify');
+        Route::post('/admin/verification/resend', [AdminRegisterController::class, 'resendVerificationEmail'])->name('admin.verification.resend');
+
     });
 
 
