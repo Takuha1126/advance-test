@@ -121,6 +121,7 @@ html {
     .table__td {
         padding: 12px;
         font-size: 12px;
+        width: 20%;
     }
 
     .message {

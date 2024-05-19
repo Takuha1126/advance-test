@@ -35,7 +35,7 @@ class RegisterRequest extends FormRequest
         return [
             'name.required' => 'ユーザーネームを入力してください。',
             'name.string' => 'ユーザーネームは文字列で入力してください。',
-            'name.max' => 'ユーザーネームは191文字以内で入力してください。',
+            'name.max' => 'ユーザーネームは50文字以内で入力してください。',
             'email.required' => 'メールアドレスを入力してください。',
             'email.string' => 'メールアドレスは文字列で入力してください。',
             'email.email' => '有効なメールアドレス形式で入力してください。',
