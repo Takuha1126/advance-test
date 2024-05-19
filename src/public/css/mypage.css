@@ -300,10 +300,16 @@
         padding: 5px 0 5px 10px;
     }
 
-    .new__date input,
+    .new__date input {
+        width: 80px;
+        color: #000;
+        background-color: #fff;
+        border: none;
+    }
+
     .new__time select,
     .new__people select {
-        width: 80px;
+        width: 100%;
         color: #000;
         background-color: #fff;
         border: none;
