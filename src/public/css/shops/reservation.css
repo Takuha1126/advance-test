@@ -114,7 +114,7 @@ html {
     }
 
     .table {
-        width: 80%;
+        width: 85%;
     }
 
     .table__th,
@@ -125,12 +125,9 @@ html {
     }
 
     .table__td:nth-child(2) {
-        width: 30%;
+        width: 25%;
     }
 
-    .table__td:nth-child(4) {
-        width: 10%;
-    }
 
     .message {
         font-size: 16px;
