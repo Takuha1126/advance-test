@@ -162,7 +162,8 @@ return [
 
     'attributes' => [
     'message_content' => 'メッセージ内容',
-    'rating' => '評価'
+    'rating' => '評価',
+    'comment' => 'コメント'
 ],
 
 ];

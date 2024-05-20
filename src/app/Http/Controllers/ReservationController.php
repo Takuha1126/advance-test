@@ -143,6 +143,9 @@ class ReservationController extends Controller
     {
         $shopId = auth('shop')->user()->shop_id;
         $reservations = Reservation::where('shop_id', $shopId)->paginate(4);
+        foreach ($reservations as $reservation) {
+        $reservation->payment = Payment::where('reservation_id', $reservation->id)->first();
+    }
         return view('shops.reservation', ['reservations' => $reservations, 'shopId' => $shopId]);
     }
 

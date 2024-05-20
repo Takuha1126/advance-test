@@ -11,11 +11,9 @@
     </div>
     @if ($errors->any())
     <div>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li class="error">{{ $error }}</li>
-            @endforeach
-        </ul>
+        @foreach ($errors->all() as $error)
+            <p class="error">{{ $error }}</p>
+        @endforeach
     </div>
     @endif
     <form action="{{ route('evaluation.store') }}" method="POST">

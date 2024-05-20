@@ -44,6 +44,7 @@
                         <th class="table__th">予約日付</th>
                         <th class="table__th">予約時間</th>
                         <th class="table__th">人数</th>
+                        <th class="table__th">支払い状況</th>
                     </tr>
                 </thead>
                 @if($reservations->isEmpty())
@@ -56,6 +57,13 @@
                         <td class="table__td">{{ $reservation->date }}</td>
                         <td class="table__td">{{ $reservation->reservation_time }}</td>
                         <td class="table__td">{{ $reservation->number_of_people }}</td>
+                        <td class="table__td">
+            @if($reservation->payment && $reservation->payment->paid_at)
+                支払い済み
+            @else
+                未払い
+            @endif
+        </td>
                     </tr>
                     @endforeach
                 </tbody>
