@@ -45,7 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
     Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');
     Route::get('/thanks', [ThankController::class, 'index'])->name('thanks');
-    Route::get('/favorite/status/{shopId}', [FavoriteController::class, 'getStatus'])->name('favorite.status');
+    Route::get('/favorite/status/{shopId}', [FavoriteController::class, 'getFavoriteStatus'])->name('favorite.status');
     Route::post('/favorite/toggle/{shopId}', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
     Route::delete('/favorite/toggle/{shopId}', [FavoriteController::class, 'toggle']);
     Route::get('/evaluation/{shopId}', [EvaluationController::class, 'index'])->name('evaluation.show');
@@ -79,7 +79,6 @@ Route::middleware(['auth.admin'])->group(function () {
         Route::post('/send-notification/all', [CreateShopRepresentativeController::class,'sendAll'])->name('send-notification.all');
         Route::get('/admin/verify', [AdminRegisterController::class, 'showVerifyForm'])->name('admin.verify');
         Route::post('/admin/verification/resend', [AdminRegisterController::class, 'resendVerificationEmail'])->name('admin.verification.resend');
-
     });
 
 

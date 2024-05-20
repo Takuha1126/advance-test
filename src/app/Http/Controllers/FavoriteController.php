@@ -6,11 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class FavoriteController extends Controller
 {
-    public function getStatus($shopId)
+    public function getFavoriteStatus($shopId)
     {
         $userId = Auth::id();
         $isFavorite = Favorite::where('user_id', $userId)
@@ -24,28 +23,26 @@ class FavoriteController extends Controller
     {
         $userId = Auth::id();
 
+        DB::beginTransaction();
         try {
-            $favorite = DB::transaction(function () use ($userId, $shopId) {
-                $existingFavorite = Favorite::where('user_id', $userId)->where('shop_id', $shopId)->first();
+            $existingFavorite = Favorite::where('user_id', $userId)->where('shop_id', $shopId)->first();
 
-                if ($existingFavorite) {
-                    $existingFavorite->delete();
-                    return null;
-                }
-
-                return Favorite::create([
-                    'user_id' => $userId,
-                    'shop_id' => $shopId,
-                ]);
-            });
-
-            if ($favorite === null) {
-                return response()->json(['status' => 'removed', 'message' => 'お気に入りから削除しました。']);
+            if ($existingFavorite) {
+                $existingFavorite->delete();
+                DB::commit();
+                return response()->json(['status' => 'removed']);
             }
 
-            return response()->json(['status' => 'added', 'message' => 'お気に入りに追加しました。']);
+            Favorite::create([
+                'user_id' => $userId,
+                'shop_id' => $shopId,
+            ]);
+
+            DB::commit();
+            return response()->json(['status' => 'added']);
 
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }

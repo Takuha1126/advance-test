@@ -79,6 +79,7 @@ html {
         text-decoration: none;
         color: #3366FF;
         font-size: 25px;
+        font-weight: 200;
     }
 
 
@@ -88,6 +89,7 @@ html {
         padding: 10px;
         border: none;
         background-color: #fff;
+        font-weight: 200;
     }
 
 }

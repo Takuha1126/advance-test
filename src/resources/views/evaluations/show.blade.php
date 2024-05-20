@@ -49,7 +49,7 @@
 
 </div>
 
-    <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
     const stars = document.querySelectorAll('.fas.fa-star');
     const ratingInput = document.getElementById('rating');
@@ -84,7 +84,7 @@
             });
         });
     });
-    </script>
+</script>
 </body>
 </html>
 
