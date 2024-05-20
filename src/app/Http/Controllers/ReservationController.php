@@ -121,28 +121,30 @@ class ReservationController extends Controller
     }
 
     public function show($id)
-    {
-        $reservation = Reservation::with('payment')->where('id', $id)->first();
+{
+    $reservation = Reservation::with('payment')->where('id', $id)->first();
     if (!$reservation) {
         return $this->redirectBack();
     }
-        $paymentStatus = ($reservation->payment && $reservation->payment->paid_at) ? '支払い済み' : '未払い';
-        
-        $reservationData = json_encode([
-            'id' => $reservation->id,
-            'user_id' => $reservation->user_id,
-            'shop_id' => $reservation->shop_id,
-            'date' => $reservation->date,
-            'reservation_time' => $reservation->reservation_time,
-            'number_of_people' => $reservation->number_of_people,
-            'status' => $reservation->status,
-            'payment_status' => $paymentStatus
-        ]);
+    
+    $paymentStatus = ($reservation->payment && $reservation->payment->paid_at) ? '支払い済み' : '未払い';
+    
+    $reservationData = [
+        'id' => $reservation->id,
+        'user_id' => $reservation->user_id,
+        'shop_id' => $reservation->shop_id,
+        'date' => $reservation->date,
+        'reservation_time' => $reservation->reservation_time,
+        'number_of_people' => $reservation->number_of_people,
+        'status' => $reservation->status,
+        'payment_status' => $paymentStatus
+    ];
 
-        $reservationJson = json_encode($reservationData);
-        $qrCode = QrCode::size(300)->generate($reservationJson);
-        return view('qr', compact('reservation', 'qrCode', 'reservationData'));
-    }
+    $qrCode = QrCode::size(300)->generate(json_encode($reservationData));
+    
+    return view('qr', compact('reservation', 'qrCode', 'reservationData'));
+}
+
 
     public function showReservationList()
     {
