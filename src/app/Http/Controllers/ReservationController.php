@@ -190,6 +190,8 @@ class ReservationController extends Controller
         return response()->json(['error' => '予約の日付が異なります'], 400);
     }
 
+
+
     $responseData = [
         'name' => $reservation->user->name,
         'date' => $reservation->date,
@@ -200,12 +202,11 @@ class ReservationController extends Controller
 
     $message = '予約が正常に確認されました';
 
-    DB::transaction(function() use ($reservation) {
     if ($reservation->payment) {
         $reservation->payment->delete();
     }
+
     $reservation->delete();
-});
 
 
     $responseData['message'] = $message;
