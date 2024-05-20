@@ -58,12 +58,12 @@
                         <td class="table__td">{{ $reservation->reservation_time }}</td>
                         <td class="table__td">{{ $reservation->number_of_people }}</td>
                         <td class="table__td">
-            @if($reservation->payment && $reservation->payment->paid_at)
-                支払い済み
-            @else
-                未払い
-            @endif
-        </td>
+                            @if($reservation->payment && $reservation->payment->paid_at)
+                                支払い済み
+                            @else
+                                未払い
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

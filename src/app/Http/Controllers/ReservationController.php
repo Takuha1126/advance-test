@@ -122,10 +122,10 @@ class ReservationController extends Controller
 
     public function show($id)
     {
-        $reservation = Reservation::where('id', $id)->first();
-        if (!$reservation) {
-            return $this->redirectBack();
-        }
+        $reservation = Reservation::with('payment')->where('id', $id)->first();
+    if (!$reservation) {
+        return $this->redirectBack();
+    }
         $reservationData = json_encode([
             'id' => $reservation->id,
             'user_id' => $reservation->user_id,
@@ -134,6 +134,7 @@ class ReservationController extends Controller
             'reservation_time' => $reservation->reservation_time,
             'number_of_people' => $reservation->number_of_people,
             'status' => $reservation->status,
+            'payment' => $reservation->payment 
         ]);
         $qrCode = QrCode::size(300)->generate($reservationData);
         return view('qr', compact('reservation', 'qrCode', 'reservationData'));
@@ -157,25 +158,27 @@ class ReservationController extends Controller
     }
 
     public function verify(Request $request)
-    {
+{
     $qrCodeData = $request->input('qr_code_data');
     if (!$qrCodeData || empty($qrCodeData)) {
         return response()->json(['error' => '不正なデータ形式です'], 400);
     }
+
     $reservationData = json_decode($qrCodeData, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         return response()->json(['error' => 'JSONの構文が無効です'], 400);
     }
+
     if (!is_array($reservationData) || !isset($reservationData['id'])) {
         return response()->json(['error' => '不正なデータ形式です'], 400);
     }
+
     $reservation = Reservation::find($reservationData['id']);
     if (!$reservation) {
         return response()->json(['error' => '予約が見つかりません'], 404);
     }
 
     $loggedInShopId = auth('shop')->user()->shop_id;
-
     $reservationShopId = $reservation->shop_id;
 
     if ($loggedInShopId !== $reservationShopId) {
@@ -187,20 +190,27 @@ class ReservationController extends Controller
         return response()->json(['error' => '予約の日付が異なります'], 400);
     }
 
+    $responseData = [
+        'name' => $reservation->user->name,
+        'date' => $reservation->date,
+        'time' => $reservation->reservation_time,
+        'number_of_people' => $reservation->number_of_people,
+        'payment_status' => ($reservation->payment && $reservation->payment->paid_at) ? '支払い済み' : '未払い'
+    ];
 
-        $responseData = [
-            'name' => $reservation->user->name,
-            'date' => $reservation->date,
-            'time' => $reservation->reservation_time,
-            'number_of_people' => $reservation->number_of_people,
-        ];
+    $message = '予約が正常に確認されました';
 
-        $message = '予約が正常に確認されました';
-
+    DB::transaction(function() use ($reservation) {
+    if ($reservation->payment) {
+        $reservation->payment->delete();
+    }
     $reservation->delete();
+});
+
 
     $responseData['message'] = $message;
 
     return response()->json($responseData);
-    }
+}
+
 }
