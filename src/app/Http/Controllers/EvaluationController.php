@@ -16,7 +16,6 @@ class EvaluationController extends Controller
         return view('evaluations.show', ['shop' => $shop]);
     }
 
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -39,11 +38,12 @@ class EvaluationController extends Controller
                 return response()->json(['success' => true]);
             }
 
-            return redirect()->route('home', ['shop_id' => $request->shop_id]);
+
+            return redirect()->route('home', ['shopId' => $request->shop_id]);
 
         } catch (\Exception $e) {
             DB::rollback();
-            throw $e;
+            return redirect()->back();
         }
     }
 
@@ -53,6 +53,4 @@ class EvaluationController extends Controller
         $reviews = Review::where('shop_id', $shopId)->latest()->paginate(4);
         return view('shops.reviews', compact('shopId', 'reviews'));
     }
-
-
 }

@@ -36,11 +36,9 @@
     @endif
     @if ($errors->any())
     <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li class="error">{{ $error }}</li>
-            @endforeach
-        </ul>
+        @foreach ($errors->all() as $error)
+            <p class="error">{{ $error }}</p>
+        @endforeach
     </div>
     @endif
     <main class="main">
@@ -62,11 +60,11 @@
                         </div>
                         <div class="form-group">
                             <label for="message_content" class="label">メッセージ内容</label>
-                            <textarea class="form-control" id="message_content" name="message_content" rows="3"></textarea>
+                            <textarea class="form-control"  name="message_content" rows="3"></textarea>
                         </div>
                         <div class="button">
                             <button type="submit" class="first-mail">メール送信</button>
-                        </button>
+                        </div>
                     </form>
                 </div>
                 <div class="email__all">
@@ -77,11 +75,11 @@
                     @csrf
                     <div class="form-group">
                         <label for="message_content" class="label">メッセージ内容</label>
-                        <textarea class="form-control" id="message_content" name="message_content" rows="3"></textarea>
+                        <textarea class="form-control"  name="message_content" rows="3"></textarea>
                     </div>
                     <div class="button">
                         <button type="submit" class="second-mail">全員にメール送信</button>
-                    </button>
+                    </div>
                 </form>
             </div>
         </div>

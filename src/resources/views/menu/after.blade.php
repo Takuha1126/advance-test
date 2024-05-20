@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>メニュー</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/menu.css') }}" />
@@ -22,7 +21,10 @@
                 <a href="{{ route('home') }}">Home</a>
             </div>
             <div class="button">
-                <a href="#" class="button__title" id="logout-link">Logout</a>
+                <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                    <button type="submit" class="button__title">Logout</button>
+                </form>
             </div>
             <div class="menu__ttl">
                 <a href="{{ route('mypage') }}">Mypage</a>
@@ -30,27 +32,10 @@
         </div>
     </main>
     <script>
-    document.getElementById('logout-link').addEventListener('click', function(event) {
-    event.preventDefault();
-
-    fetch('/logout', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        credentials: 'same-origin'
-    }).then(response => {
-        if (response.ok) {
-        window.location.href = '/';
-        }
-    }).catch(error => console.error('Error:', error));
-});
-
-document.getElementById('back-button').addEventListener('click', function(event) {
+    document.getElementById('back-button').addEventListener('click', function(event) {
         event.preventDefault();
         history.back();
     });
-</script>
+    </script>
 </body>
 </html>

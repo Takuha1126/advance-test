@@ -30,15 +30,13 @@ html {
     text-decoration: none;
     color: #3366FF;
     font-size: 25px;
+    font-weight: 550;
 }
 
 .button {
     padding-bottom: 15px;
 }
 
-.button a {
-    text-decoration: none;
-}
 
 .button__title {
     color: #3366FF;

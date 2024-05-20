@@ -7,7 +7,7 @@
 @section('content')
 <div class="main">
     <div class="main__ttl">
-        <p class="main__title">ご予約<br/>ありがとうございます</p>
+        <p class="main__title">ご予約ありがとうございます</p>
     </div>
     <div class="button">
         <a href="{{ route('home') }}" class="button__title">戻る</a>
