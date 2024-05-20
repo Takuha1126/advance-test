@@ -115,14 +115,14 @@ html {
     }
 
     .table {
-        width: 88%;
+        width: 98%;
     }
 
     .table__th,
     .table__td {
         padding: 12px;
-        font-size: 12px;
-        width: 22%;
+        font-size: 8px;
+        width: 29%;
     }
 
     .message {
