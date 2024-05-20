@@ -126,6 +126,8 @@ class ReservationController extends Controller
     if (!$reservation) {
         return $this->redirectBack();
     }
+        $paymentStatus = ($reservation->payment && $reservation->payment->paid_at) ? '支払い済み' : '未払い';
+        
         $reservationData = json_encode([
             'id' => $reservation->id,
             'user_id' => $reservation->user_id,
@@ -134,9 +136,11 @@ class ReservationController extends Controller
             'reservation_time' => $reservation->reservation_time,
             'number_of_people' => $reservation->number_of_people,
             'status' => $reservation->status,
-            'payment' => $reservation->payment 
+            'payment_status' => $paymentStatus
         ]);
-        $qrCode = QrCode::size(300)->generate($reservationData);
+
+        $reservationJson = json_encode($reservationData);
+        $qrCode = QrCode::size(300)->generate($reservationJson);
         return view('qr', compact('reservation', 'qrCode', 'reservationData'));
     }
 
