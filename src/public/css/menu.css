@@ -80,6 +80,7 @@ html {
         color: #3366FF;
         font-size: 25px;
         font-weight: 400;
+        font-family: "Playfair Display", serif;
     }
 
 
@@ -89,7 +90,7 @@ html {
         padding: 10px;
         border: none;
         background-color: #fff;
-        font-weight: 450;
+        font-weight: 400;
         font-family: "Playfair Display", serif;
     }
 
