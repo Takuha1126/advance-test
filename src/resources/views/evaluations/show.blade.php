@@ -66,22 +66,6 @@
         });
     });
 });
-
-
-    $(document).ready(function() {
-        $('.fa-star').click(function() {
-            var starValue = $(this).data('value');
-            $('#rating').val(starValue);
-
-            $('.fa-star').each(function() {
-                if ($(this).data('value') <= starValue) {
-                    $(this).css('color', 'gold');
-                } else {
-                    $(this).css('color', 'black');
-                }
-            });
-        });
-    });
 </script>
 </body>
 </html>

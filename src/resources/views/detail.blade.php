@@ -35,7 +35,7 @@
             <div class="form">
                 <div class="form__ttl">
                     <div class="item">
-                        <input type="date" name="date" id="date-input">
+                        <input type="date" name="date" id="date-input" value="{{ date('Y-m-d')}}">
                         @error('date')
                             <div class="error">{{ $message }}</div>
                         @enderror
@@ -103,23 +103,11 @@ const timeSelect = form.querySelector('select[name="reservation_time"]');
 const numPeopleSelect = form.querySelector('select[name="number_of_people"]');
 const reservationInfoTable = document.getElementById('reservation-info');
 
-function setDefaultDate() {
-    const dateInput = document.getElementById('date-input');
+dateInput.addEventListener('change', updateReservationInfo);
+timeSelect.addEventListener('change', updateReservationInfo);
+numPeopleSelect.addEventListener('change', updateReservationInfo);
 
-
-    const currentDate = new Date();
-
-
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-
-
-    const formattedDate = `${year}-${month}-${day}`;
-
-
-    dateInput.value = formattedDate;
-}
+updateReservationInfo();
 
 function updateReservationInfo() {
     const date = dateInput.value;
@@ -131,20 +119,5 @@ function updateReservationInfo() {
     document.getElementById('time-value').innerText = time;
     document.getElementById('number-value').innerText = numPeople + '人';
 }
-
-
-setDefaultDate();
-
-
-dateInput.addEventListener('change', updateReservationInfo);
-
-
-timeSelect.addEventListener('change', updateReservationInfo);
-
-
-numPeopleSelect.addEventListener('change', updateReservationInfo);
-
-updateReservationInfo();
 </script>
 @endsection
-
