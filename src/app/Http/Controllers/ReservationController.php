@@ -121,14 +121,14 @@ class ReservationController extends Controller
     }
 
     public function show($id)
-{
+    {
     $reservation = Reservation::with('payment')->where('id', $id)->first();
     if (!$reservation) {
         return $this->redirectBack();
     }
-    
+
     $paymentStatus = ($reservation->payment && $reservation->payment->paid_at) ? '支払い済み' : '未払い';
-    
+
     $reservationData = [
         'id' => $reservation->id,
         'user_id' => $reservation->user_id,
@@ -141,9 +141,9 @@ class ReservationController extends Controller
     ];
 
     $qrCode = QrCode::size(300)->generate(json_encode($reservationData));
-    
+
     return view('qr', compact('reservation', 'qrCode', 'reservationData'));
-}
+    }
 
 
     public function showReservationList()

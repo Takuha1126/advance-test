@@ -29,7 +29,7 @@ class ShopRepresentativeRequest extends FormRequest
             'shop_id.unique' => '同じ店舗の代表者は既に存在します。',
             'representative_name.required' => '名前は必須です。',
             'representative_name.string' => '名前は文字列で入力してください。',
-            'representative_name.max' => '名前は255文字以内で入力してください。',
+            'representative_name.max' => '名前は191文字以内で入力してください。',
             'email.required' => 'メールアドレスは必須です。',
             'email.string' => 'メールアドレスは文字列で入力してください。',
             'email.email' => '有効なメールアドレス形式で入力してください。',

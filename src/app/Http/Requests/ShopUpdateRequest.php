@@ -16,7 +16,7 @@ class ShopUpdateRequest extends FormRequest
     {
         return [
             'photo_url' => 'required',
-            'shop_name' => 'required|string|max:191',
+            'shop_name' => 'required|string|min:3|max:15',
             'area_id' => 'required',
             'genre_id' => 'required',
             'description' => 'required|string|max:225'
@@ -26,10 +26,11 @@ class ShopUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'photo_url.required' => '写真を選択してください',
+            'photo_url.required' => '写真を選択してください。',
             'shop_name.required' => '店舗名は必須です。',
             'shop_name.string' => '店舗名は文字列で入力してください。',
-            'shop_name.max' => '店舗名は255文字以内で入力してください。',
+            'shop_name.max' => '店舗名は15文字以内で入力してください。',
+            'shop_name.min' => '店舗名を３文字以上で入力してください。',
             'area_id.required' => 'エリア名は必須です。',
             'genre_id.required' => 'ジャンル名は必須です。',
             'description.required' => 'お店の紹介は必須です。',
