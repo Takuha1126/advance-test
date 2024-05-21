@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Shop;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
+
 
 class EvaluationController extends Controller
 {
