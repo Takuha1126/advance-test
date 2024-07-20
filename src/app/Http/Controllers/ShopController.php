@@ -90,30 +90,33 @@ class ShopController extends Controller
     }
 
     public function uploadImage(Request $request)
-    {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        try {
-            $image = $request->file('image');
-            $fileName = time() . '_' . $image->getClientOriginalName();
-            $path = 'atte-ui/' . $fileName;
+    try {
+        $image = $request->file('image');
+        $fileName = time() . '_' . $image->getClientOriginalName();
+        $path = 'atte-ui/' . $fileName;
 
-            Storage::disk('s3')->put($path, file_get_contents($image));
-            $url = Storage::disk('s3')->url($path);
+        // ファイルを S3 ディスクに保存する
+        Storage::disk('s3')->putFileAs('atte-ui', $image, $fileName);
 
-            return response()->json([
-                'success' => true,
-                'message' => '画像のアップロードに成功しました。',
-                'url' => $url
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => '画像のアップロード中にエラーが発生しました。',
-            ], 500);
-        }
+        // ファイルの URL を取得する
+        $url = Storage::disk('s3')->url($path);
+
+        return response()->json([
+            'success' => true,
+            'message' => '画像のアップロードに成功しました。',
+            'url' => $url
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => '画像のアップロード中にエラーが発生しました。',
+            'error' => $e->getMessage() // エラーメッセージを追加
+        ], 500);
     }
-
+}
 }

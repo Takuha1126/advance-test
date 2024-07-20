@@ -41,9 +41,9 @@
                                     </a>
                                 </div>
                                 <form id="delete-form-{{ $reservation->id }}" action="/reservations/{{ $reservation->id }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                    <button type="submit" class="button">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="button" id="delete-button-{{ $reservation->id }}">
                                         <i class="fas fa-times-circle" style="color: #3366FF; background-color: white; border-radius: 50%; padding: 2px;"></i>
                                     </button>
                                 </form>
@@ -162,9 +162,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
-    const today = new Date();
-    const dateString = today.toISOString().substring(0, 10);
-    document.getElementById('new_date').value = dateString;
+    const newDateElement = document.getElementById('new_date');
+    if (newDateElement) {
+        const today = new Date();
+        const dateString = today.toISOString().substring(0, 10);
+        newDateElement.value = dateString;
+    }
 });
 
 $(function() {
@@ -182,14 +185,14 @@ $(function() {
     });
 
     $('.payment-button').click(function() {
-    const reservationId = $(this).data('reservation-id');
-    const errorMessage = $(this).data('error-message');
+        const reservationId = $(this).data('reservation-id');
+        const errorMessage = $(this).data('error-message');
 
-    if (errorMessage) {
-        $('#error-message').text(errorMessage);
-    } else {
-        redirectToPayment(reservationId);
-    }
+        if (errorMessage) {
+            $('#error-message').text(errorMessage);
+        } else {
+            redirectToPayment(reservationId);
+        }
     });
 
 });
