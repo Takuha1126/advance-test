@@ -48,8 +48,11 @@
                 @csrf
                 <div class="main__upload">
                     <label for="csv_file" class="file__upload-label">
-                        <span class="file__upload-text">ファイルを選択してください</span>
-                        <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+                        <input type="file" id="csv_file" name="csv_file" accept=".csv" required onchange="updateFileName()">
+                        <span id="file_name" class="file__upload-text">ファイルを選択してください</span>
+                        <div id="drop_zone" class="drop-zone">
+                            <p class="drop__title"></p>
+                        </div>
                     </label>
                 </div>
                 <div class="button">
@@ -58,5 +61,45 @@
             </form>
         </div>
     </main>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropZone = document.getElementById('drop_zone');
+        const fileInput = document.getElementById('csv_file');
+        
+        dropZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            dropZone.classList.remove('dragover');
+
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                updateFileName();
+            }
+        });
+
+        fileInput.addEventListener('change', function(event) {
+            updateFileName();
+        });
+
+        function updateFileName() {
+            const fileName = fileInput.files[0] ? `${fileInput.files[0].name} が選択されています` : 'ファイルを選択してください';
+            document.getElementById('file_name').textContent = fileName;
+        }
+    });
+</script>
+
 </body>
 </html>

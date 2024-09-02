@@ -25,7 +25,6 @@
     padding-left: 10px;
     font-size: 30px;
     font-weight: bold;
-
 }
 
 .img img {
@@ -76,7 +75,7 @@
 .feedback__item {
     border-top: 1px solid #aaaaaa;
     border-bottom: 1px solid #aaaaaa;
-    margin-top: 10px;
+    margin: 10px 0;
 }
 
 .feedback__button {
@@ -206,6 +205,74 @@
     color: red;
     padding: 10px 30px;
 }
+
+@media (max-width: 1200px) {
+    body,
+    html {
+        overflow-y: auto;
+    }
+
+    .main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .detail {
+        max-width: 70%;
+        margin-bottom: 20px;
+    }
+
+    .detail__description {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    .feedback__button {
+        margin: 10px 0;
+    }
+
+    .reservation {
+        max-width: 70%;
+        margin-left: 0;
+        margin-bottom: 20px;
+    }
+
+    .detail__info,
+    .reservation__ttl,
+    .item,
+    .about,
+    .form__item {
+        font-size: 14px;
+    }
+
+    .item {
+        width: 80%;
+    }
+
+    .item input {
+        width: 80%;
+        color: #000;
+        white-space: nowrap;
+        background-color: #fff;
+    }
+
+    .about select {
+        width: 80%;
+        color: #000;
+        background-color: #fff;
+    }
+
+    .form__item {
+        width: 82%;
+        margin-top: 30px;
+    }
+
+    .button {
+        margin-top: 180px;
+
+    }
+}
+
 
 @media (max-width: 768px) {
     body,

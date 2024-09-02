@@ -47,18 +47,18 @@
                             @endfor
                             <input type="hidden" name="rating" id="rating" value="{{ $feedback->rating }}">
                         </div>
-                        @error('rating')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
                     </div>
+                    @error('rating')
+                        <p class="error">{{ $message }}</p>
+                    @enderror
                     <div class="main__comment">
                         <p class="comment__title">口コミを投稿</p>
                         <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="カジュアルな夜のお出かけにおすすめのスポット">{{ $feedback->comment }}</textarea>
                         <span class="comment__count" id="char-count">{{ strlen($feedback->comment) }}/400 (最高文字数)</span>
-                        @error('comment')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
                     </div>
+                    @error('comment')
+                        <p class="error">{{ $message }}</p>
+                    @enderror
                     <div class="main__image">
                         <p class="image__title">画像の追加</p>
                         <label for="image" class="file-upload-label">
@@ -68,10 +68,10 @@
                             </div>
                             <input type="file" name="image" id="image" class="form-image" accept="image/*">
                         </label>
-                        @error('image')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
                     </div>
+                    @error('image')
+                        <p class="error">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -84,124 +84,176 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const textarea = document.getElementById('comment');
-        const charCount = document.getElementById('char-count');
+    const textarea = document.getElementById('comment');
+    const charCount = document.getElementById('char-count');
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('image');
 
-        textarea.addEventListener('input', function() {
-            const currentLength = textarea.value.length;
-            charCount.textContent = `${currentLength}/400 (最高文字数)`;
+    updateCharCount();
+
+    textarea.addEventListener('input', updateCharCount);
+
+    function updateCharCount() {
+        const currentLength = textarea.value.length;
+        charCount.textContent = `${currentLength}/400 (最高文字数)`;
+    }
+
+    fetchFavoritesAndUpdateHearts();
+    setupHeartButtons();
+    setupSelect2();
+    setupStarRating();
+    setupDragAndDrop();
+
+
+    function setupHeartButtons() {
+        $('.heart-button').on('click', function(event) {
+            event.preventDefault();
+            const shopId = $(this).data('shopId');
+            if (shopId) {
+                toggleFavorite($(this), shopId);
+            } else {
+                console.error('Shop ID is undefined');
+            }
         });
+    }
 
-        fetchFavoritesAndUpdateHearts();
-        setupHeartButtons();
-        setupSelect2();
-        setupStarRating();
+    function fetchFavoritesAndUpdateHearts() {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
 
-        function setupHeartButtons() {
-            $('.heart-button').on('click', function(event) {
-                event.preventDefault();
-                const shopId = $(this).data('shopId');
-                if (shopId) {
-                    toggleFavorite($(this), shopId);
-                } else {
-                    console.error('Shop ID is undefined');
-                }
-            });
-        }
+        $('.heart-button').each(function() {
+            const shopId = $(this).data('shopId');
+            updateFavoriteStatus($(this), shopId, favorites);
 
-        function fetchFavoritesAndUpdateHearts() {
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-
-            $('.heart-button').each(function() {
-                const shopId = $(this).data('shopId');
-                updateFavoriteStatus($(this), shopId, favorites);
-
-                fetch(`/favorite/status/${shopId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    updateFavoriteStatus($(this), shopId, favorites, data.isFavorite);
-                })
-                .catch(error => {
-                    console.error('Error fetching favorite status:', error);
-                });
-            });
-        }
-
-        function updateFavoriteStatus(button, shopId, favorites, isFavorite = favorites[shopId] || false) {
-            button.toggleClass('liked', isFavorite);
-            favorites[shopId] = isFavorite;
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-        }
-
-        function toggleFavorite(button, shopId) {
-            const isLiked = button.hasClass('liked');
-            const method = isLiked ? 'DELETE' : 'POST';
-
-            fetch(`/favorite/toggle/${shopId}`, {
-                method: method,
+            fetch(`/favorite/status/${shopId}`, {
+                method: 'GET',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ shop_id: shopId })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
                 }
-                return response.json();
             })
+            .then(response => response.json())
             .then(data => {
-                updateFavoriteStatus(button, shopId, JSON.parse(localStorage.getItem('favorites')), method === 'POST');
+                updateFavoriteStatus($(this), shopId, favorites, data.isFavorite);
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('お気に入りの操作に失敗しました。');
+                console.error('Error fetching favorite status:', error);
             });
-        }
+        });
+    }
 
-        function setupSelect2() {
-            $('.first, .second').select2({
-                minimumResultsForSearch: Infinity,
-                templateSelection: function(data) {
-                    return $('<span>').css('font-size', '13px').text(data.text);
-                }
-            });
+    function updateFavoriteStatus(button, shopId, favorites, isFavorite = favorites[shopId] || false) {
+        button.toggleClass('liked', isFavorite);
+        favorites[shopId] = isFavorite;
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
 
-            $('.select2-selection__arrow').css('display', 'none');
-        }
+    function toggleFavorite(button, shopId) {
+        const isLiked = button.hasClass('liked');
+        const method = isLiked ? 'DELETE' : 'POST';
 
-        function setupStarRating() {
-            let rating = $('#rating').val() || 0;
-            $('.star__rating .fas').on('click', function() {
-                rating = $(this).data('rating');
-                $('#rating').val(rating);
-                updateStars(rating);
-            });
-
-            $('.star__rating .fas').on('mouseenter', function() {
-                const hoverRating = $(this).data('rating');
-                updateStars(hoverRating);
-            });
-
-            $('.star__rating .fas').on('mouseleave', function() {
-                updateStars(rating);
-            });
-
-            function updateStars(rating) {
-                $('.star__rating .fas').each(function() {
-                    const starRating = $(this).data('rating');
-                    $(this).toggleClass('active', starRating <= rating);
-                });
+        fetch(`/favorite/toggle/${shopId}`, {
+            method: method,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ shop_id: shopId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
+        })
+        .then(data => {
+            updateFavoriteStatus(button, shopId, JSON.parse(localStorage.getItem('favorites')), method === 'POST');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('お気に入りの操作に失敗しました。');
+        });
+    }
 
+    function setupSelect2() {
+        $('.first, .second').select2({
+            minimumResultsForSearch: Infinity,
+            templateSelection: function(data) {
+                return $('<span>').css('font-size', '13px').text(data.text);
+            }
+        });
+
+        $('.select2-selection__arrow').css('display', 'none');
+    }
+
+    function setupStarRating() {
+        let rating = $('#rating').val() || 0;
+        $('.star__rating .fas').on('click', function() {
+            rating = $(this).data('rating');
+            $('#rating').val(rating);
             updateStars(rating);
+        });
+
+        $('.star__rating .fas').on('mouseenter', function() {
+            const hoverRating = $(this).data('rating');
+            updateStars(hoverRating);
+        });
+
+        $('.star__rating .fas').on('mouseleave', function() {
+            updateStars(rating);
+        });
+
+        function updateStars(rating) {
+            $('.star__rating .fas').each(function() {
+                const starRating = $(this).data('rating');
+                $(this).toggleClass('active', starRating <= rating);
+            });
         }
-    });
+
+        updateStars(rating);
+    }
+
+    function setupDragAndDrop() {
+        dropZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            dropZone.classList.remove('dragover');
+
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                updateFileNameDisplay(files);
+
+                const dataTransfer = new DataTransfer();
+                for (const file of files) {
+                    dataTransfer.items.add(file);
+                }
+                fileInput.files = dataTransfer.files;
+            }
+        });
+
+        fileInput.addEventListener('change', function(event) {
+            updateFileNameDisplay(event.target.files);
+        });
+
+        function updateFileNameDisplay(files) {
+            if (files.length > 0) {
+                const fileName = files[0].name;
+                dropZone.querySelector('p').textContent = `ファイルが選択されました: ${fileName}`;
+            } else {
+                dropZone.querySelector('p').textContent = 'クリックして写真を追加 またはドラッグ＆ドロップ';
+            }
+        }
+    }
+});
 </script>
 @endsection

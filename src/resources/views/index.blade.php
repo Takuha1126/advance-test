@@ -22,7 +22,7 @@
                     <div class="nav__alignment">
                         <label class="alignment__label">並び替え:</label>
                         <select class="alignment__select" id="sortSelect" name="sort">
-                            <option value="">ランダム</option>
+                            <option value="random" {{ request('sort') === 'random' ? 'selected' : '' }}>ランダム</option>
                             <option value="highest-rating" {{ request('sort') === 'highest-rating' ? 'selected' : '' }}>評価が高い順</option>
                             <option value="lowest-rating" {{ request('sort') === 'lowest-rating' ? 'selected' : '' }}>評価が低い順</option>
                         </select>

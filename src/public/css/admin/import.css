@@ -107,6 +107,10 @@ html {
     cursor: pointer;
 }
 
+.drop__title {
+    display: none;
+}
+
 .button {
     margin-top: 60px;
     text-align: center;

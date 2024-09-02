@@ -20,18 +20,18 @@ class ShopController extends Controller
     }
 
     public function detail($shop_id)
-{
-    $shop = $this->findShopById($shop_id);
-    $user = Auth::user();
-    $feedbacks = Feedback::where('shop_id', $shop_id)
-                        ->where('user_id', $user->id)
-                        ->get();
+    {
+        $shop = $this->findShopById($shop_id);
+        $user = Auth::user();
+        $feedbacks = Feedback::where('shop_id', $shop_id)
+                            ->where('user_id', $user->id)
+                            ->get();
 
-    return view('detail', [
-        'shop' => $shop,
-        'feedbacks' => $feedbacks,
-    ]);
-}
+        return view('detail', [
+            'shop' => $shop,
+            'feedbacks' => $feedbacks,
+        ]);
+    }
 
     private function findShopById($shop_id)
     {
@@ -100,63 +100,67 @@ class ShopController extends Controller
     }
 
     public function uploadImage(Request $request)
-{
-    $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    try {
-        $image = $request->file('image');
-        $fileName = time() . '_' . $image->getClientOriginalName();
-        $path = 'atte-ui/' . $fileName;
+        try {
+            $image = $request->file('image');
+            $fileName = time() . '_' . $image->getClientOriginalName();
+            $path = 'atte-ui/' . $fileName;
 
-        Storage::disk('s3')->putFileAs('atte-ui', $image, $fileName);
+            Storage::disk('s3')->putFileAs('atte-ui', $image, $fileName);
 
-        $url = Storage::disk('s3')->url($path);
+            $url = Storage::disk('s3')->url($path);
 
-        return response()->json([
-            'success' => true,
-            'message' => '画像のアップロードに成功しました。',
-            'url' => $url
-        ], 200);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => '画像のアップロード中にエラーが発生しました。',
-            'error' => $e->getMessage()
-        ], 500);
+            return response()->json([
+                'success' => true,
+                'message' => '画像のアップロードに成功しました。',
+                'url' => $url
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '画像のアップロード中にエラーが発生しました。',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
 
     public function listShops(Request $request)
-{
-    $sort = $request->input('sort', 'random');
+    {
+        $sort = $request->input('sort', 'random');
 
-    $shops = Shop::with('feedbacks')->get()->map(function ($shop) {
-        $shop->average_rating = $shop->feedbacks->avg('rating') ?? 0;
-        return $shop;
-    });
+        $shops = Shop::with('feedbacks')->get()->map(function ($shop) {
+            $shop->average_rating = $shop->feedbacks->avg('rating') ?? 0;
+            return $shop;
+        });
 
-    switch ($sort) {
-        case 'highest-rating':
-            // 高い順にソート（評価がないショップは最後に）
-            $shops = $shops->sortByDesc(function ($shop) {
-                // 評価がないショップを最小値として扱う
-                return $shop->average_rating > 0 ? $shop->average_rating : PHP_INT_MIN;
-            });
+        switch ($sort) {
+            case 'highest-rating':
+                $shops = $shops->sortByDesc(function ($shop) {
+                    return $shop->average_rating > 0 ? $shop->average_rating : -1;
+                })->values();
+                break;
+            case 'lowest-rating':
+                $shops = $shops->sortBy(function ($shop) {
+                    return $shop->average_rating > 0 ? $shop->average_rating : PHP_INT_MAX;
+                })->values();
+                break;
+            case 'random':
+                $shops = $shops->shuffle();
             break;
-        case 'lowest-rating':
-            // 低い順にソート（評価がないショップは最後に）
-            $shops = $shops->sortBy(function ($shop) {
-                // 評価がないショップを最大値として扱う
-                return $shop->average_rating > 0 ? $shop->average_rating : PHP_INT_MAX;
-            });
+            default:
+                $shops = $shops->shuffle();
             break;
+        }
+
+        if ($shops->every(fn($shop) => $shop->average_rating == 0) && $sort !== 'random') {
+            $shops = $shops->sortBy('id')->values();
+        }
+
+        return view('index', ['shops' => $shops]);
     }
-
-    return view('index', ['shops' => $shops]);
-}
-
-
 
 }

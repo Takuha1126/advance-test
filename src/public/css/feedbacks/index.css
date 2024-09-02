@@ -9,9 +9,18 @@
     font-weight: 900;
 }
 
-.main__item {
+.feedback__item {
+    padding-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #aaaaaa;
+}
+
+.feedback__item:first-of-type {
     border-top: 1px solid #aaaaaa;
-    border-bottom: 1px solid #aaaaaa;;
+}
+
+.feedback__item:last-of-type {
+    border-bottom: none;
 }
 
 .feedback__actions {

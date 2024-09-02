@@ -131,12 +131,12 @@
 }
 
 .rating__title {
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .star__rating i {
     font-size: 40px;
-    padding-left: 30px;
+    margin-left: 40px;
 }
 
 .star__rating .fas {
@@ -157,12 +157,12 @@
 }
 
 .comment__title {
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .form-control {
     width: 500px;
-    height: 100px;
+    height: auto;
     background-color: #dddddd;
     border-radius: 3px;
     padding: 10px;
@@ -175,14 +175,13 @@
 }
 
 .image__title {
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .file-upload-label {
     display: block;
     border: 1px solid #ddd;
     border-radius: 3px;
-    padding: 20px;
     text-align: center;
     background-color: #f9f9f9;
     position: relative;
@@ -206,14 +205,6 @@
     display: none;
 }
 
-.file-upload-label.dragover {
-    background-color: #ddd;
-}
-
-.file-upload-label.dragover .file-upload-text p {
-    color: #007bff;
-}
-
 .main__button {
     text-align: center;
     margin-top: 20px;
@@ -226,6 +217,14 @@
     border: none;
     padding: 10px 0;
     font-size: 20px;
+}
+
+.error {
+    color: #ff0000;
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
 }
 
 @media (max-width: 950px) {
@@ -278,6 +277,7 @@
 
     .star__rating i {
         font-size: 30px;
+        margin-left: 20px;
     }
 
     .main__comment {
@@ -288,7 +288,6 @@
 
     .comment__title {
         font-size: 25px;
-        margin-left: 20px;
     }
 
     .form-control {
@@ -335,7 +334,14 @@
 
     .custom-btn {
         width: 90%;
+    }
 
+    .error {
+        color: #ff0000;
+        font-size: 15px;
+        padding: 0;
+        text-align: center;
+        margin-left: 30px;
     }
 
 }
