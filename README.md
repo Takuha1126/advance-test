@@ -35,7 +35,6 @@ Laravel,php
 <img width="1440" alt="スクリーンショット 2024-05-19 14 33 42" src="https://github.com/Takuha1126/advance-test/assets/150105635/51cdce51-05b6-424d-be0d-b495bf83b8a3">
 
 
-
 ##ER図の画像
 <img width="1440" alt="スクリーンショット 2024-05-21 18 03 46" src="https://github.com/Takuha1126/advance-test/assets/150105635/fdf337d1-48d1-476f-bb82-6d40917e21ef">
 
