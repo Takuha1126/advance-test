@@ -10,7 +10,6 @@
         {{session('error')}}
     </div>
 @endif
-
 <div class="main">
     <div class="detail">
         <div class="detail__content">
@@ -18,12 +17,39 @@
                 <a href="{{ route('home') }}"><i class="fas fa-angle-left fa-1x"></i></a>
                 <p class="title__item">{{ $shop['shop_name'] }}</p>
             </div>
-            <div class="img"><img src="{{ $shop['photo_url'] }}"></div>
+            <div class="img @if (!$feedbacks->isEmpty()) has-feedback @endif">
+                <img src="{{ $shop['photo_url'] }}">
+            </div>
             <div class="detail__info">
                 <p class="detail__area">#{{ $shop->area->area_name }}</p>
                 <p class="detail__genre">#{{ $shop->genre->genre_name }}</p>
             </div>
             <div class="detail__description">{{ $shop['description'] }}</div>
+        </div>
+        <div class="feedback @if ($feedbacks->isEmpty()) no-feedback @else has-feedback @endif">
+            @if ($feedbacks->isEmpty())
+                <a class="feedback__link" href="{{ route('feedbacks.create', $shop->id) }}">口コミを投稿する</a>
+            @else
+                <div class="feedback__list">
+                    <a class="feedback__all" href="{{ route('feedbacks.index', $shop->id) }}">全ての口コミを見る</a>
+                    <div class="feedback__item">
+                        <div class="feedback__button">
+                            <a href="{{ route('feedbacks.edit', $feedbacks->first()->id) }}" class="feedback__edit">口コミを編集</a>
+                            <form action="{{ route('feedbacks.destroy', $feedbacks->first()->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                                <button type="submit" class="feedback__delete">口コミを削除</button>
+                            </form>
+                        </div>
+                        <span class="rating-stars">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <i class="fas fa-star {{ $i <= $feedbacks->first()->rating ? 'filled' : 'empty' }}"></i>
+                            @endfor
+                        </span>
+                        <p class="feedback__comment">{{ $feedbacks->first()->comment }}</p>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="reservation">

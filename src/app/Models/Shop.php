@@ -36,4 +36,9 @@ class Shop extends Model
     {
         return $this->hasMany('App\Models\Favorite', 'shop_id');
     }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
 }

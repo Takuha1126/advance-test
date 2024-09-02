@@ -31,6 +31,39 @@ html {
 
 .nav {
     margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.nav__alignment {
+    padding: 2px 2px;
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+    background-color: #fff;
+    display: inline-block;
+    margin-right: 12px;
+}
+
+.alignment__label {
+    font-size: 10px;
+}
+
+.alignment__select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 10px;
+    text-align: center;
+    margin: 0;
+
+}
+
+.alignment__select::-ms-expand {
+    display: none;
 }
 
 .nav__ttl {
@@ -38,6 +71,7 @@ html {
     background-color: #fff;
     border-radius: 5px;
     display: flex;
+    width: 100%;
 
 }
 
@@ -202,6 +236,21 @@ html {
 
     .nav {
         margin-top: 20px;
+    }
+
+    .nav__alignment {
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+    }
+
+    .alignment__label {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .alignment__select {
+        font-size: 13px;
     }
 
     .nav__ttl {

@@ -15,6 +15,8 @@ use App\Http\Controllers\CreateShopRepresentativeController;
 use App\Http\Controllers\Auth\AdminRegisterController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CsvImportController;
+use App\Http\Controllers\FeedbackController;
 
 
 
@@ -36,6 +38,7 @@ Auth::routes(['verify' => true]);
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [ShopController::class, 'index'])->name('home');
     Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail');
+    Route::get('/list', [ShopController::class, 'listShops'])->name('shops.list');
     Route::get('/search', [ShopController::class, 'search'])->name('search.get');
     Route::post('/search', [ShopController::class, 'search'])->name('search.post');
     Route::get('/done', [ReservationController::class, 'completed'])->name('done');
@@ -50,8 +53,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/favorite/toggle/{shopId}', [FavoriteController::class, 'toggle']);
     Route::get('/evaluation/{shopId}', [EvaluationController::class, 'index'])->name('evaluation.show');
     Route::post('/reviews', [EvaluationController::class, 'store'])->name('evaluation.store');
+    Route::get('/shops/{shopId}/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
+    Route::get('/shops/{shopId}/create', [FeedbackController::class, 'create'])->name('feedbacks.create');
+    Route::post('/shops/{shopId}/store', [FeedbackController::class, 'storeFeedback'])->name('feedbacks.storeFeedback');
+    Route::get('/feedbacks/{feedbackId}/edit', [FeedbackController::class, 'edit'])->name('feedbacks.edit');
+    Route::put('/feedbacks/{feedbackId}', [FeedbackController::class, 'update'])->name('feedbacks.update');
+    Route::delete('/feedbacks/{feedbackId}', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
     Route::get('/payment/{reservationId}', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
     Route::post('/create-payment-intent', [PaymentController::class, 'handlePayment'])->name('payment.handle');
+
 
 });
 
@@ -79,6 +89,10 @@ Route::middleware(['auth.admin'])->group(function () {
         Route::post('/send-notification/all', [CreateShopRepresentativeController::class,'sendAll'])->name('send-notification.all');
         Route::get('/admin/verify', [AdminRegisterController::class, 'showVerifyForm'])->name('admin.verify');
         Route::post('/admin/verification/resend', [AdminRegisterController::class, 'resendVerificationEmail'])->name('admin.verification.resend');
+        Route::get('/import', [CsvImportController::class, 'showImportForm'])->name('import.form');
+        Route::post('/import', [CsvImportController::class, 'import'])->name('import');
+        Route::get('/shops', [FeedbackController::class, 'showShops'])->name('shops.showShops');
+        Route::get('/admin/{shopId}/feedbacks', [FeedbackController::class, 'showFeedbacks'])->name('shops.feedbacks');
     });
 
 

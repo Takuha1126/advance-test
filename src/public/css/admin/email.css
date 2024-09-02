@@ -131,37 +131,37 @@ html {
 
 @media (max-width: 768px) {
     .header__ttl {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .header__item {
-        margin-left: 10px;
-    }
-
-    .nav {
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 8px;
-    }
-
-    .nav__button {
-        margin-left: 0;
-        margin-right: 10px;
-    }
-
-    .nav__button a,
-    .logout__button {
-        font-size: 8px;
-        vertical-align: middle;
-        font-weight: 400;
-    }
-
-    .logout__button {
-        padding: 7px 5px;
-    }
-
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    
+        .header__item {
+            margin-left: 10px;
+        }
+    
+        .nav {
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+    
+        .nav__button {
+            margin-left: 0;
+            margin-right: 4px;
+        }
+    
+        .nav__button a,
+        .logout__button {
+            font-size: 8px;
+            vertical-align: middle;
+            font-weight: 400;
+        }
+    
+        .logout__button {
+            padding: 7px 5px;
+            margin: 0;
+        }
     .main {
         margin: 40px auto;
         padding: 0 10px;

@@ -1,0 +1,207 @@
+@extends('layouts.add')
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/feedbacks/feedback.css')}}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
+
+@section('content')
+<div class="main">
+    <form action="{{ route('feedbacks.update', $feedback->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="main__ttl">
+            <div class="main__item">
+                <div class="main__title">
+                    <p class="main__title-ttl">今回のご利用はいかがでしたか？</p>
+                </div>
+                <div class="main__group">
+                    <div class="card">
+                        <img src="{{ $shop->photo_url }}" alt="{{ $shop->shop_name }}">
+                    </div>
+                    <div class="main__content">
+                        <p class="content__title">{{ $shop->shop_name }}</p>
+                        <div class="content__tag">
+                            <p class="content__area">#{{ $shop->area->area_name }}</p>
+                            <p class="content__genre">#{{ $shop->genre->genre_name }}</p>
+                        </div>
+                        <div class="button">
+                            <div class="button__ttl">
+                                <a href="{{ route('detail', ['shop_id' => $shop->id]) }}" class="button__title" data-shop-id="{{ $shop->id }}">詳しく見る</a>
+                                <a href="{{ route('evaluation.show', ['shopId' => $shop->id]) }}" class="button__rating" data-shop-id="{{ $shop->id }}">評価</a>
+                            </div>
+                            <button class="heart-button" data-shop-id="{{ $shop->id }}">
+                                &#10084;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main__about">
+                <div class="main__feedback-form">
+                    <div class="main__rating">
+                        <p class="rating__title">体験を評価してください</p>
+                        <div class="star__rating">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <i class="fas fa-star {{ $feedback->rating >= $i ? 'active' : '' }}" data-rating="{{ $i }}"></i>
+                            @endfor
+                            <input type="hidden" name="rating" id="rating" value="{{ $feedback->rating }}">
+                        </div>
+                        @error('rating')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="main__comment">
+                        <p class="comment__title">口コミを投稿</p>
+                        <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="カジュアルな夜のお出かけにおすすめのスポット">{{ $feedback->comment }}</textarea>
+                        <span class="comment__count" id="char-count">{{ strlen($feedback->comment) }}/400 (最高文字数)</span>
+                        @error('comment')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="main__image">
+                        <p class="image__title">画像の追加</p>
+                        <label for="image" class="file-upload-label">
+                            <div class="file-upload-text" id="drop-zone">
+                                <p>クリックして写真を追加</p>
+                                <p>またはドラッグ＆ドロップ</p>
+                            </div>
+                            <input type="file" name="image" id="image" class="form-image" accept="image/*">
+                        </label>
+                        @error('image')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main__button">
+            <button type="submit" class="custom-btn">口コミを更新</button>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.getElementById('comment');
+        const charCount = document.getElementById('char-count');
+
+        textarea.addEventListener('input', function() {
+            const currentLength = textarea.value.length;
+            charCount.textContent = `${currentLength}/400 (最高文字数)`;
+        });
+
+        fetchFavoritesAndUpdateHearts();
+        setupHeartButtons();
+        setupSelect2();
+        setupStarRating();
+
+        function setupHeartButtons() {
+            $('.heart-button').on('click', function(event) {
+                event.preventDefault();
+                const shopId = $(this).data('shopId');
+                if (shopId) {
+                    toggleFavorite($(this), shopId);
+                } else {
+                    console.error('Shop ID is undefined');
+                }
+            });
+        }
+
+        function fetchFavoritesAndUpdateHearts() {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+
+            $('.heart-button').each(function() {
+                const shopId = $(this).data('shopId');
+                updateFavoriteStatus($(this), shopId, favorites);
+
+                fetch(`/favorite/status/${shopId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    updateFavoriteStatus($(this), shopId, favorites, data.isFavorite);
+                })
+                .catch(error => {
+                    console.error('Error fetching favorite status:', error);
+                });
+            });
+        }
+
+        function updateFavoriteStatus(button, shopId, favorites, isFavorite = favorites[shopId] || false) {
+            button.toggleClass('liked', isFavorite);
+            favorites[shopId] = isFavorite;
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        function toggleFavorite(button, shopId) {
+            const isLiked = button.hasClass('liked');
+            const method = isLiked ? 'DELETE' : 'POST';
+
+            fetch(`/favorite/toggle/${shopId}`, {
+                method: method,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ shop_id: shopId })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                updateFavoriteStatus(button, shopId, JSON.parse(localStorage.getItem('favorites')), method === 'POST');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('お気に入りの操作に失敗しました。');
+            });
+        }
+
+        function setupSelect2() {
+            $('.first, .second').select2({
+                minimumResultsForSearch: Infinity,
+                templateSelection: function(data) {
+                    return $('<span>').css('font-size', '13px').text(data.text);
+                }
+            });
+
+            $('.select2-selection__arrow').css('display', 'none');
+        }
+
+        function setupStarRating() {
+            let rating = $('#rating').val() || 0;
+            $('.star__rating .fas').on('click', function() {
+                rating = $(this).data('rating');
+                $('#rating').val(rating);
+                updateStars(rating);
+            });
+
+            $('.star__rating .fas').on('mouseenter', function() {
+                const hoverRating = $(this).data('rating');
+                updateStars(hoverRating);
+            });
+
+            $('.star__rating .fas').on('mouseleave', function() {
+                updateStars(rating);
+            });
+
+            function updateStars(rating) {
+                $('.star__rating .fas').each(function() {
+                    const starRating = $(this).data('rating');
+                    $(this).toggleClass('active', starRating <= rating);
+                });
+            }
+
+            updateStars(rating);
+        }
+    });
+</script>
+@endsection

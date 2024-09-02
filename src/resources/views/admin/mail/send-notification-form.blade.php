@@ -20,6 +20,12 @@
                 <div class="nav__button">
                     <a class="shop__button" href="{{ route('admin.create') }}">代表者一覧</a>
                 </div>
+                <div class="nav__button">
+                    <a class="button" href="{{ route('import.form') }}">CSVインポート</a>
+                </div>
+                <div class="nav__button">
+                    <a class="button" href="{{ route('shops.showShops') }}">口コミ</a>
+                </div>
                 <div class="logout">
                     <form action="{{ route('admin.logout') }}"  method="POST">
                         @csrf

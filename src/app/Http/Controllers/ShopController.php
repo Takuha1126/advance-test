@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Shop;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Feedback;
 use App\Http\Requests\ShopUpdateRequest;
 
 
@@ -18,10 +20,18 @@ class ShopController extends Controller
     }
 
     public function detail($shop_id)
-    {
-        $shop = $this->findShopById($shop_id);
-        return view('detail', ['shop' => $shop]);
-    }
+{
+    $shop = $this->findShopById($shop_id);
+    $user = Auth::user();
+    $feedbacks = Feedback::where('shop_id', $shop_id)
+                        ->where('user_id', $user->id)
+                        ->get();
+
+    return view('detail', [
+        'shop' => $shop,
+        'feedbacks' => $feedbacks,
+    ]);
+}
 
     private function findShopById($shop_id)
     {
@@ -100,10 +110,8 @@ class ShopController extends Controller
         $fileName = time() . '_' . $image->getClientOriginalName();
         $path = 'atte-ui/' . $fileName;
 
-        // ファイルを S3 ディスクに保存する
         Storage::disk('s3')->putFileAs('atte-ui', $image, $fileName);
 
-        // ファイルの URL を取得する
         $url = Storage::disk('s3')->url($path);
 
         return response()->json([
@@ -115,8 +123,40 @@ class ShopController extends Controller
         return response()->json([
             'success' => false,
             'message' => '画像のアップロード中にエラーが発生しました。',
-            'error' => $e->getMessage() // エラーメッセージを追加
+            'error' => $e->getMessage()
         ], 500);
     }
 }
+
+    public function listShops(Request $request)
+{
+    $sort = $request->input('sort', 'random');
+
+    $shops = Shop::with('feedbacks')->get()->map(function ($shop) {
+        $shop->average_rating = $shop->feedbacks->avg('rating') ?? 0;
+        return $shop;
+    });
+
+    switch ($sort) {
+        case 'highest-rating':
+            // 高い順にソート（評価がないショップは最後に）
+            $shops = $shops->sortByDesc(function ($shop) {
+                // 評価がないショップを最小値として扱う
+                return $shop->average_rating > 0 ? $shop->average_rating : PHP_INT_MIN;
+            });
+            break;
+        case 'lowest-rating':
+            // 低い順にソート（評価がないショップは最後に）
+            $shops = $shops->sortBy(function ($shop) {
+                // 評価がないショップを最大値として扱う
+                return $shop->average_rating > 0 ? $shop->average_rating : PHP_INT_MAX;
+            });
+            break;
+    }
+
+    return view('index', ['shops' => $shops]);
+}
+
+
+
 }

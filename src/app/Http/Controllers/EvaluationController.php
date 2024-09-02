@@ -8,6 +8,7 @@ use App\Models\Shop;
 use Illuminate\Support\Facades\DB;
 
 
+
 class EvaluationController extends Controller
 {
     public function index($shopId)
@@ -53,4 +54,6 @@ class EvaluationController extends Controller
         $reviews = Review::where('shop_id', $shopId)->latest()->paginate(4);
         return view('shops.reviews', compact('shopId', 'reviews'));
     }
+
 }
+

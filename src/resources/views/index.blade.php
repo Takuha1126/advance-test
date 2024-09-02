@@ -12,42 +12,51 @@
 </head>
 <body>
     <header class="header">
-        <form id="searchForm" action="/search" method="post">
-            @csrf
         <div class="header__item">
             <div class="header__ttl">
                 <i class="fas fa-file-alt fa-2x" style="color: #3366FF;"></i>
                 <a class="header__title" href="{{ route('menu') }}">Rese</a>
             </div>
             <nav class="nav">
-                <div class="nav__ttl">
-                    <div class="select-wrapper">
-                    <select class="first" name="area_id" id="areaSelect">
-                        <option value="">All area</option>
-                        <option value="東京都">東京都</option>
-                        <option value="大阪府">大阪府</option>
-                        <option value="福岡県">福岡県</option>
-                    </select>
-                    <i class="fas fa-location-arrow" id="areaSelectIcon"></i>
-                    <span class="span__ttl">|</span>
-                    <select class="second" name="genre_id" id="genreSelect">
-                        <option value="">All genre</option>
-                        <option value="寿司">寿司</option>
-                        <option value="焼肉">焼肉</option>
-                        <option value="居酒屋">居酒屋</option>
-                        <option value="イタリアン">イタリアン</option>
-                        <option value="ラーメン">ラーメン</option>
-                    </select>
-                    <i class="fas fa-location-arrow" id="genreSelectIcon"></i>
+                <form id="sortForm" action="{{ route('shops.list') }}" method="GET">
+                    <div class="nav__alignment">
+                        <label class="alignment__label">並び替え:</label>
+                        <select class="alignment__select" id="sortSelect" name="sort">
+                            <option value="">ランダム</option>
+                            <option value="highest-rating" {{ request('sort') === 'highest-rating' ? 'selected' : '' }}>評価が高い順</option>
+                            <option value="lowest-rating" {{ request('sort') === 'lowest-rating' ? 'selected' : '' }}>評価が低い順</option>
+                        </select>
                     </div>
-                    <div class="nav__item">
-                        <i class="fas fa-search" style="color: #cccccc;"></i>
-                        <input type="text" id="searchInput" name="search" placeholder="Search...">
+                </form>
+                <form id="searchForm" action="/search" method="post">
+                    <div class="nav__ttl">
+                        <div class="select-wrapper">
+                            <select class="first" name="area_id" id="areaSelect">
+                                <option value="">All area</option>
+                                <option value="東京都">東京都</option>
+                                <option value="大阪府">大阪府</option>
+                                <option value="福岡県">福岡県</option>
+                            </select>
+                            <i class="fas fa-location-arrow" id="areaSelectIcon"></i>
+                            <span class="span__ttl">|</span>
+                            <select class="second" name="genre_id" id="genreSelect">
+                                <option value="">All genre</option>
+                                <option value="寿司">寿司</option>
+                                <option value="焼肉">焼肉</option>
+                                <option value="居酒屋">居酒屋</option>
+                                <option value="イタリアン">イタリアン</option>
+                                <option value="ラーメン">ラーメン</option>
+                            </select>
+                            <i class="fas fa-location-arrow" id="genreSelectIcon"></i>
+                        </div>
+                        <div class="nav__item">
+                            <i class="fas fa-search" style="color: #cccccc;"></i>
+                            <input type="text" id="searchInput" name="search" placeholder="Search...">
+                        </div>
                     </div>
-                </div>
+                </form>
             </nav>
         </div>
-        </form>
     </header>
     <main class="main">
         @if (isset($searched))
@@ -57,13 +66,14 @@
                         <img src="{{ $shop->photo_url }}">
                     </div>
                     <div class="main__content">
-                        <div class="main__title">{{ $shop->shop_name }}</div>
+                        <p class="main__title">{{ $shop->shop_name }}</p>
                         <div class="main__tag">
                             <p class="main__area">#{{ $shop->area->area_name }}</p>
                             <p class="main__genre">#{{ $shop->genre->genre_name }}</p>
                         </div>
                         <div class="button">
                             <form action="{{ route('detail', ['shop_id' => $shop->id]) }}" method="GET">
+                                @csrf
                                 <button class="button__title" type="submit">詳しく見る</button>
                             </form>
                             <form action="{{ route('evaluation.show', ['shopId' => $shop->id]) }}" method="GET">
@@ -114,14 +124,9 @@
                         </div>
                     </div>
                 </div>
-                @if ($loop->iteration >= 20)
-                    @break
-                @endif
             @endforeach
         @endif
     </main>
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
@@ -130,6 +135,7 @@ $(document).ready(function() {
     setupHeartButtons();
     setupSelect2();
     setupFilters();
+    setupSort();
 
     function setupHeartButtons() {
         $('.heart-button').on('click', function(event) {
@@ -196,16 +202,15 @@ $(document).ready(function() {
     }
 
     function setupSelect2() {
-    $('.first, .second').select2({
-        minimumResultsForSearch: Infinity,
-        templateSelection: function(data) {
-            return $('<span>').css('font-size', '13px').text(data.text);
-        }
-    });
+        $('.first, .second').select2({
+            minimumResultsForSearch: Infinity,
+            templateSelection: function(data) {
+                return $('<span>').css('font-size', '13px').text(data.text);
+            }
+        });
 
-    $('.select2-selection__arrow').css('display', 'none');
-}
-
+        $('.select2-selection__arrow').css('display', 'none');
+    }
 
     function setupFilters() {
         $('#searchInput, #areaSelect, #genreSelect').on('input change', function() {
@@ -237,13 +242,30 @@ $(document).ready(function() {
         });
     }
 
-        $('#areaSelectIcon').on('click', function() {
+    $('#areaSelectIcon').on('click', function() {
         $('#areaSelect').select2('open');
     });
 
-        $('#genreSelectIcon').on('click', function() {
+    $('#genreSelectIcon').on('click', function() {
         $('#genreSelect').select2('open');
     });
+
+    function setupSort() {
+        $('#sortSelect').on('change', function() {
+            $('#sortForm').submit();
+        });
+    }
+
+    function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp('([?&])' + key + '[^&]*');
+        var separator = uri.indexOf('?') !== -1 ? '&' : '?';
+
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + '=' + value);
+        } else {
+            return uri + separator + key + '=' + value;
+        }
+    }
 });
 
 </script>

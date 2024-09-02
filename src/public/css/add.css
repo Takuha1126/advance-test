@@ -24,7 +24,7 @@ html {
 
 @media screen and (max-width: 768px) {
     .header__ttl {
-        padding: 10px 20px;
+        padding: 10px 10px;
     }
 
     .header__title {

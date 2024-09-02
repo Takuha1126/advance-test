@@ -106,7 +106,7 @@ table {
 
     .nav__button {
         margin-left: 0;
-        margin-right: 10px;
+        margin-right: 4px;
     }
 
     .nav__button a,
@@ -118,6 +118,7 @@ table {
 
     .logout__button {
         padding: 7px 5px;
+        margin: 0;
     }
 
     .table {
