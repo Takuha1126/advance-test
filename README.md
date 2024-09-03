@@ -87,7 +87,7 @@ webに公開されていない画像を使うやり方（シンボリックの�
 
 ##環境構築
 開発環境をクローンします
-git clone　git@github.com:Takuha1126/advance-test.git
+git clone git@github.com:Takuha1126/advance-test.git
 
 ここではadvance-testこのディレクトリ名でします
 
@@ -96,11 +96,17 @@ cd　advance-test
 Dockerで開発環境構築
 docker-compose up -d --build
 
-Laravelパッケージのインストール
+
 docker-compose exec php bash
 
-composer install
+QRコードのためにインストールしておく
+apt-get update
+apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
+docker-php-ext-configure gd --with-freetype --with-jpeg
+docker-php-ext-install gd
 
+Laravelパッケージのインストール
+composer install
 
 envファイルの作成
 cp .env.example .env
@@ -135,7 +141,7 @@ php artisan key:generate
 php artisan  storage:link
 
 データベースマイグレーション
-php artisan migrate
+php artisan migrate:refresh
 
 初期データ挿入
 php artisan db:seed --class=ShopsTableSeeder
