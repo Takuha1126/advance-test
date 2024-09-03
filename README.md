@@ -39,10 +39,11 @@ Laravel,php
 
 
 ##csvインポート
-インポート手順
+webに公開されている画像を使うやり方
 1.CSVファイルを作成  
    下記のフォーマットに従って、CSVファイルを作成します
-   
+
+   サンプルフォーマット
    shop_name,area,genre,description,image_url
    "寿司屋","東京都","寿司","新鮮な寿司を提供する店舗です。","http://example.com/image.jpg "
 
@@ -53,17 +54,21 @@ Laravel,php
 
 
 webに公開されていない画像を使うやり方（シンボリックの使用)
+もしシンボリックが作成されていなかったらphp artisan  storage:linkで作成してください
 1.シンボリックの中に画像を入れる
 　  cd advance-test
     mv /path/to/source/sample_image.jpg /src/storage/app/public/images/
+　　　/path/to/source/sample_image.jpgここの部分は各自のパスに書き換える
 
 2.CSVファイルを作成  
     下記のフォーマットに従って、CSVファイルを作成します
-   
+
+   サンプルフォーマット
    shop_name,area,genre,description,image_url
    "寿司屋","東京都","寿司","新鮮な寿司を提供する店舗です。","storage/images/sample_image.jpg"
 
    このようなフォーマットで書いてください
+   image_url: シンボリックリンク内の画像パス（例: storage/images/sample_image.jpg）
 
 3.CSVファイルをアップロード 
    管理ユーザーは、CSVファイルをインポートするために、インポート機能を使用します。インポートは新規店舗を追加するもので、既存の店舗    情報は上書きされません。
@@ -81,10 +86,10 @@ webに公開されていない画像を使うやり方（シンボリックの�
 
 
 ##環境構築
-開発環境をクローンする
+開発環境をクローンします
 git clone　git@github.com:Takuha1126/advance-test.git
 
-ここではadvance-testこのディレクトリ名でする
+ここではadvance-testこのディレクトリ名でします
 
 cd　advance-test
 
@@ -101,7 +106,7 @@ envファイルの作成
 cp .env.example .env
 
 
-.envファイルの書き換える
+.envファイルの書き換えます
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
