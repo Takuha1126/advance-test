@@ -25,7 +25,7 @@ class StoreFeedbackRequest extends FormRequest
     {
         return [
             'rating' => 'required|integer|between:1,5',
-            'comment' => 'required|string|max:400',
+            'comment' => 'nullable|string|max:400',
             'image' => 'nullable|image|mimes:jpeg,png|max:8192',
         ];
     }
@@ -41,7 +41,6 @@ class StoreFeedbackRequest extends FormRequest
             'rating.required' => '評価は必須です。',
             'rating.integer' => '評価は整数でなければなりません。',
             'rating.between' => '評価は1から5の間でなければなりません。',
-            'comment.required' => 'コメントは必須です。',
             'comment.string' => 'コメントは文字列でなければなりません。',
             'comment.max' => 'コメントは400文字以内でなければなりません。',
             'image.image' => 'ファイルは画像でなければなりません。',

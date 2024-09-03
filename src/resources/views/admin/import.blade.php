@@ -39,22 +39,25 @@
         <div class="main__ttl">
             <p class="main__title">CSVインポート</p>
             @if(session('error'))
-                <p style="color: red;">{{ session('error') }}</p>
+                <p class="error">{{ session('error') }}</p>
             @endif
             @if(session('success'))
-                <p style="color: green;">{{ session('success') }}</p>
+                <p class="success">{{ session('success') }}</p>
             @endif
             <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="main__upload">
                     <label for="csv_file" class="file__upload-label">
-                        <input type="file" id="csv_file" name="csv_file" accept=".csv" required onchange="updateFileName()">
+                        <input type="file" id="csv_file" name="csv_file" accept=".csv"  onchange="updateFileName()">
                         <span id="file_name" class="file__upload-text">ファイルを選択してください</span>
                         <div id="drop_zone" class="drop-zone">
                             <p class="drop__title"></p>
                         </div>
                     </label>
                 </div>
+                @error('csv_file')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
                 <div class="button">
                     <button type="submit" class="main__button">インポート</button>
                 </div>
@@ -65,7 +68,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const dropZone = document.getElementById('drop_zone');
         const fileInput = document.getElementById('csv_file');
-        
+
         dropZone.addEventListener('dragover', function(event) {
             event.preventDefault();
             event.stopPropagation();

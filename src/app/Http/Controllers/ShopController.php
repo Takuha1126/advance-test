@@ -137,27 +137,42 @@ class ShopController extends Controller
             return $shop;
         });
 
+        $shopsWithRatings = $shops->filter(function ($shop) {
+            return $shop->average_rating > 0;
+        });
+
+        $shopsWithoutRatings = $shops->filter(function ($shop) {
+            return $shop->average_rating == 0;
+        });
+
         switch ($sort) {
             case 'highest-rating':
-                $shops = $shops->sortByDesc(function ($shop) {
-                    return $shop->average_rating > 0 ? $shop->average_rating : -1;
-                })->values();
+                $shopsWithRatings = $shopsWithRatings->sortByDesc('average_rating')->values();
+                $shopsWithoutRatings = $shopsWithoutRatings->sortBy('id')->values();
                 break;
             case 'lowest-rating':
-                $shops = $shops->sortBy(function ($shop) {
-                    return $shop->average_rating > 0 ? $shop->average_rating : PHP_INT_MAX;
-                })->values();
+                $shopsWithRatings = $shopsWithRatings->sortBy('average_rating')->values();
+                $shopsWithoutRatings = $shopsWithoutRatings->sortBy('id')->values();
                 break;
             case 'random':
-                $shops = $shops->shuffle();
-            break;
+                $shops = $shops->shuffle()->values();
+                $shopsWithRatings = $shops->filter(function ($shop) {
+                    return $shop->average_rating > 0;
+                });
+                $shopsWithoutRatings = $shops->filter(function ($shop) {
+                    return $shop->average_rating == 0;
+                });
+                break;
             default:
-                $shops = $shops->shuffle();
-            break;
+                $shopsWithRatings = $shopsWithRatings->shuffle();
+                $shopsWithoutRatings = $shopsWithoutRatings->sortBy('id')->values();
+                break;
         }
 
-        if ($shops->every(fn($shop) => $shop->average_rating == 0) && $sort !== 'random') {
-            $shops = $shops->sortBy('id')->values();
+        if ($sort !== 'random') {
+            $shops = $shopsWithRatings->concat($shopsWithoutRatings)->values();
+        } else {
+            $shops = $shopsWithRatings->concat($shopsWithoutRatings)->shuffle()->values();
         }
 
         return view('index', ['shops' => $shops]);

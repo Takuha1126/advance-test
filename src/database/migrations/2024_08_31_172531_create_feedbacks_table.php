@@ -18,7 +18,7 @@ class CreateFeedbacksTable extends Migration
             $table->foreignId('user_id');
             $table->foreignId('shop_id');
             $table->integer('rating')->unsigned();
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });

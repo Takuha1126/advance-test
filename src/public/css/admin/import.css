@@ -126,6 +126,19 @@ html {
     border-radius: 5px;
 }
 
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+.text-danger {
+    color: red;
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     .header__ttl {
         flex-direction: column;

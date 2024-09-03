@@ -65,6 +65,9 @@
                             <div class="file-upload-text" id="drop-zone">
                                 <p>クリックして写真を追加</p>
                                 <p>またはドラッグ＆ドロップ</p>
+                                @if ($shop->photo_url)
+                                    <p id="existing-image-text">現在使用中の画像: {{ basename($shop->photo_url) }}</p>
+                                @endif
                             </div>
                             <input type="file" name="image" id="image" class="form-image" accept="image/*">
                         </label>
