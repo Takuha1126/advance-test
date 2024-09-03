@@ -82,31 +82,61 @@ webに公開されていない画像を使うやり方（シンボリックの�
 
 ##環境構築
 開発環境をクローンする
-git clone
-Composer のインストール
-Laravelプロジェクトの依存関係を管理するために、Composerが必要です。
+git clone　git@github.com:Takuha1126/advance-test.git
 
-プロジェクトのクローン
-プロジェクトのリポジトリからソースコードをローカル環境にコピーします。
-    git clone git@github.com:Takuha1126/test-laravel.git,
+ここではadvance-testこのディレクトリ名でする
 
-必要なパッケージのインストール
-プロジェクトディレクトリに移動し、Composerを使用して必要なPHPパッケージをインストールします。
-    cd test-laravel
-    composer install
+cd　advance-test
 
-env ファイルの設定
-.env.example ファイルをコピーして .env ファイルを作成し、データベース接続情報などの環境設定を行います。
-    cp .env.example .env
+Dockerで開発環境構築
+docker-compose up -d --build
 
+Laravelパッケージのインストール
+docker-compose exec php bash
+
+composer install
+
+
+envファイルの作成
+cp .env.example .env
+
+
+.envファイルの書き換える
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=laravel_pass
+
+各自でメールの設定
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+各自でクレジットカードの設定
+STRIPE_KEY=your_stripe_publishable_key
+STRIPE_SECRET=your_stripe_secret_key
 
 アプリケーションキーの生成
-Laravel アプリケーションで使用される暗号化キーを生成します。
-    php artisan key:generate
+php artisan key:generate
+
+シンボリック作成
+php artisan  storage:link
 
 データベースマイグレーション
-データベースのテーブルを作成するために、マイグレーションを実行します。
-    php artisan migrate
+php artisan migrate
 
-データベース接続情報などの設定は、.envファイルをテキストエディタで開いて編集します。
+初期データ挿入
+php artisan db:seed --class=ShopsTableSeeder
+php artisan db:seed --class=GenresTableSeeder
+php artisan db:seed --class=AreasTableSeeder
+
+
+
 
