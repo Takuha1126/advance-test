@@ -42,12 +42,15 @@ Laravel,php
 webに公開されている画像を使うやり方
 1.CSVファイルを作成  
    下記のフォーマットに従って、CSVファイルを作成します
+   ここではshops.csvという名前にします。
+   touch shops.csv
 
    サンプルフォーマット
    shop_name,area,genre,description,image_url
-   "寿司屋","東京都","寿司","新鮮な寿司を提供する店舗です。","http://example.com/image.jpg "
+   "寿司屋","東京都","寿司","新鮮な寿司を提供する店舗です。","http://example.com/image.jpg"
 
-   このようなフォーマットで書いてください
+   「shop_name」から「"http://example.com/image.jpg"」までが全てフォーマットに含まれますので、
+   この形式に従って、必ず項目名とデータを全て記載してください。
 
 2.CSVファイルをアップロード 
    管理ユーザーは、CSVファイルをインポートするために、インポート機能を使用します。インポートは新規店舗を追加するもので、既存の店舗    情報は上書きされません。
@@ -57,17 +60,21 @@ webに公開されていない画像を使うやり方（シンボリックの�
 もしシンボリックが作成されていなかったらphp artisan  storage:linkで作成してください
 1.シンボリックの中に画像を入れる
 　  cd advance-test
-    mv /path/to/source/sample_image.jpg /src/storage/app/public/images/
+    mkdir src/storage/app/public/images
+    mv /path/to/source/sample_image.jpg src/storage/app/public/images/
 　　　/path/to/source/sample_image.jpgここの部分は各自のパスに書き換える
 
 2.CSVファイルを作成  
-    下記のフォーマットに従って、CSVファイルを作成します
+   下記のフォーマットに従って、CSVファイルを作成します
+   ここではshops.csvという名前にします。
+   touch shops.csv
 
    サンプルフォーマット
    shop_name,area,genre,description,image_url
    "寿司屋","東京都","寿司","新鮮な寿司を提供する店舗です。","storage/images/sample_image.jpg"
 
-   このようなフォーマットで書いてください
+   「shop_name」から「"storage/images/sample_image.jpg"」までが全てフォーマットに含まれますので、
+   この形式に従って、必ず項目名とデータを全て記載してください。
    image_url: シンボリックリンク内の画像パス（例: storage/images/sample_image.jpg）
 
 3.CSVファイルをアップロード 
