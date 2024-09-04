@@ -49,7 +49,7 @@ webに公開されている画像を使うやり方
    shop_name,area,genre,description,image_url
    "寿司屋","東京都","寿司","新鮮な寿司を提供する店舗です。","http://example.com/image.jpg"
 
-   「shop_name」から「"http://example.com/image.jpg"」までが全てフォーマットに含まれますので、
+   「shop_name」から「"http://example.com/image.jpg"」 までが全てフォーマットに含まれますので、
    この形式に従って、必ず項目名とデータを全て記載してください。
 
 2.CSVファイルをアップロード 
@@ -73,7 +73,7 @@ webに公開されていない画像を使うやり方（シンボリックの�
    shop_name,area,genre,description,image_url
    "寿司屋","東京都","寿司","新鮮な寿司を提供する店舗です。","storage/images/sample_image.jpg"
 
-   「shop_name」から「"storage/images/sample_image.jpg"」までが全てフォーマットに含まれますので、
+   「shop_name」から「"storage/images/sample_image.jpg"」 までが全てフォーマットに含まれますので、
    この形式に従って、必ず項目名とデータを全て記載してください。
    image_url: シンボリックリンク内の画像パス（例: storage/images/sample_image.jpg）
 
