@@ -31,7 +31,7 @@
                                     <a href="{{ route('evaluation.show', ['shopId' => $shop->id]) }}" class="button__rating" data-shop-id="{{ $shop->id }}">評価</a>
                                 </div>
                                 <button class="heart-button" data-shop-id="{{ $shop->id }}">
-                                    &#10084;
+                                    <i class="fas fa-heart"></i>
                                 </button>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <span class="comment__count" id="char-count">{{ strlen($feedback->comment) }}/400 (最高文字数)</span>
                         </div>
                         @error('comment')
-                            <p class="error">{{ $message }}</p>
+                            <p class="error__compact">{{ $message }}</p>
                         @enderror
                         <div class="main__image">
                             <p class="image__title">画像の追加</p>

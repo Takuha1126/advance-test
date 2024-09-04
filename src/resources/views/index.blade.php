@@ -29,6 +29,7 @@
                     </div>
                 </form>
                 <form id="searchForm" action="/search" method="post">
+                    @csrf
                     <div class="nav__ttl">
                         <div class="select-wrapper">
                             <select class="first" name="area_id" id="areaSelect">
