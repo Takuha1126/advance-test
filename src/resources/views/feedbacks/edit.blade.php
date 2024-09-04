@@ -249,11 +249,26 @@
             });
 
             function updateFileNameDisplay(files) {
+                const imageItems = dropZone.querySelectorAll('.image__item');
                 if (files.length > 0) {
                     const fileName = files[0].name;
-                    dropZone.querySelector('p').textContent = `ファイルが選択されました: ${fileName}`;
+                    if (imageItems.length > 0) {
+                        imageItems[0].textContent = `ファイルが選択されました: ${fileName}`;
+                        imageItems[0].style.display = 'block';
+
+                        if (imageItems.length > 1) {
+                        imageItems[1].style.display = 'none';
+                        }
+                    }
                 } else {
-                    dropZone.querySelector('p').textContent = 'クリックして写真を追加 またはドラッグ＆ドロップ';
+                    if (imageItems.length > 0) {
+                        imageItems[0].textContent = 'クリックして写真を追加 またはドラッグ＆ドロップ';
+                        imageItems[0].style.display = 'block';
+
+                        if (imageItems.length > 1) {
+                            imageItems[1].style.display = 'block';
+                        }
+                    }
                 }
             }
         }

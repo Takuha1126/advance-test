@@ -64,8 +64,8 @@
                         <p class="image__title">画像の追加</p>
                         <label for="image" class="file-upload-label">
                             <div class="file-upload-text" id="drop-zone">
-                                <p>クリックして写真を追加</p>
-                                <p>またはドラッグ＆ドロップ</p>
+                                <p class="image__item">クリックして写真を追加</p>
+                                <p class="image__item">またはドラッグ＆ドロップ</p>
                             </div>
                             <input type="file" name="image" id="image" class="form-image" accept="image/*">
                         </label>
@@ -242,11 +242,26 @@
         });
 
         function updateFileNameDisplay(files) {
+            const imageItems = dropZone.querySelectorAll('.image__item');
             if (files.length > 0) {
                 const fileName = files[0].name;
-                dropZone.querySelector('p').textContent = `ファイルが選択されました: ${fileName}`;
+                if (imageItems.length > 0) {
+                    imageItems[0].textContent = `ファイルが選択されました: ${fileName}`;
+                    imageItems[0].style.display = 'block';
+
+                    if (imageItems.length > 1) {
+                        imageItems[1].style.display = 'none';
+                    }
+                }
             } else {
-                dropZone.querySelector('p').textContent = 'クリックして写真を追加 またはドラッグ＆ドロップ';
+                if (imageItems.length > 0) {
+                    imageItems[0].textContent = 'クリックして写真を追加 またはドラッグ＆ドロップ';
+                    imageItems[0].style.display = 'block';
+
+                    if (imageItems.length > 1) {
+                        imageItems[1].style.display = 'block';
+                    }
+                }
             }
         }
     }
