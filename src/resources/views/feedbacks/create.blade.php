@@ -16,7 +16,7 @@
                 </div>
                 <div class="main__group">
                     <div class="card">
-                        <img src="{{ $shop->photo_url }}">
+                        <img src="{{ asset($shop->photo_url) }}">
                     </div>
                     <div class="main__content">
                         <p class="content__title">{{ $shop->shop_name }}</p>

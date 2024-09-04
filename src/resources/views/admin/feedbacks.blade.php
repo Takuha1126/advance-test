@@ -41,28 +41,31 @@
             <p class="main__title">{{ $shop->shop_name }}の全ての口コミ</p>
         </div>
         <div class="main__item">
-        @forelse ($feedbacks as $feedback)
-            <div class="feedback__item">
-                <div class="feedback__actions">
-                    <form action="{{ route('feedbacks.destroy', $feedback->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="feedback__delete">口コミを削除</button>
-                    </form>
+            @forelse ($feedbacks as $feedback)
+                <div class="feedback__item">
+                    <div class="feedback__actions">
+                        <form action="{{ route('feedback.adminDestroy', $feedback->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="feedback__delete">口コミを削除</button>
+                        </form>
+                    </div>
+                    @if ($feedback->image)
+                        <img src="{{ asset('storage/feedback_images/' . $feedback->image) }}" alt="口コミ画像" class="feedback__image">
+                    @endif
+                    <div class="feedback__rating">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <i class="fas fa-star {{ $i <= $feedback->rating ? 'filled' : 'empty' }}"></i>
+                        @endfor
+                    </div>
+                    <p class="feedback__comment">{{ $feedback->comment }}</p>
                 </div>
-                @if ($feedback->image)
-                    <img src="{{ asset('storage/feedback_images/' . $feedback->image) }}" alt="口コミ画像" class="feedback__image">
-                @endif
-                <div class="feedback__rating">
-                    @for ($i = 1; $i <= 5; $i++)
-                        <i class="fas fa-star {{ $i <= $feedback->rating ? 'filled' : 'empty' }}"></i>
-                    @endfor
+            @empty
+                <div class="feedback__message">
+                    <p class="no__feedback-message">まだ口コミがありません。</p>
                 </div>
-                <p class="feedback__comment">{{ $feedback->comment }}</p>
-            </div>
-        @empty
-            <p class="no__feedback-message">まだ口コミがありません。</p>
-        @endforelse
+            @endforelse
+        </div>
     </main>
 </body>
 </html>

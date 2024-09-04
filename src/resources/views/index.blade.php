@@ -96,7 +96,7 @@
             @foreach ($shops as $shop)
                 <div class="main__group">
                     <div class="card">
-                        <img src="{{ $shop->photo_url }}">
+                        <img src="{{ asset($shop->photo_url) }}">
                     </div>
                     <div class="main__content">
                         <div class="main__title">{{ $shop->shop_name }}</div>
@@ -267,7 +267,6 @@ $(document).ready(function() {
         }
     }
 });
-
 </script>
 </body>
 </html>

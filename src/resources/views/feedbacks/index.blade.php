@@ -15,7 +15,7 @@
                 @if (auth()->check() && $feedback->user_id === auth()->id())
                     <div class="feedback__actions">
                         <a href="{{ route('feedbacks.edit', $feedback->id) }}" class="feedback__edit">口コミを編集</a>
-                        <form action="{{ route('feedbacks.destroy', $feedback->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('feedbacks.destroy', $feedback->id) }}" method="POST" class="feedbacks__form">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="feedback__delete">口コミを削除</button>
@@ -33,7 +33,9 @@
                 <p class="feedback__comment">{{ $feedback->comment }}</p>
             </div>
         @empty
-            <p class="no__feedback-message">まだ口コミがありません。</p>
+            <div class="feedback__message">
+                <p class="no__feedback-message">まだ口コミがありません。</p>
+            </div>
         @endforelse
     </div>
 @endsection

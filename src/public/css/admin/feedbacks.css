@@ -65,11 +65,16 @@ html {
     font-weight: 900;
 }
 
-.main__item {
-    border-top: 1px solid #aaaaaa;
+.feedback__item {
+    padding-top: 10px;
+    margin-bottom: 10px;
     border-bottom: 1px solid #aaaaaa;
-    ;
 }
+
+.feedback__item:first-of-type {
+    border-top: 1px solid #aaaaaa;
+}
+
 
 .feedback__actions {
     text-align: right;
@@ -117,6 +122,11 @@ html {
 .feedback__comment {
     font-size: 20px;
     padding: 5px;
+}
+
+.feedback__message {
+    border-top: 1px solid #aaaaaa;
+    border-bottom: 1px solid #aaaaaa;
 }
 
 .no__feedback-message {

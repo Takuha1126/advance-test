@@ -111,5 +111,15 @@ class FeedbackController extends Controller
 
         return view('admin.feedbacks', compact('shop', 'feedbacks'));
     }
+
+    public function adminDestroy($feedbackId)
+    {
+        $user = auth()->user();
+
+        $feedback = Feedback::findOrFail($feedbackId);
+        $feedback->delete();
+
+        return redirect()->back()->with('success', 'フィードバックが削除されました。');
+    }
 }
 

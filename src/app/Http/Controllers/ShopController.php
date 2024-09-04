@@ -134,6 +134,10 @@ class ShopController extends Controller
 
         $shops = Shop::with('feedbacks')->get()->map(function ($shop) {
             $shop->average_rating = $shop->feedbacks->avg('rating') ?? 0;
+            $shop->feedback_count = $shop->feedbacks->count();
+
+            $shop->weighted_rating = $shop->average_rating * $shop->feedback_count;
+
             return $shop;
         });
 
@@ -147,11 +151,15 @@ class ShopController extends Controller
 
         switch ($sort) {
             case 'highest-rating':
-                $shopsWithRatings = $shopsWithRatings->sortByDesc('average_rating')->values();
+                $shopsWithRatings = $shopsWithRatings->sort(function ($a, $b) {
+                    return $b->weighted_rating <=> $a->weighted_rating;
+                })->values();
                 $shopsWithoutRatings = $shopsWithoutRatings->sortBy('id')->values();
                 break;
             case 'lowest-rating':
-                $shopsWithRatings = $shopsWithRatings->sortBy('average_rating')->values();
+                $shopsWithRatings = $shopsWithRatings->sort(function ($a, $b) {
+                    return $a->weighted_rating <=> $b->weighted_rating;
+                })->values();
                 $shopsWithoutRatings = $shopsWithoutRatings->sortBy('id')->values();
                 break;
             case 'random':

@@ -181,9 +181,13 @@
 
 .table__th,
 .table__td {
-    padding: 10px 20px;
+    padding: 5px;
     color: #fff;
     text-align: left;
+}
+
+.table__td {
+    font-size: 12px;
 }
 
 .button {
@@ -209,11 +213,6 @@
 }
 
 @media (max-width: 1200px) {
-    body,
-    html {
-        overflow-y: auto;
-    }
-
     .main {
         flex-direction: column;
         align-items: center;
@@ -305,7 +304,6 @@
         max-width: 90%;
         margin-left: 0;
         margin-bottom: 20px;
-        max-height: 600px;
     }
 
     .detail__info,

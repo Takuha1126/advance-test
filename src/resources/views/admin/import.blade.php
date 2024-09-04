@@ -65,44 +65,44 @@
         </div>
     </main>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dropZone = document.getElementById('drop_zone');
-        const fileInput = document.getElementById('csv_file');
-
-        dropZone.addEventListener('dragover', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            dropZone.classList.add('dragover');
-        });
-
-        dropZone.addEventListener('dragleave', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            dropZone.classList.remove('dragover');
-        });
-
-        dropZone.addEventListener('drop', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            dropZone.classList.remove('dragover');
-
-            const files = event.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files;
-                updateFileName();
-            }
-        });
-
-        fileInput.addEventListener('change', function(event) {
-            updateFileName();
-        });
-
         function updateFileName() {
+            const fileInput = document.getElementById('csv_file');
             const fileName = fileInput.files[0] ? `${fileInput.files[0].name} が選択されています` : 'ファイルを選択してください';
             document.getElementById('file_name').textContent = fileName;
         }
-    });
-</script>
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropZone = document.getElementById('drop_zone');
+            const fileInput = document.getElementById('csv_file');
+
+            dropZone.addEventListener('dragover', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                dropZone.classList.remove('dragover');
+
+                const files = event.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    updateFileName();
+                }
+            });
+
+            fileInput.addEventListener('change', function(event) {
+                updateFileName();
+            });
+        });
+    </script>
 </body>
 </html>

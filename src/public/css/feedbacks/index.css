@@ -11,7 +11,7 @@
 
 .feedback__item {
     padding-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border-bottom: 1px solid #aaaaaa;
 }
 
@@ -19,19 +19,18 @@
     border-top: 1px solid #aaaaaa;
 }
 
-.feedback__item:last-of-type {
-    border-bottom: none;
-}
-
 .feedback__actions {
     text-align: right;
-    margin-top: 10px;
 }
 
 .feedback__edit {
     color: #000;
     margin-right: 20px;
     font-size: 16px;
+}
+
+.feedbacks__form {
+    display:inline
 }
 
 .feedback__delete {
@@ -69,6 +68,11 @@
 .feedback__comment {
     font-size: 20px;
     padding: 5px;
+}
+
+.feedback__message {
+    border-top: 1px solid #aaaaaa;
+    border-bottom: 1px solid #aaaaaa;
 }
 
 .no__feedback-message {

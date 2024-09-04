@@ -75,7 +75,7 @@ class CsvImportController extends Controller
 
     private function validateRecord($record)
     {
-        if (strlen($record['shop_name']) > 50) {
+        if (mb_strlen($record['shop_name'], 'UTF-8') > 50) {
             throw new \Exception('店舗名が50文字を超えています');
         }
 
@@ -89,7 +89,7 @@ class CsvImportController extends Controller
             throw new \Exception('無効なジャンルです');
         }
 
-        if (strlen($record['description']) > 400) {
+        if (mb_strlen($record['description']) > 400) {
             throw new \Exception('店舗概要が400文字を超えています');
         }
 

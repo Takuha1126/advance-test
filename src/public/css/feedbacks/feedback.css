@@ -184,11 +184,6 @@
     border-radius: 3px;
     text-align: center;
     background-color: #f9f9f9;
-    position: relative;
-}
-
-.file-upload-label:hover {
-    background-color: #e9e9e9;
 }
 
 .file-upload-text {
@@ -222,30 +217,32 @@
 .error {
     color: #ff0000;
     font-size: 15px;
-    padding: 0;
-    margin: 0;
+    padding-top: 5px;
     text-align: center;
 }
 
 @media (max-width: 950px) {
-    .main__ttl{
+    .main__ttl {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
         margin: 0 auto;
-        padding-right: 27px;
     }
 
     .main__item {
         width: 100%;
-        margin-bottom: 20px;
+        margin: 0;
     }
 
     .main__title-ttl {
         font-size: 40px;
         width: 100%;
         text-align: center;
+    }
+
+    .main__group {
+        margin: 0  auto;
     }
 
     .main__about {
@@ -265,7 +262,6 @@
 
     .rating__title {
         font-size: 25px;
-        margin-left: 20px;
     }
 
     .star__rating {
@@ -277,7 +273,7 @@
 
     .star__rating i {
         font-size: 30px;
-        margin-left: 20px;
+        margin-left: 10px;
     }
 
     .main__comment {
@@ -291,23 +287,21 @@
     }
 
     .form-control {
-        width: 90%;
-        height: 100px;
+        width: 100%;
         background-color: #dddddd;
         border-radius: 3px;
         padding: 10px;
-        margin-left: 20px;
     }
 
     .comment__count {
-        width: 95%;
-        margin-left: 20px;
+        width: 100%;
+
     }
 
     .main__image {
         width: 100%;
         text-align: center;
-        margin-left: 20px;
+
     }
 
     .image__title {
@@ -317,7 +311,7 @@
     .file-upload-label {
         display: block;
         text-align: center;
-        width: 95%;
+        width: 100%;
     }
 
     .file-upload-text {
@@ -328,7 +322,7 @@
 
     .main__button {
         text-align: center;
-        margin-top: 150px;
+        margin-top: 170px;
         margin-bottom: 30px;
     }
 
@@ -341,7 +335,6 @@
         font-size: 15px;
         padding: 0;
         text-align: center;
-        margin-left: 30px;
     }
 
 }

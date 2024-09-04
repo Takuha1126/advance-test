@@ -93,6 +93,7 @@ Route::middleware(['auth.admin'])->group(function () {
         Route::post('/import', [CsvImportController::class, 'import'])->name('import');
         Route::get('/shops', [FeedbackController::class, 'showShops'])->name('shops.showShops');
         Route::get('/admin/{shopId}/feedbacks', [FeedbackController::class, 'showFeedbacks'])->name('shops.feedbacks');
+        Route::delete('/admin/feedback/{feedbackId}', [FeedbackController::class, 'adminDestroy'])->name('feedback.adminDestroy');
     });
 
 
