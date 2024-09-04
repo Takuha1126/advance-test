@@ -81,7 +81,7 @@ class FeedbackController extends Controller
 
         $feedback->save();
 
-        return redirect()->route('detail', $feedback->shop_id)->with('success', 'フィードバックが更新されました。');
+        return redirect()->route('detail', $feedback->shop_id);
     }
 
     public function destroy($feedbackId)
@@ -90,7 +90,7 @@ class FeedbackController extends Controller
         $feedback = Feedback::findOrFail($feedbackId);
 
         if ($feedback->user_id !== $userId) {
-            return redirect()->back()->with('error', '権限がありません。');
+            return redirect()->back();
         }
 
         $feedback->delete();
@@ -119,7 +119,7 @@ class FeedbackController extends Controller
         $feedback = Feedback::findOrFail($feedbackId);
         $feedback->delete();
 
-        return redirect()->back()->with('success', 'フィードバックが削除されました。');
+        return redirect()->back();
     }
 }
 
