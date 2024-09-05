@@ -20,63 +20,71 @@ class CsvImportController extends Controller
     }
 
     public function import(ImportCsvRequest $request)
-{
-    $file = $request->file('csv_file');
-    $path = $file->getRealPath();
+    {
+        $file = $request->file('csv_file');
+        $path = $file->getRealPath();
 
-    DB::beginTransaction();
+        DB::beginTransaction();
 
-    try {
-        $csv = Reader::createFromPath($path, 'r');
-        $csv->setHeaderOffset(0);
+        try {
+            $csv = Reader::createFromPath($path, 'r');
+            $csv->setHeaderOffset(0);
 
-        $records = Statement::create()->process($csv);
+            $records = Statement::create()->process($csv);
 
-        $errors = [];
+            $errors = [];
 
-        foreach ($records as $record) {
-            try {
-                $this->validateRecord($record);
+            foreach ($records as $record) {
+                try {
+                    $this->validateRecord($record);
 
-                $genreId = $this->getGenreId($record['genre']);
-                $areaId = $this->getAreaId($record['area']);
+                    $genreId = $this->getGenreId($record['genre']);
+                    $areaId = $this->getAreaId($record['area']);
 
-                if (!$genreId || !$areaId) {
-                    throw new \Exception('無効なジャンルまたは地域です');
+                    if (!$genreId || !$areaId) {
+                        throw new \Exception('無効なジャンルまたは地域です');
+                    }
+
+                    $photoUrl = $this->processImageUrl($record['image_url']);
+
+                    Shop::create([
+                        'shop_name' => $record['shop_name'],
+                        'genre_id' => $genreId,
+                        'area_id' => $areaId,
+                        'description' => $record['description'],
+                        'photo_url' => $photoUrl,
+                    ]);
+                } catch (\Exception $e) {
+                    $errors[] = $e->getMessage();
                 }
-
-                $photoUrl = $this->processImageUrl($record['image_url']);
-
-                Shop::create([
-                    'shop_name' => $record['shop_name'],
-                    'genre_id' => $genreId,
-                    'area_id' => $areaId,
-                    'description' => $record['description'],
-                    'photo_url' => $photoUrl,
-                ]);
-            } catch (\Exception $e) {
-                $errors[] = $e->getMessage();
             }
-        }
 
-        if (!empty($errors)) {
+            if (!empty($errors)) {
+                DB::rollBack();
+                return redirect()->route('import.form')->with('error', 'CSVインポートに失敗しました: ' . implode(', ', $errors));
+            }
+
+            DB::commit();
+            return redirect()->route('import.form')->with('success', 'CSVインポートが完了しました');
+
+        } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('import.form')->with('error', 'CSVインポートに失敗しました: ' . implode(', ', $errors));
+            return redirect()->route('import.form')->with('error', 'CSVインポートに失敗しました: ' . $e->getMessage());
         }
-
-        DB::commit();
-        return redirect()->route('import.form')->with('success', 'CSVインポートが完了しました');
-
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return redirect()->route('import.form')->with('error', 'CSVインポートに失敗しました: ' . $e->getMessage());
     }
-}
 
     private function validateRecord($record)
     {
+        if (empty($record['shop_name'])) {
+            throw new \Exception('店舗名が入力されていません');
+        }
+
         if (mb_strlen($record['shop_name'], 'UTF-8') > 50) {
             throw new \Exception('店舗名が50文字を超えています');
+        }
+
+        if (empty($record['area'])) {
+            throw new \Exception('地域が入力されていません');
         }
 
         $validAreas = ['東京都', '大阪府', '福岡県'];
@@ -84,13 +92,25 @@ class CsvImportController extends Controller
             throw new \Exception('無効な地域です');
         }
 
+        if (empty($record['genre'])) {
+            throw new \Exception('ジャンルが入力されていません');
+        }
+
         $validGenres = ['寿司', '焼肉', 'イタリアン', '居酒屋', 'ラーメン'];
         if (!in_array($record['genre'], $validGenres)) {
             throw new \Exception('無効なジャンルです');
         }
 
+        if (empty($record['description'])) {
+            throw new \Exception('店舗概要が入力されていません');
+        }
+
         if (mb_strlen($record['description']) > 400) {
             throw new \Exception('店舗概要が400文字を超えています');
+        }
+
+        if (empty($record['image_url'])) {
+            throw new \Exception('画像URLが入力されていません');
         }
 
         $imageUrl = $record['image_url'];
@@ -106,6 +126,7 @@ class CsvImportController extends Controller
             throw new \Exception('無効な画像URLまたはローカルファイルです');
         }
     }
+
 
     private function getGenreId($genreName)
     {
