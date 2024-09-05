@@ -179,8 +179,8 @@
 }
 
 
-.table__th,
-.table__td {
+.table__th {
+    white-space: nowrap;
     padding: 5px;
     color: #fff;
     text-align: left;
@@ -188,6 +188,8 @@
 
 .table__td {
     font-size: 12px;
+    color: #fff;
+    padding: 5px;
 }
 
 .button {

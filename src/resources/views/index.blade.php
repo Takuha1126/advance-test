@@ -67,7 +67,7 @@
                         <img src="{{ $shop->photo_url }}">
                     </div>
                     <div class="main__content">
-                        <p class="main__title">{{ $shop->shop_name }}</p>
+                        <div class="main__title" data-text="{{ $shop->shop_name }}"></div>
                         <div class="main__tag">
                             <p class="main__area">#{{ $shop->area->area_name }}</p>
                             <p class="main__genre">#{{ $shop->genre->genre_name }}</p>
@@ -100,7 +100,7 @@
                         <img src="{{ asset($shop->photo_url) }}">
                     </div>
                     <div class="main__content">
-                        <div class="main__title">{{ $shop->shop_name }}</div>
+                        <p class="main__title">{{ $shop->shop_name }}</p>
                         <div class="main__tag">
                             <p class="main__area">#{{ $shop->area->area_name }}</p>
                             <p class="main__genre">#{{ $shop->genre->genre_name }}</p>
@@ -137,6 +137,7 @@ $(document).ready(function() {
     setupSelect2();
     setupFilters();
     setupSort();
+    trimText();
 
     function setupHeartButtons() {
         $('.heart-button').on('click', function(event) {
@@ -266,6 +267,17 @@ $(document).ready(function() {
         } else {
             return uri + separator + key + '=' + value;
         }
+    }
+
+    function trimText() {
+        const maxLength = 14;
+
+        $('.main__title').each(function() {
+            const text = $(this).text();
+            if (text.length > maxLength) {
+                $(this).text(text.slice(0, maxLength) + '...');
+            }
+        });
     }
 });
 </script>
