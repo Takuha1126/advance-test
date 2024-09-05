@@ -24,21 +24,16 @@ class ImportCsvRequest extends FormRequest
     public function rules()
     {
         return [
-            'csv_file' => 'required|file|mimes:csv',
+            'csv_file' => ['required', 'file', 'csv_format'],
         ];
     }
 
-    /**
-     * Custom error messages for validation rules.
-     *
-     * @return array
-     */
     public function messages()
     {
         return [
             'csv_file.required' => 'CSVファイルは必須です。',
             'csv_file.file' => 'CSVファイルをアップロードしてください。',
-            'csv_file.mimes' => 'CSVファイルの形式が無効です。',
+            'csv_file.csv_format' => 'CSVファイルの形式が無効です。',
         ];
     }
 }
