@@ -10,10 +10,18 @@ use App\Models\Genre;
 use App\Models\Area;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ImportCsvRequest;
+use App\Services\CsvImportService;
 
 
 class CsvImportController extends Controller
 {
+    protected $csvImportService;
+
+    public function __construct(CsvImportService $csvImportService)
+    {
+        $this->csvImportService = $csvImportService;
+    }
+
     public function showImportForm()
     {
         return view('admin.import');
@@ -31,13 +39,22 @@ class CsvImportController extends Controller
             $csv->setHeaderOffset(0);
 
             $records = Statement::create()->process($csv);
+            $recordsArray = iterator_to_array($records);
+
+            $validationResult = $this->csvImportService->validateRecords($recordsArray);
+
+            if ($validationResult !== true) {
+                DB::rollBack();
+                $errors = array_reduce($validationResult, function($carry, $item) {
+                    return $carry . "行 {$item['row']}: " . implode(', ', $item['errors']) . "\n";
+                }, '');
+                return redirect()->route('import.form')->with('error', "CSVインポートに失敗しました:\n" . $errors);
+            }
 
             $errors = [];
 
-            foreach ($records as $record) {
+            foreach ($recordsArray as $record) {
                 try {
-                    $this->validateRecord($record);
-
                     $genreId = $this->getGenreId($record['genre']);
                     $areaId = $this->getAreaId($record['area']);
 
@@ -72,61 +89,6 @@ class CsvImportController extends Controller
             return redirect()->route('import.form')->with('error', 'CSVインポートに失敗しました: ' . $e->getMessage());
         }
     }
-
-    private function validateRecord($record)
-    {
-        if (empty($record['shop_name'])) {
-            throw new \Exception('店舗名が入力されていません');
-        }
-
-        if (mb_strlen($record['shop_name'], 'UTF-8') > 50) {
-            throw new \Exception('店舗名が50文字を超えています');
-        }
-
-        if (empty($record['area'])) {
-            throw new \Exception('地域が入力されていません');
-        }
-
-        $validAreas = ['東京都', '大阪府', '福岡県'];
-        if (!in_array($record['area'], $validAreas)) {
-            throw new \Exception('無効な地域です');
-        }
-
-        if (empty($record['genre'])) {
-            throw new \Exception('ジャンルが入力されていません');
-        }
-
-        $validGenres = ['寿司', '焼肉', 'イタリアン', '居酒屋', 'ラーメン'];
-        if (!in_array($record['genre'], $validGenres)) {
-            throw new \Exception('無効なジャンルです');
-        }
-
-        if (empty($record['description'])) {
-            throw new \Exception('店舗概要が入力されていません');
-        }
-
-        if (mb_strlen($record['description']) > 400) {
-            throw new \Exception('店舗概要が400文字を超えています');
-        }
-
-        if (empty($record['image_url'])) {
-            throw new \Exception('画像URLが入力されていません');
-        }
-
-        $imageUrl = $record['image_url'];
-        $extension = strtolower(pathinfo($imageUrl, PATHINFO_EXTENSION));
-
-        $allowedExtensions = ['jpeg', 'jpg', 'png'];
-
-        if (!in_array($extension, $allowedExtensions)) {
-            throw new \Exception('無効な画像形式です');
-        }
-
-        if (filter_var($imageUrl, FILTER_VALIDATE_URL) === false && !file_exists($imageUrl)) {
-            throw new \Exception('無効な画像URLまたはローカルファイルです');
-        }
-    }
-
 
     private function getGenreId($genreName)
     {
