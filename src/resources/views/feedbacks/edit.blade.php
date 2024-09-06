@@ -276,5 +276,5 @@
             }
         }
     })
-</script>
+    </script>
 @endsection
