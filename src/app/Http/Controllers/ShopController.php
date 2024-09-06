@@ -12,7 +12,6 @@ use App\Http\Requests\ShopUpdateRequest;
 
 class ShopController extends Controller
 {
-
     public function index()
     {
         $shops = Shop::with('area', 'genre')->get();
@@ -71,7 +70,7 @@ class ShopController extends Controller
     public function showCreateUpdateForm($id)
     {
         $shop = $this->findShopById($id);
-        $images = Storage::disk('s3')->files('atte-ui');
+        $images = Storage::disk('public')->files('uploaded_images');
         return view('shops.shop', compact('shop', 'images'));
     }
 
@@ -108,11 +107,11 @@ class ShopController extends Controller
         try {
             $image = $request->file('image');
             $fileName = time() . '_' . $image->getClientOriginalName();
-            $path = 'atte-ui/' . $fileName;
+            $path = 'uploaded_images/' . $fileName;
 
-            Storage::disk('s3')->putFileAs('atte-ui', $image, $fileName);
+            $image->storeAs('public/uploaded_images', $fileName);
 
-            $url = Storage::disk('s3')->url($path);
+            $url = Storage::disk('public')->url('uploaded_images/' . $fileName);
 
             return response()->json([
                 'success' => true,

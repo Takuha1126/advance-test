@@ -112,7 +112,7 @@ html {
     margin: 10px auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 10px;
 }
 
 .main__ttl {
@@ -125,21 +125,25 @@ html {
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
     background-color: #fff;
     border-radius: 5px;
+    width: 280px;
 }
 
 .card img {
     width: 100%;
-    height: 200px;
+    height: 180px;
     border-radius: 5px 5px 0 0;
     object-fit: cover;
 }
 
 .main__content {
     padding: 20px;
+    width: 100%;
 }
 
 .main__title {
     font-weight: bold;
+    width: 100%;
+    display: block;
 }
 
 .main__tag {
@@ -204,7 +208,7 @@ html {
     color: red;
 }
 
-@media screen and (max-width: 779px) {
+@media screen and (max-width: 1160px) {
     body,
     html {
         margin: 0;
@@ -295,7 +299,7 @@ html {
         margin: 10px auto;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 50px;
     }
 
     .main__ttl {
@@ -308,19 +312,26 @@ html {
         box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         background-color: #fff;
         border-radius: 5px;
+        width: 100%;
     }
 
     .card img {
         width: 100%;
+        height: 300px;
         border-radius: 5px 5px 0 0;
     }
 
     .main__content {
-        padding: 20px;
+        padding: 10px;
     }
 
     .main__title {
         font-weight: bold;
+    }
+
+    .main__title.truncated {
+        font-size: 12px;
+        padding-bottom: 15px;
     }
 
     .main__tag {
@@ -337,10 +348,10 @@ html {
         align-items: center;
     }
 
-        .button__ttl {
-            display: flex;
-            flex-direction: column;
-        }
+    .button__ttl {
+        display: flex;
+        flex-direction: column;
+    }
 
     .button__title {
         margin-bottom: 10px;
@@ -350,7 +361,7 @@ html {
     }
 
     .heart-button {
-        font-size: 20px;
+        font-size: 30px;
         color: gray;
         cursor: pointer;
         background: none;
@@ -385,4 +396,29 @@ html {
     .heart-button.liked {
         color: red;
     }
+
+    @media screen and (max-width: 500px) {
+        .main {
+            margin: 10px auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .heart-button {
+            font-size: 20px;
+            color: gray;
+            cursor: pointer;
+            background: none;
+            border: none;
+            outline: none;
+        }
+    }
+
 }

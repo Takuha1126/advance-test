@@ -54,7 +54,7 @@
                         <select name="photo_url" id="photoSelect">
                             <option value="">選択してください</option>
                             @foreach ($images as $image)
-                                <option value="{{ Storage::disk('s3')->url($image) }}">{{ basename(parse_url(Storage::disk('s3')->url($image), PHP_URL_PATH)) }}</option>
+                                <option value="{{ Storage::disk('public')->url($image) }}">{{ basename(parse_url(Storage::disk('public')->url($image), PHP_URL_PATH)) }}</option>
                             @endforeach
                         </select>
                     </div>

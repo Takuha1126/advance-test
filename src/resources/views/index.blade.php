@@ -67,7 +67,7 @@
                         <img src="{{ $shop->photo_url }}">
                     </div>
                     <div class="main__content">
-                        <div class="main__title" data-text="{{ $shop->shop_name }}"></div>
+                        <p class="main__title" data-text="{{ $shop->shop_name }}"></p>
                         <div class="main__tag">
                             <p class="main__area">#{{ $shop->area->area_name }}</p>
                             <p class="main__genre">#{{ $shop->genre->genre_name }}</p>
@@ -128,159 +128,166 @@
             @endforeach
         @endif
     </main>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script>
-$(document).ready(function() {
-    fetchFavoritesAndUpdateHearts();
-    setupHeartButtons();
-    setupSelect2();
-    setupFilters();
-    setupSort();
-    trimText();
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        fetchFavoritesAndUpdateHearts();
+        setupHeartButtons();
+        setupSelect2();
+        setupFilters();
+        setupSort();
+        trimText();
 
-    function setupHeartButtons() {
-        $('.heart-button').on('click', function(event) {
-            event.preventDefault();
-            const shopId = $(this).data('shopId');
-            toggleFavorite($(this), shopId);
-        });
-    }
+        function setupHeartButtons() {
+            $('.heart-button').on('click', function(event) {
+                event.preventDefault();
+                const shopId = $(this).data('shopId');
+                toggleFavorite($(this), shopId);
+            });
+        }
 
-    function fetchFavoritesAndUpdateHearts() {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+        function fetchFavoritesAndUpdateHearts() {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
 
-        $('.heart-button').each(function() {
-            const shopId = $(this).data('shopId');
-            updateFavoriteStatus($(this), shopId, favorites);
+            $('.heart-button').each(function() {
+                const shopId = $(this).data('shopId');
+                updateFavoriteStatus($(this), shopId, favorites);
 
-            fetch(`/favorite/status/${shopId}`, {
-                method: 'GET',
+                fetch(`/favorite/status/${shopId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    updateFavoriteStatus($(this), shopId, favorites, data.isFavorite);
+                })
+                .catch(error => {
+                    console.error('Error fetching favorite status:', error);
+                });
+            });
+        }
+
+        function updateFavoriteStatus(button, shopId, favorites, isFavorite = favorites[shopId] || false) {
+            button.toggleClass('liked', isFavorite);
+            favorites[shopId] = isFavorite;
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        function toggleFavorite(button, shopId) {
+            const isLiked = button.hasClass('liked');
+            const method = isLiked ? 'DELETE' : 'POST';
+
+            fetch(`/favorite/toggle/${shopId}`, {
+                method: method,
                 headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({ shop_id: shopId })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
-                updateFavoriteStatus($(this), shopId, favorites, data.isFavorite);
+                updateFavoriteStatus(button, shopId, JSON.parse(localStorage.getItem('favorites')), method === 'POST');
             })
             .catch(error => {
-                console.error('Error fetching favorite status:', error);
+                console.error('Error:', error);
+                alert('お気に入りの操作に失敗しました。');
             });
-        });
-    }
-
-    function updateFavoriteStatus(button, shopId, favorites, isFavorite = favorites[shopId] || false) {
-        button.toggleClass('liked', isFavorite);
-        favorites[shopId] = isFavorite;
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-    }
-
-    function toggleFavorite(button, shopId) {
-        const isLiked = button.hasClass('liked');
-        const method = isLiked ? 'DELETE' : 'POST';
-
-        fetch(`/favorite/toggle/${shopId}`, {
-            method: method,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ shop_id: shopId })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            updateFavoriteStatus(button, shopId, JSON.parse(localStorage.getItem('favorites')), method === 'POST');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('お気に入りの操作に失敗しました。');
-        });
-    }
-
-    function setupSelect2() {
-        $('.first, .second').select2({
-            minimumResultsForSearch: Infinity,
-            templateSelection: function(data) {
-                return $('<span>').css('font-size', '13px').text(data.text);
-            }
-        });
-
-        $('.select2-selection__arrow').css('display', 'none');
-    }
-
-    function setupFilters() {
-        $('#searchInput, #areaSelect, #genreSelect').on('input change', function() {
-            filterCards();
-        });
-        $('#searchInput').on('keydown', function(event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                filterCards();
-            }
-        });
-    }
-
-    function filterCards() {
-        var selectedArea = $('#areaSelect').val();
-        var selectedGenre = $('#genreSelect').val();
-        var keyword = $('#searchInput').val().toLowerCase();
-
-        $('.main__group').each(function() {
-            var areaName = $(this).find('.main__area').text();
-            var genreName = $(this).find('.main__genre').text();
-            var cardText = $(this).text().toLowerCase();
-
-            var areaMatch = selectedArea === "" || areaName.includes(selectedArea);
-            var genreMatch = selectedGenre === "" || genreName.includes(selectedGenre);
-            var keywordMatch = keyword === "" || cardText.includes(keyword);
-
-            $(this).toggle(areaMatch && genreMatch && keywordMatch);
-        });
-    }
-
-    $('#areaSelectIcon').on('click', function() {
-        $('#areaSelect').select2('open');
-    });
-
-    $('#genreSelectIcon').on('click', function() {
-        $('#genreSelect').select2('open');
-    });
-
-    function setupSort() {
-        $('#sortSelect').on('change', function() {
-            $('#sortForm').submit();
-        });
-    }
-
-    function updateQueryStringParameter(uri, key, value) {
-        var re = new RegExp('([?&])' + key + '[^&]*');
-        var separator = uri.indexOf('?') !== -1 ? '&' : '?';
-
-        if (uri.match(re)) {
-            return uri.replace(re, '$1' + key + '=' + value);
-        } else {
-            return uri + separator + key + '=' + value;
         }
-    }
 
-    function trimText() {
-        const maxLength = 14;
+        function setupSelect2() {
+            $('.first, .second').select2({
+                minimumResultsForSearch: Infinity,
+                templateSelection: function(data) {
+                    return $('<span>').css('font-size', '13px').text(data.text);
+                }
+            });
 
-        $('.main__title').each(function() {
-            const text = $(this).text();
-            if (text.length > maxLength) {
-                $(this).text(text.slice(0, maxLength) + '...');
-            }
+            $('.select2-selection__arrow').css('display', 'none');
+        }
+
+        function setupFilters() {
+            $('#searchInput, #areaSelect, #genreSelect').on('input change', function() {
+                filterCards();
+            });
+            $('#searchInput').on('keydown', function(event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    filterCards();
+                }
+            });
+        }
+
+        function filterCards() {
+            var selectedArea = $('#areaSelect').val();
+            var selectedGenre = $('#genreSelect').val();
+            var keyword = $('#searchInput').val().toLowerCase();
+
+            $('.main__group').each(function() {
+                var areaName = $(this).find('.main__area').text();
+                var genreName = $(this).find('.main__genre').text();
+                var cardText = $(this).text().toLowerCase();
+
+                var areaMatch = selectedArea === "" || areaName.includes(selectedArea);
+                var genreMatch = selectedGenre === "" || genreName.includes(selectedGenre);
+                var keywordMatch = keyword === "" || cardText.includes(keyword);
+
+                $(this).toggle(areaMatch && genreMatch && keywordMatch);
+            });
+        }
+
+        $('#areaSelectIcon').on('click', function() {
+            $('#areaSelect').select2('open');
         });
-    }
-});
-</script>
+
+        $('#genreSelectIcon').on('click', function() {
+            $('#genreSelect').select2('open');
+        });
+
+        function setupSort() {
+            $('#sortSelect').on('change', function() {
+                $('#sortForm').submit();
+            });
+        }
+
+        function updateQueryStringParameter(uri, key, value) {
+            var re = new RegExp('([?&])' + key + '[^&]*');
+            var separator = uri.indexOf('?') !== -1 ? '&' : '?';
+
+            if (uri.match(re)) {
+                return uri.replace(re, '$1' + key + '=' + value);
+            } else {
+                return uri + separator + key + '=' + value;
+            }
+        }
+
+        function trimText() {
+            const maxLength = 10;
+
+            $('.main__title').each(function() {
+                const text = $(this).text();
+                if (text.length > maxLength) {
+                    $(this).text(text.slice(0, maxLength) + '...');
+                    $(this).addClass('truncated');
+                } else {
+                    $(this).removeClass('truncated');
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            trimText();
+        });
+    })
+    </script>
 </body>
 </html>
 
