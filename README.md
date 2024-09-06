@@ -92,6 +92,7 @@ webに公開されていない画像を使うやり方（シンボリックの�
  2.データの入力
 
   サンプルフォーマット
+  
    shop_name|area|genre|description|image_url
    
    寿司屋|東京都|寿司|新鮮な寿司を提供する店舗です。|http://example.com/image.jpg
