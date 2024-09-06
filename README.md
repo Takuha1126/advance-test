@@ -47,7 +47,9 @@ webに公開されている画像を使うやり方
    touch shops.csv
 
    サンプルフォーマット
+   
    shop_name,area,genre,description,image_url
+   
    寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,http://example.com/image.jpg
 
    
@@ -73,7 +75,9 @@ webに公開されていない画像を使うやり方（シンボリックの�
    touch shops.csv
 
    サンプルフォーマット
+   
    shop_name,area,genre,description,image_url
+   
    寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,storage/images/sample_image.jpg
 
 3.CSVファイルをアップロード 
@@ -88,8 +92,11 @@ webに公開されていない画像を使うやり方（シンボリックの�
  2.データの入力
 
   サンプルフォーマット
+  
    shop_name|area|genre|description|image_url
+   
    寿司屋|東京都|寿司|新鮮な寿司を提供する店舗です。|http://example.com/image.jpg
+   
    *(|)これはスプレッドシートのセルを表している
 
 　　注意: Webに公開されていない画像を使用する場合は、シンボリックリンクを使って画像を処理する必要があります。
