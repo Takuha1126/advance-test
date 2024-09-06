@@ -7,6 +7,9 @@
 
 @section('content')
     <div class="main">
+        @if (session('error'))
+            <p class="error_first">{{ session('error') }}</p>
+        @endif
         <form action="{{ route('feedbacks.storeFeedback', $shop->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="main__ttl">

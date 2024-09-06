@@ -223,6 +223,12 @@
     font-size: 20px;
 }
 
+.error_first {
+    color: #ff0000;
+    font-size: 15px;
+    margin: 5px;
+}
+
 .error {
     color: #ff0000;
     font-size: 15px;

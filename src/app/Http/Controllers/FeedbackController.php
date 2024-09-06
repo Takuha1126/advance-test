@@ -28,6 +28,14 @@ class FeedbackController extends Controller
     {
         $userId = auth()->id();
 
+        $existingFeedback = Feedback::where('shop_id', $shopId)
+                                    ->where('user_id', $userId)
+                                    ->first();
+
+        if ($existingFeedback) {
+            return redirect()->back()->with('error', '既にこの店舗にフィードバックを送信しています。');
+        }
+
         try {
             DB::beginTransaction();
 
@@ -50,7 +58,7 @@ class FeedbackController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back();
+            return redirect()->back()->with('error', 'フィードバックの送信に失敗しました。');
         }
     }
 
@@ -66,10 +74,6 @@ class FeedbackController extends Controller
     {
         $userId = auth()->id();
         $feedback = Feedback::findOrFail($feedbackId);
-
-        if ($feedback->user_id !== $userId) {
-            return redirect()->back()->with('error', '権限がありません。');
-        }
 
         $feedback->rating = $request->input('rating');
         $feedback->comment = $request->input('comment');
