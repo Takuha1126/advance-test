@@ -100,7 +100,7 @@ git clone git@github.com:Takuha1126/advance-test.git
 
 ここではadvance-testこのディレクトリ名でします
 
-cd　advance-test
+cd advance-test
 
 Dockerで開発環境構築
 docker-compose up -d --build
