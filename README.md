@@ -46,9 +46,7 @@ webに公開されている画像を使うやり方
    ここではshops.csvという名前にします。
    touch shops.csv
 
-   サンプルフォーマット
-   
-   shop_name,area,genre,description,image_url
+   サンプルフォーマット　　shop_name,area,genre,description,image_url
    
    寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,http://example.com/image.jpg
 
