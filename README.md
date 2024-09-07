@@ -46,9 +46,9 @@ webに公開されている画像を使うやり方
    ここではshops.csvという名前にします。
    touch shops.csv
 
-   サンプルフォーマット　　shop_name,area,genre,description,image_url
+   サンプルフォーマット　　
    
-   寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,http://example.com/image.jpg
+   shop_name,area,genre,description,image_url  寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,http://example.com/image.jpg
 
    
 
@@ -74,9 +74,7 @@ webに公開されていない画像を使うやり方（シンボリックの�
 
    サンプルフォーマット
    
-   shop_name,area,genre,description,image_url
-   
-   寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,storage/images/sample_image.jpg
+   shop_name,area,genre,description,image_url  寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,storage/images/sample_image.jpg
 
 3.CSVファイルをアップロード 
    1.管理画面にログインします。
@@ -91,9 +89,7 @@ webに公開されていない画像を使うやり方（シンボリックの�
 
   サンプルフォーマット
   
-   shop_name|area|genre|description|image_url
-   
-   寿司屋|東京都|寿司|新鮮な寿司を提供する店舗です。|http://example.com/image.jpg
+   shop_name|area|genre|description|image_url  寿司屋|東京都|寿司|新鮮な寿司を提供する店舗です。|http://example.com/image.jpg
    
    *(|)これはスプレッドシートのセルを表している
 
