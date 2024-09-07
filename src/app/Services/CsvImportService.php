@@ -22,7 +22,7 @@ class CsvImportService
                 'area' => 'required|in:東京都,大阪府,福岡県',
                 'genre' => 'required|in:寿司,焼肉,イタリアン,居酒屋,ラーメン',
                 'description' => 'required|max:400',
-                'image_url' => 'required',
+                'image_url' => 'required'
             ], [
                 'shop_name.required' => '店舗名が入力されていません。',
                 'shop_name.max' => '店舗名が50文字を超えています。',
