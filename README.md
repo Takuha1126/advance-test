@@ -46,9 +46,9 @@ webに公開されている画像を使うやり方
    ここではshops.csvという名前にします。
    touch shops.csv
 
-   サンプルフォーマット
+   サンプルフォーマット　　
    
-   shop_name,area,genre,description,image_url
+   shop_name,area,genre,description,image_url  
    
    寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,http://example.com/image.jpg
 
@@ -76,7 +76,7 @@ webに公開されていない画像を使うやり方（シンボリックの�
 
    サンプルフォーマット
    
-   shop_name,area,genre,description,image_url
+   shop_name,area,genre,description,image_url  
    
    寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,storage/images/sample_image.jpg
 
@@ -93,7 +93,7 @@ webに公開されていない画像を使うやり方（シンボリックの�
 
   サンプルフォーマット
   
-   shop_name|area|genre|description|image_url
+   shop_name|area|genre|description|image_url　　　
    
    寿司屋|東京都|寿司|新鮮な寿司を提供する店舗です。|http://example.com/image.jpg
    
@@ -117,7 +117,8 @@ webに公開されていない画像を使うやり方（シンボリックの�
 - CSVファイルを作成する際、各フィールドはカンマ（,）で区切ります。
   フィールド内にカンマが含まれる場合は、ダブルクォーテーション (") で
   そのフィールドを囲んでください。
-例："新鮮な寿司、刺身を提供する店舗です。"
+　　例："新鮮な寿司、刺身を提供する店舗です。"
+- ヘッダーに入っていないデータを入力した場合、そのカラムのデータは無視されます。必要なカラムだけを含めるようにしてください
 - インポート後に問題が発生した場合は、エラーメッセージを確認して対応してください。
 - 項目は全て入力必須
 - 店舗名：50文字以内
