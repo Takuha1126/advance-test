@@ -40,8 +40,9 @@ class CsvImportController extends Controller
 
                 $requiredHeaders = ['shop_name', 'area', 'genre', 'description', 'image_url'];
                 $headers = $csv->getHeader();
+
                 if ($headers !== $requiredHeaders) {
-                    throw new \Exception('CSVファイルに必要なヘッダーが含まれていません。');
+                    throw new \Exception('CSVファイルに必要なヘッダーが含まれていません。または余計なヘッダーがあります。');
                 }
 
                 $records = Statement::create()->process($csv);
@@ -90,11 +91,19 @@ class CsvImportController extends Controller
                 DB::commit();
                 return redirect()->route('import.form')->with('success', 'CSVインポートが完了しました');
 
+        } catch (\League\Csv\Exception $e) {
+            $errorMessage = $e->getMessage();
+            if (strpos($errorMessage, 'The header record does not exist or is empty at offset: `0`') !== false) {
+                $errorMessage = 'CSVインポートに失敗しました: ヘッダーが存在しないか、空です。';
+            }
+            DB::rollBack();
+            return redirect()->route('import.form')->with('error', $errorMessage);
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('import.form')->with('error', 'CSVインポートに失敗しました: ' . $e->getMessage());
         }
     }
+
 
     private function getGenreId($genreName)
     {
