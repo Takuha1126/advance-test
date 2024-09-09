@@ -130,6 +130,8 @@ webに公開されていない画像を使うやり方（シンボリックの�
 インポート記述方法の画像
 <img width="1440" alt="スクリーンショット 2024-09-09 22 28 02" src="https://github.com/user-attachments/assets/f36fc710-94a6-43e5-b5b1-d6902f01a5f8">
 
+shop_name,area,genre,description,image_urlこのヘッダーも必ず記載してください
+
 
 
 ##環境構築
