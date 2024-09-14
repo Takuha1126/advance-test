@@ -34,8 +34,8 @@ class Reservation extends Model
     }
 
     public function payment()
-{
-    return $this->hasOne(Payment::class);
-}
+    {
+        return $this->hasOne(Payment::class);
+    }
 
 }

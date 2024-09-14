@@ -24,21 +24,20 @@ class Shop extends Model
     {
     return $this->belongsTo('App\Models\Genre', 'genre_id');
     }
+
     public function reservations()
     {
         return $this->hasMany('App\Models\Reservation', 'shop_id');
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
     }
+
     public function favorites()
     {
         return $this->hasMany('App\Models\Favorite', 'shop_id');
     }
 
-    public function feedbacks()
-    {
-        return $this->hasMany(Feedback::class);
-    }
 }

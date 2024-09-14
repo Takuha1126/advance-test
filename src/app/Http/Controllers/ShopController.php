@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Shop;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Feedback;
+use App\Models\Review;
 use App\Http\Requests\ShopUpdateRequest;
 
 
@@ -22,7 +22,7 @@ class ShopController extends Controller
     {
         $shop = $this->findShopById($shop_id);
         $user = Auth::user();
-        $feedbacks = Feedback::where('shop_id', $shop_id)
+        $feedbacks = Review::where('shop_id', $shop_id)
                             ->where('user_id', $user->id)
                             ->get();
 
@@ -131,9 +131,10 @@ class ShopController extends Controller
     {
         $sort = $request->input('sort', 'random');
 
-        $shops = Shop::with('feedbacks')->get()->map(function ($shop) {
-            $shop->average_rating = $shop->feedbacks->avg('rating') ?? 0;
-            $shop->feedback_count = $shop->feedbacks->count();
+        $shops = Shop::with('reviews')->get()->map(function ($shop) {
+
+            $shop->average_rating = $shop->reviews->avg('rating') ?? 0;
+            $shop->feedback_count = $shop->reviews->count();
 
             $shop->weighted_rating = $shop->average_rating * $shop->feedback_count;
 
@@ -184,6 +185,7 @@ class ShopController extends Controller
 
         return view('index', ['shops' => $shops]);
     }
+
 
 }
 

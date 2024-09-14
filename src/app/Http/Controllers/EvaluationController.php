@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Shop;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreFeedbackRequest;
+
 
 
 
@@ -14,24 +16,34 @@ class EvaluationController extends Controller
     public function index($shopId)
     {
         $shop = Shop::findOrFail($shopId);
-        return view('evaluations.show', ['shop' => $shop]);
+        $userId = auth()->id();
+
+        $existingReview = Review::where('shop_id', $shopId)->where('user_id', $userId)->first();
+
+        return view('evaluations.show', ['shop' => $shop, 'review' => $existingReview]);
     }
 
-    public function store(Request $request)
+
+    public function store(StoreFeedbackRequest $request)
     {
-        $validatedData = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:255',
-        ]);
+        $validatedData = $request->validated();
 
         try {
             DB::beginTransaction();
 
-            $review = new Review();
-            $review->rating = $validatedData['rating'];
-            $review->comment = $validatedData['comment'];
-            $review->shop_id = $request->shop_id;
-            $review->save();
+            $review = Review::updateOrCreate(
+                ['shop_id' => $request->shop_id, 'user_id' => auth()->id()],
+                [
+                    'rating' => $validatedData['rating'],
+                    'comment' => $validatedData['comment'],
+                ]
+            );
+
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('public/review_images');
+                $review->image = basename($imagePath);
+                $review->save();
+            }
 
             DB::commit();
 
@@ -39,14 +51,14 @@ class EvaluationController extends Controller
                 return response()->json(['success' => true]);
             }
 
-
             return redirect()->route('home', ['shopId' => $request->shop_id]);
 
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back();
+            return redirect()->back()->with('error', 'レビューの保存に失敗しました。');
         }
     }
+
 
     public function show(Request $request)
     {

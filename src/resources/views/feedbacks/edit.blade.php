@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="main">
-        <form action="{{ route('feedbacks.update', $feedback->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('feedbacks.update', $review->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="main__ttl">
@@ -43,9 +43,9 @@
                             <p class="rating__title">体験を評価してください</p>
                             <div class="star__rating">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    <i class="fas fa-star {{ $feedback->rating >= $i ? 'active' : '' }}" data-rating="{{ $i }}"></i>
+                                    <i class="fas fa-star {{ $review->rating >= $i ? 'active' : '' }}" data-rating="{{ $i }}"></i>
                                 @endfor
-                                <input type="hidden" name="rating" id="rating" value="{{ $feedback->rating }}">
+                                <input type="hidden" name="rating" id="rating" value="{{ $review->rating }}">
                             </div>
                         </div>
                         @error('rating')
@@ -53,8 +53,8 @@
                         @enderror
                         <div class="main__comment">
                             <p class="comment__title">口コミを投稿</p>
-                            <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="カジュアルな夜のお出かけにおすすめのスポット">{{ $feedback->comment }}</textarea>
-                            <span class="comment__count" id="char-count">{{ strlen($feedback->comment) }}/400 (最高文字数)</span>
+                            <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="カジュアルな夜のお出かけにおすすめのスポット">{{ $review->comment }}</textarea>
+                            <span class="comment__count" id="char-count">{{ strlen($review->comment) }}/400 (最高文字数)</span>
                         </div>
                         @error('comment')
                             <p class="error__compact">{{ $message }}</p>
@@ -65,8 +65,8 @@
                                 <div class="file-upload-text" id="drop-zone">
                                     <p class="image__item">クリックして写真を追加</p>
                                     <p class="image__item-drop">またはドラッグ＆ドロップ</p>
-                                    @if ($feedback->image)
-                                        <p id="existing-image-text" class="image__name">現在使用中の画像: {{ basename($feedback->image) }}</p>
+                                    @if ($review->image)
+                                        <p id="existing-image-text" class="image__name">現在使用中の画像: {{ basename($review->image) }}</p>
                                     @endif
                                 </div>
                                 <input type="file" name="image" id="image" class="form-image" accept="image/*">

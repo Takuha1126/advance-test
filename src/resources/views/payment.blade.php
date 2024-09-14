@@ -46,7 +46,6 @@
             <input type="text" id="card-holder-name" class="form-control" placeholder="口座名義">
             <span id="card-holder-name-error" class="text-danger" style="display: none;">口座名義を入力してください。</span>
         </div>
-
         <button type="submit" class="button__ttl" id="payment-button">支払いを完了する</button>
     </form>
 </div>

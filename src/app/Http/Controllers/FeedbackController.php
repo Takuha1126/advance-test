@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use Illuminate\Support\Facades\DB;
-use App\Models\Feedback;
+use App\Models\Review;
 use App\Http\Requests\StoreFeedbackRequest;
 
 
@@ -13,9 +13,9 @@ class FeedbackController extends Controller
     public function index($shopId)
     {
         $shop = Shop::findOrFail($shopId);
-        $feedbacks = Feedback::where('shop_id', $shopId)->get();
+        $reviews = Review::where('shop_id', $shopId)->get();
 
-        return view('feedbacks.index', compact('shop', 'feedbacks'));
+        return view('feedbacks.index', compact('shop', 'reviews'));
     }
 
     public function create($shopId)
@@ -28,29 +28,29 @@ class FeedbackController extends Controller
     {
         $userId = auth()->id();
 
-        $existingFeedback = Feedback::where('shop_id', $shopId)
-                                    ->where('user_id', $userId)
-                                    ->first();
+        $existingReview = Review::where('shop_id', $shopId)
+                                ->where('user_id', $userId)
+                                ->first();
 
-        if ($existingFeedback) {
-            return redirect()->back()->with('error', '既にこの店舗にフィードバックを送信しています。');
+        if ($existingReview) {
+            return redirect()->back()->with('error', '既にこの店舗にレビューを送信しています。');
         }
 
         try {
             DB::beginTransaction();
 
-            $feedback = new Feedback();
-            $feedback->rating = $request->input('rating');
-            $feedback->comment = $request->input('comment');
-            $feedback->shop_id = $shopId;
-            $feedback->user_id = $userId;
+            $review = new Review();
+            $review->rating = $request->input('rating');
+            $review->comment = $request->input('comment');
+            $review->shop_id = $shopId;
+            $review->user_id = $userId;
 
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('public/feedback_images');
-                $feedback->image = basename($imagePath);
+                $imagePath = $request->file('image')->store('public/review_images');
+                $review->image = basename($imagePath);
             }
 
-            $feedback->save();
+            $review->save();
 
             DB::commit();
 
@@ -58,48 +58,47 @@ class FeedbackController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'フィードバックの送信に失敗しました。');
+            return redirect()->back()->with('error', 'レビューの送信に失敗しました。');
         }
     }
 
-    public function edit($feedbackId)
+    public function edit($reviewId)
     {
-        $feedback = Feedback::findOrFail($feedbackId);
-        $shop = Shop::findOrFail($feedback->shop_id);
+        $review = Review::findOrFail($reviewId);
+        $shop = Shop::findOrFail($review->shop_id);
 
-        return view('feedbacks.edit', compact('feedback', 'shop'));
+        return view('feedbacks.edit', compact('review', 'shop'));
     }
 
-    public function update(StoreFeedbackRequest $request, $feedbackId)
+    public function update(StoreFeedbackRequest $request, $reviewId)
     {
         $userId = auth()->id();
-        $feedback = Feedback::findOrFail($feedbackId);
+        $review = Review::findOrFail($reviewId);
 
-        $feedback->rating = $request->input('rating');
-        $feedback->comment = $request->input('comment');
+        $review->rating = $request->input('rating');
+        $review->comment = $request->input('comment');
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/feedback_images');
-            $feedback->image = basename($imagePath);
+            $imagePath = $request->file('image')->store('public/review_images');
+            $review->image = basename($imagePath);
         }
 
-        $feedback->save();
+        $review->save();
 
-        return redirect()->route('detail', $feedback->shop_id);
+        return redirect()->route('detail', $review->shop_id);
     }
 
-    public function destroy($feedbackId)
+    public function destroy($reviewId)
     {
         $userId = auth()->id();
-        $feedback = Feedback::findOrFail($feedbackId);
+        $review = Review::findOrFail($reviewId);
 
-        if ($feedback->user_id !== $userId) {
+        if ($review->user_id !== $userId) {
             return redirect()->back();
         }
 
-        $feedback->delete();
-
-        return redirect()->back();;
+        $review->delete();
+        return redirect()->back();
     }
 
     public function showShops()
@@ -111,19 +110,18 @@ class FeedbackController extends Controller
     public function showFeedbacks($shopId)
     {
         $shop = Shop::findOrFail($shopId);
-        $feedbacks = Feedback::where('shop_id', $shopId)->get();
+        $reviews = Review::where('shop_id', $shopId)->get();
 
-        return view('admin.feedbacks', compact('shop', 'feedbacks'));
+        return view('admin.feedbacks', compact('shop', 'reviews'));
     }
 
-    public function adminDestroy($feedbackId)
+    public function adminDestroy($reviewId)
     {
         $user = auth()->user();
 
-        $feedback = Feedback::findOrFail($feedbackId);
-        $feedback->delete();
+        $review = Review::findOrFail($reviewId);
+        $review->delete();
 
         return redirect()->back();
     }
 }
-

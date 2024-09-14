@@ -4,11 +4,11 @@
 }
 
 .main__title {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .evaluation__title {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -16,18 +16,13 @@
     text-align: center;
 }
 
-.evaluation__item {
-    margin-bottom: 30px;
-}
 
-
-.evaluation__about-second,
-.evaluation__about-time {
-    font-size: 20px;
+.evaluation__about-second {
+    font-size: 18px;
 }
 
 .evaluation__rating-title {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .star-rating {
@@ -45,19 +40,53 @@
 }
 
 .fas.fa-star.checked {
-    color: #ffc107;
+    color: #3366FF;
 }
 
 .evaluation__comment-title {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .evaluation__comment-field {
-    width: 300px;
-    height: 100px;
+    width: 500px;
+    height: 60px;
     border: none;
     border-radius: 5px;
     padding: 5px;
+}
+
+.image__title {
+    font-size: 18px;
+}
+
+.file-upload-label {
+    width: 500px;
+    margin: 0 auto;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+    padding: 15px;
+}
+
+.file-upload-text {
+    font-size: 16px;
+    color: #333;
+}
+
+.image__item {
+    margin: 0;
+    padding: 3px 0;
+}
+
+.image__item-drop {
+    font-size: 12px;
+    padding: 3px 0;
+    margin: 0;
+}
+
+.form-image {
+    display: none;
 }
 
 .button {
@@ -86,8 +115,6 @@
         margin-left: 50px;
     }
 
-
-
     .evaluation__item,
     .evaluation__rating,
     .evaluation__comment {
@@ -99,11 +126,13 @@
     .evaluation__about-second,
     .evaluation__about-time,
     .evaluation__rating-title,
-    .evaluation__comment-title {
+    .evaluation__comment-title,
+    .image__title {
         font-size: 14px;
     }
 
-    .evaluation__comment-field {
+    .evaluation__comment-field,
+    .file-upload-text{
         width: 100%;
         margin: 0 auto;
         font-size: 12px;
@@ -115,7 +144,8 @@
         flex-wrap: wrap;
     }
 
-    .evaluation__comment-field {
+    .evaluation__comment-field,
+    .file-upload-label {
         width: 300px;
     }
 
