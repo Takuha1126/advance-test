@@ -70,103 +70,101 @@
             </div>
         </div>
     </main>
-
     <script>
-       document.addEventListener('DOMContentLoaded', function () {
-    let isScanning = false;
-    let codeReader;
-    const video = document.getElementById('externalCamera');
-    const startScanButton = document.getElementById('startScan');
+        document.addEventListener('DOMContentLoaded', function () {
+            let isScanning = false;
+            let codeReader;
+            const video = document.getElementById('externalCamera');
+            const startScanButton = document.getElementById('startScan');
 
-    startScanButton.addEventListener('click', function() {
-        if (!isScanning) {
-            startScan();
-        } else {
-            stopScan();
-        }
-    });
-
-    function startScan() {
-        isScanning = true;
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function(stream) {
-                video.srcObject = stream;
-                codeReader = new ZXing.BrowserQRCodeReader();
-                codeReader.decodeFromVideoDevice(undefined, video, (result, err) => {
-                    if (result) {
-                        document.getElementById('qrCodeData').value = result.text;
-                        stopScan();
-                        document.getElementById('checkQRCode').click();
-                    }
-                    if (err && !(err instanceof ZXing.NotFoundException)) {
-                        console.error('Error decoding QR code:', err);
-                    }
-                });
-            })
-            .catch(function(error) {
-                console.error('Error accessing camera:', error);
+            startScanButton.addEventListener('click', function() {
+                if (!isScanning) {
+                    startScan();
+                } else {
+                    stopScan();
+                }
             });
-    }
 
-    function stopScan() {
-        isScanning = false;
-        if (codeReader) {
-            codeReader.reset();
-        }
-        if (video.srcObject) {
-            video.srcObject.getTracks().forEach(track => track.stop());
-        }
-    }
-
-    document.getElementById('checkQRCode').addEventListener('click', function() {
-        const qrCodeData = document.getElementById('qrCodeData').value;
-
-        const errorMessageElement = document.getElementById('errorMessage');
-        errorMessageElement.style.display = 'none';
-        errorMessageElement.innerText = '';
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        const apiUrl = '/shop/verify';
-
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
-            },
-            body: JSON.stringify({ qr_code_data: qrCodeData })
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.error);
+            function startScan() {
+                isScanning = true;
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    codeReader = new ZXing.BrowserQRCodeReader();
+                    codeReader.decodeFromVideoDevice(undefined, video, (result, err) => {
+                        if (result) {
+                            document.getElementById('qrCodeData').value = result.text;
+                            stopScan();
+                            document.getElementById('checkQRCode').click();
+                        }
+                        if (err && !(err instanceof ZXing.NotFoundException)) {
+                            console.error('Error decoding QR code:', err);
+                        }
+                    });
+                })
+                .catch(function(error) {
+                    console.error('Error accessing camera:', error);
                 });
             }
-            return response.json();
-        })
-        .then(data => {
-            displayReservationInfo(data);
-        })
-        .catch(error => {
-            errorMessageElement.innerText = error.message;
-            errorMessageElement.style.display = 'block';
+
+            function stopScan() {
+                isScanning = false;
+                if (codeReader) {
+                    codeReader.reset();
+                }
+                if (video.srcObject) {
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                }
+            }
+
+            document.getElementById('checkQRCode').addEventListener('click', function() {
+                const qrCodeData = document.getElementById('qrCodeData').value;
+
+                const errorMessageElement = document.getElementById('errorMessage');
+                errorMessageElement.style.display = 'none';
+                errorMessageElement.innerText = '';
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                const apiUrl = '/shop/verify';
+
+                fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({ qr_code_data: qrCodeData })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(errorData => {
+                            throw new Error(errorData.error);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayReservationInfo(data);
+                })
+                .catch(error => {
+                    errorMessageElement.innerText = error.message;
+                    errorMessageElement.style.display = 'block';
+                });
+            });
+
+            function displayReservationInfo(reservation) {
+                document.getElementById('userName').innerText = reservation.name;
+                document.getElementById('reservationDate').innerText = reservation.date;
+                document.getElementById('reservationTime').innerText = reservation.time;
+                document.getElementById('numberOfPeople').innerText = reservation.number_of_people;
+                document.getElementById('paymentStatus').textContent = reservation.payment_status;
+                document.getElementById('reservationInfo').style.display = 'block';
+
+                const messageElement = document.getElementById('message');
+                messageElement.innerText = reservation.message;
+            }
         });
-    });
-
-    function displayReservationInfo(reservation) {
-        document.getElementById('userName').innerText = reservation.name;
-        document.getElementById('reservationDate').innerText = reservation.date;
-        document.getElementById('reservationTime').innerText = reservation.time;
-        document.getElementById('numberOfPeople').innerText = reservation.number_of_people;
-        document.getElementById('paymentStatus').textContent = reservation.payment_status;
-        document.getElementById('reservationInfo').style.display = 'block';
-
-        const messageElement = document.getElementById('message');
-        messageElement.innerText = reservation.message;
-    }
-});
-
     </script>
 </body>
 </html>

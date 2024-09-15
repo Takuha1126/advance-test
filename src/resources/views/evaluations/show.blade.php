@@ -34,7 +34,7 @@
             </div>
             <div class="evaluation__comment">
                 <p class="evaluation__comment-title">コメントを入力してください</p>
-                <textarea name="comment" class="evaluation__comment-field" rows="4" placeholder="ここにコメントをお願いします。">{{ $review ? $review->comment : '' }}</textarea>
+                <textarea name="comment" class="evaluation__comment-field" rows="4" placeholder="カジュアルな夜のお出かけにおすすめのスポット">{{ $review ? $review->comment : '' }}</textarea>
             </div>
             <div class="main__image">
                 <p class="image__title">画像の追加</p>

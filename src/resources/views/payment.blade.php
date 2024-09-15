@@ -7,14 +7,14 @@
 @section('content')
 <div class="payment-container">
     @if(session('success_message'))
-    <div class="alert alert-success">
-        {{ session('success_message') }}
-    </div>
+        <div class="alert alert-success">
+            {{ session('success_message') }}
+        </div>
     @endif
     @if(session('error_message'))
-    <div class="alert alert-danger">
-        {{ session('error_message') }}
-    </div>
+        <div class="alert alert-danger">
+            {{ session('error_message') }}
+        </div>
     @endif
     <h2 class="payment__title">支払い情報を入力してください</h2>
     <div id="message" role="alert"></div>
@@ -49,7 +49,6 @@
         <button type="submit" class="button__ttl" id="payment-button">支払いを完了する</button>
     </form>
 </div>
-
 <script src="https://js.stripe.com/v3/"></script>
 <script>
     function showMessage(message, isError = false) {

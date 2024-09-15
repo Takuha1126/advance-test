@@ -14,12 +14,10 @@
         @else
             <li class="Pagination-Item"><a href="{{ $paginator->previousPageUrl() }}" class="Pagination-Item-Link" rel="prev">&laquo;</a></li>
         @endif
-
         @foreach ($elements as $element)
             @if (is_string($element))
                 <li class="Pagination-Item disabled"><span>{{ $element }}</span></li>
             @endif
-
             @if (is_array($element))
                 @foreach ($element as $page => $url)
                     @if ($page == $paginator->currentPage())
@@ -30,7 +28,6 @@
                 @endforeach
             @endif
         @endforeach
-
         @if ($paginator->hasMorePages())
             <li class="Pagination-Item"><a href="{{ $paginator->nextPageUrl() }}" class="Pagination-Item-Link" rel="next">&raquo;</a></li>
         @else
@@ -38,7 +35,6 @@
         @endif
     </ul>
 </div>
-
 </body>
 </html>
 
