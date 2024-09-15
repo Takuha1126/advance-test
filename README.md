@@ -50,7 +50,7 @@ webに公開されている画像を使うやり方
    
    shop_name,area,genre,description,image_url  
    
-   寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,http://example.com/image.jpg
+   寿司屋,東京都,寿司,新鮮な寿司を提供する店舗です。,https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg
 
    
 
@@ -95,7 +95,7 @@ webに公開されていない画像を使うやり方（シンボリックの�
   
    shop_name|area|genre|description|image_url　　　
    
-   寿司屋|東京都|寿司|新鮮な寿司を提供する店舗です。|http://example.com/image.jpg
+   寿司屋|東京都|寿司|新鮮な寿司を提供する店舗です。| https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg
    
    *(|)これはスプレッドシートのセルを表している
 
