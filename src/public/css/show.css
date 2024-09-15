@@ -131,12 +131,6 @@
         font-size: 14px;
     }
 
-    .evaluation__comment-field,
-    .file-upload-text{
-        width: 100%;
-        margin: 0 auto;
-        font-size: 12px;
-    }
 
     .star-rating {
         display: flex;
@@ -146,7 +140,12 @@
 
     .evaluation__comment-field,
     .file-upload-label {
-        width: 300px;
+        width: 80%;
+        font-size: 12px;
+    }
+
+    .file-upload-text {
+        font-size: 12px;
     }
 
     .button {

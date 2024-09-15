@@ -9,6 +9,9 @@
     <div class="main__title">
         <p class="evaluation__title">評価ページ</p>
     </div>
+    @if (session('error'))
+        <p class="error">{{ session('error') }}</p>
+    @endif
     @if ($errors->any())
     <div>
         @foreach ($errors->all() as $error)
