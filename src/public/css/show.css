@@ -17,10 +17,6 @@
 }
 
 
-.evaluation__about-second {
-    font-size: 18px;
-}
-
 .evaluation__rating-title {
     font-size: 18px;
 }
@@ -76,12 +72,12 @@
 
 .image__item {
     margin: 0;
-    padding: 3px 0;
+    padding: 1px 0;
 }
 
 .image__item-drop {
     font-size: 12px;
-    padding: 3px 0;
+    padding: 1px 0;
     margin: 0;
 }
 
@@ -90,7 +86,7 @@
 }
 
 .button {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .button__title {
@@ -115,7 +111,6 @@
         margin-left: 50px;
     }
 
-    .evaluation__item,
     .evaluation__rating,
     .evaluation__comment {
         text-align: center;
@@ -123,7 +118,6 @@
     }
 
     .evaluation__title,
-    .evaluation__about-second,
     .evaluation__about-time,
     .evaluation__rating-title,
     .evaluation__comment-title,

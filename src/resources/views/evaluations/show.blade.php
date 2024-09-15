@@ -23,9 +23,6 @@
     @csrf
         <input type="hidden" name="shop_id" value="{{ $shop->id }}">
         <div class="main__ttl">
-            <div class="evaluation__item">
-                <p class="evaluation__about-second">{{ $shop->shop_name }}はどうでしたでしょうか？</p>
-            </div>
             <div class="evaluation__rating">
                 <p class="evaluation__rating-title">評価を選択してください</p>
                 <div class="star-rating">
